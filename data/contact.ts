@@ -1,37 +1,53 @@
-// ─── Contact & Footer Data ────────────────────────────────────
+// ─── Kết nối & Ứng dụng Page Data (STEAM MOCBAN EDUCATION) ───────────
+
 export const contactInfo = {
-  organization: "STEM MOCBAN EDUCATION",
-  unit: "Trường Đại học Sư phạm – Đại học Huế",
-  address: "Nhóm nghiên cứu, Trường Đại học Sư phạm – Đại học Huế",
-  email: "contact@stemmocban.edu.vn",
-  phone: "(0234) 3 xxx xxx",
+  brand: "STEAM MOCBAN EDUCATION",
+  topic: "TÍCH HỢP GIÁO DỤC GIÁ TRỊ DI SẢN MỘC BẢN TRIỀU NGUYỄN TRONG DẠY HỌC VÀ HOẠT ĐỘNG GIÁO DỤC Ở TRƯỜNG TRUNG HỌC PHỔ THÔNG THÀNH PHỐ HUẾ",
+  taskCode: "T.26.XH.503.15",
+  leadAuthor: "Huỳnh Giàu (Chủ nhiệm đề tài)",
+  unit: "Khoa Lịch sử, Trường Đại học Sư phạm – Đại học Huế",
+  address: "Trường Đại học Sư phạm, số 34 Lê Lợi, phường Thuận Hóa, Thành phố Huế",
+  email: "smoced.edu@gmail.com",
+  phone: "0373 172 175",
   hours: "Thứ Hai – Thứ Sáu: 7:30 – 17:00",
-  socialLinks: [
-    { name: "Facebook",  href: "https://facebook.com",  icon: "Facebook" },
-    { name: "YouTube",   href: "https://youtube.com",   icon: "Youtube" },
-    { name: "Email",     href: "mailto:contact@stemmocban.edu.vn", icon: "Mail" },
-  ],
 };
+
+export const partnerAudiences = [
+  "Trường học (Ban giám hiệu, Tổ bộ môn)",
+  "Giáo viên (Môn Lịch sử, Hoạt động trải nghiệm)",
+  "Đơn vị giáo dục & đào tạo",
+  "Không gian văn hóa – di sản & Bảo tàng",
+];
+
+export const participationSteps = [
+  {
+    step: "01",
+    title: "TÌM HIỂU",
+    desc: "Tìm hiểu các sản phẩm giáo dục STEAM Mộc bản, mục tiêu sư phạm và giá trị tích hợp trong chương trình GDPT 2018.",
+  },
+  {
+    step: "02",
+    title: "TRẢI NGHIỆM",
+    desc: "Tổ chức cho học sinh trực tiếp tham gia chơi Boardgame Mộc Bản Ký Sự và thực hành bộ kit Bật Mã Cổ Thư tại trường.",
+  },
+  {
+    step: "03",
+    title: "THỬ NGHIỆM & CHUYỂN GIAO",
+    desc: "Phối hợp với nhóm nghiên cứu để đưa giáo án mẫu, phiếu học tập và bộ kit vào giảng dạy chính khóa hoặc ngoại khóa.",
+  },
+];
 
 export const footerLinks = {
-  explore: [
-    { label: "Tìm hiểu Mộc bản",    href: "/mocban" },
-    { label: "Học tập cùng Mộc bản", href: "/hoc-tap" },
-    { label: "Mộc Bản Ký Sự",        href: "/trai-nghiem#moc-ban-ky-su" },
-    { label: "Bật Mã Cổ Thư",        href: "/trai-nghiem#bat-ma-co-thu" },
+  journey: [
+    { label: "Khám phá Mộc bản",       href: "/mocban" },
+    { label: "Từ di sản đến học liệu",  href: "/hoc-tap" },
+    { label: "Mộc Bản Ký Sự (Boardgame)", href: "/trai-nghiem#moc-ban-ky-su" },
+    { label: "Bật Mã Cổ Thư (Bộ kit)",   href: "/trai-nghiem#bat-ma-co-thu" },
   ],
-  participate: [
-    { label: "Khảo sát trải nghiệm", href: "/nghien-cuu#khao-sat" },
-    { label: "Không gian sáng tạo",  href: "/sang-tao" },
-    { label: "Nghiên cứu khoa học",  href: "/nghien-cuu" },
-    { label: "Liên hệ hợp tác",      href: "/lien-he" },
+  collaboration: [
+    { label: "Góc sáng tạo học sinh",  href: "/sang-tao" },
+    { label: "Đề tài nghiên cứu khoa học", href: "/nghien-cuu" },
+    { label: "Khảo sát trải nghiệm",    href: "/nghien-cuu#khao-sat" },
+    { label: "Kết nối & Ứng dụng",     href: "/lien-he" },
   ],
 };
-
-export const contactFormFields = [
-  { id: "name",    label: "Họ và tên",          type: "text",     placeholder: "Nguyễn Văn A",              required: true },
-  { id: "email",   label: "Email",               type: "email",    placeholder: "email@example.com",         required: true },
-  { id: "role",    label: "Vai trò",              type: "select",   placeholder: "",                         required: true,
-    options: ["Học sinh", "Giáo viên", "Nhà nghiên cứu", "Khác"] },
-  { id: "message", label: "Nội dung liên hệ",     type: "textarea", placeholder: "Chia sẻ thêm chi tiết…", required: true },
-];

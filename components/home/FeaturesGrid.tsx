@@ -8,22 +8,21 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 export default function FeaturesGrid() {
   return (
     <section className="section-padding bg-white relative" id="features" aria-label="Các không gian học tập">
-      <div className="absolute inset-0 pattern-dots opacity-[0.03] pointer-events-none" />
       <div className="container-main relative z-10">
         <ScrollReveal delay={0.1}>
           <SectionTitle
-            eyebrow="Khám phá"
-            title="Không gian Truy cập nhanh"
-            description="Từ nghiên cứu khoa học đến trải nghiệm thực địa, mỗi không gian là một cánh cửa kết nối học sinh với di sản Mộc bản."
+            eyebrow="Hành trình trải nghiệm"
+            title="6 Bước Kết nối Di sản Mộc bản"
+            description="Quy trình học tập khép kín từ tiếp cận tri thức di sản đến thực nghiệm, sáng tạo và khảo sát phản hồi khoa học."
             align="center"
-            className="max-w-3xl mx-auto mb-20"
+            className="max-w-3xl mx-auto mb-14"
           />
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7">
           {features.map((item, i) => (
-            <ScrollReveal key={item.id} delay={0.1 * (i + 1)}>
-              <FeatureCard item={item} className="h-full bg-[#FAFAF7]" />
+            <ScrollReveal key={item.id} delay={0.06 * (i + 1)}>
+              <FeatureCard item={item} className="h-full bg-[#FAFAF7]/60 hover:bg-white" />
             </ScrollReveal>
           ))}
         </div>

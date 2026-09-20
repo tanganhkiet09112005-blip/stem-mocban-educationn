@@ -19,36 +19,37 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: {
-    default: "STEM MOCBAN EDUCATION — Giáo dục Di sản Khoa học",
-    template: "%s | STEM MOCBAN EDUCATION",
+    default: "STEAM MOCBAN EDUCATION — Di sản • Giáo dục • Công nghệ • Trải nghiệm • Sáng tạo",
+    template: "%s | STEAM MOCBAN EDUCATION",
   },
   description:
-    "Khám phá di sản Mộc bản triều Nguyễn qua lăng kính STEM — giáo dục liên ngành kết nối lịch sử, khoa học và công nghệ cho học sinh Việt Nam.",
+    "Khám phá Mộc bản triều Nguyễn bằng một cách mới — Chuyển hóa di sản tư liệu thế giới thành các trải nghiệm học tập STEAM sáng tạo cho học sinh THPT.",
   keywords: [
     "mộc bản triều Nguyễn",
-    "STEM giáo dục",
-    "di sản UNESCO",
-    "nghiên cứu khoa học",
+    "STEAM giáo dục",
     "giáo dục di sản",
+    "nghiên cứu khoa học",
     "học sinh THPT",
-    "Đà Lạt",
-    "lưu trữ quốc gia",
+    "Huế",
+    "Đại Nam thực lục",
+    "Mộc Bản Ký Sự",
+    "Bật Mã Cổ Thư",
   ],
-  authors: [{ name: "STEM MOCBAN EDUCATION" }],
-  creator: "STEM MOCBAN EDUCATION",
+  authors: [{ name: "STEAM MOCBAN EDUCATION" }],
+  creator: "STEAM MOCBAN EDUCATION",
   openGraph: {
     type: "website",
     locale: "vi_VN",
-    url: "https://stemmocban.edu.vn",
-    siteName: "STEM MOCBAN EDUCATION",
-    title: "STEM MOCBAN EDUCATION — Giáo dục Di sản Khoa học",
+    url: "https://steam-mocban.vercel.app",
+    siteName: "STEAM MOCBAN EDUCATION",
+    title: "STEAM MOCBAN EDUCATION — Di sản • Giáo dục • Công nghệ • Trải nghiệm • Sáng tạo",
     description:
-      "Khám phá di sản Mộc bản triều Nguyễn qua lăng kính STEM — kết nối nghiên cứu khoa học với giáo dục di sản.",
+      "Khám phá Mộc bản triều Nguyễn bằng một cách mới — Chuyển hóa di sản tư liệu thế giới thành các trải nghiệm học tập STEAM sáng tạo cho học sinh THPT.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "STEM MOCBAN EDUCATION",
-    description: "Giáo dục di sản Mộc bản qua lăng kính STEM",
+    title: "STEAM MOCBAN EDUCATION",
+    description: "Khám phá Mộc bản triều Nguyễn bằng một cách mới",
   },
   robots: {
     index: true,

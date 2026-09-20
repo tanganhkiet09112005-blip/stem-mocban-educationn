@@ -1,244 +1,369 @@
 import type { Metadata } from "next";
-import SectionTitle from "@/components/ui/SectionTitle";
 import CTAButton from "@/components/ui/CTAButton";
+import MediaPlaceholder from "@/components/ui/MediaPlaceholder";
+import BatMaInteractiveEngine from "@/components/experience/BatMaInteractiveEngine";
 import { trainghiemProducts } from "@/data/trainghiem";
-import { PlayCircle, Target, Lightbulb, GraduationCap, LayoutGrid, ScrollText } from "lucide-react";
+import {
+  LayoutGrid,
+  Coins,
+  BookOpen,
+} from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
 export const metadata: Metadata = {
-  title: "Trải nghiệm sản phẩm giáo dục",
-  description: "Trải nghiệm Boardgame Mộc Bản Ký Sự và Bộ kit Bật Mã Cổ Thư - học tập lịch sử qua gamification.",
+  title: "Trải nghiệm sản phẩm giáo dục — STEAM MOCBAN EDUCATION",
+  description:
+    "Trải nghiệm Boardgame Mộc Bản Ký Sự và Bộ kit Bật Mã Cổ Thư — Học tập và sáng tạo qua mô hình giáo dục STEAM tích hợp Di sản.",
 };
 
 export default function TraiNghiemPage() {
+  const mbks = trainghiemProducts.find((p) => p.id === "moc-ban-ky-su")!;
+  const bmct = trainghiemProducts.find((p) => p.id === "bat-ma-co-thu")!;
+
   return (
     <>
-      <div className="page-header pt-24 md:pt-32">
+      {/* ── Page Header ─────────────────────────────────── */}
+      <div className="page-header pt-28 md:pt-36 pb-16 md:pb-20">
         <div className="container-main">
           <ScrollReveal delay={0}>
-            <p className="text-[0.8125rem] font-bold uppercase tracking-[0.2em] text-[#A37840] mb-4 drop-shadow-sm">
-              Gamification in Education
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#C8860A] mb-3.5">
+              STEAM & Gamification in Heritage Education
             </p>
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
             <h1
-              className="text-5xl md:text-6xl lg:text-8xl font-bold text-white mb-6 max-w-5xl leading-[1.05] drop-shadow-md"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-white mb-5 max-w-5xl leading-[1.16] text-balance"
               style={{ fontFamily: "var(--font-heading)" }}
             >
               Trải nghiệm Giáo dục Di sản
             </h1>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
-            <p className="text-white/80 text-xl md:text-2xl max-w-3xl leading-relaxed font-medium">
-              Biến quá trình học tập di sản trở nên thú vị qua các sản phẩm trò chơi giáo dục và bộ kit giải mã tương tác, thiết kế chuẩn mực từ tư liệu gốc.
+            <p className="text-white/80 text-base md:text-lg max-w-3xl leading-relaxed font-normal">
+              Chuyển hóa tri thức Mộc bản triều Nguyễn thành những trải nghiệm tương tác trực quan qua trò chơi cờ bàn chiến thuật và bộ kit thực hành sáng tạo mộc bản.
             </p>
           </ScrollReveal>
         </div>
       </div>
 
-      {trainghiemProducts.map((product, index) => {
-        const isMocBan = product.id === "moc-ban-ky-su";
-        const accentColor = isMocBan ? "text-[#7C5C2E]" : "text-[#1E4976]";
-        const badgeClass = isMocBan ? "badge-wood" : "badge-academic";
-        const bgSection = isMocBan ? "bg-white" : "bg-[#F5F0E8]";
-        const bgCard = isMocBan ? "bg-[#FAFAF7]" : "bg-white";
-        const patternCls = isMocBan ? "img-placeholder-warm" : "img-placeholder";
-        
-        const orderImg = isMocBan ? "lg:order-last" : "lg:order-first";
-        const orderContent = isMocBan ? "lg:order-first" : "lg:order-last";
+      {/* ── SẢN PHẨM 1: MỘC BẢN KÝ SỰ (Boardgame) ───────── */}
+      <section id="moc-ban-ky-su" className="section-padding bg-white relative border-b border-[#E0D9CF]/50">
+        <div className="container-main">
+          {/* Header */}
+          <ScrollReveal delay={0.1}>
+            <div className="text-center max-w-3xl mx-auto mb-14">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#7C5C2E] bg-[#7C5C2E]/[0.07] px-3 py-1 rounded-md mb-3 inline-block">
+                {mbks.subtitle}
+              </span>
+              <h2
+                className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1C2B3A] mb-4 leading-tight"
+                style={{ fontFamily: "var(--font-heading)" }}
+              >
+                {mbks.title}
+              </h2>
+              <p className="text-base md:text-lg text-[#556070] leading-relaxed font-normal">
+                {mbks.intro}
+              </p>
+            </div>
+          </ScrollReveal>
 
-        return (
-          <section key={product.id} id={product.id} className={`section-padding ${bgSection} relative border-b border-[#E0D9CF]`}>
-            {/* Background texture */}
-            {!isMocBan && <div className="absolute inset-0 texture-paper pointer-events-none" />}
-            
-            <div className="container-main relative z-10">
-              {/* Product Intro */}
-              <ScrollReveal delay={0.1}>
-                <div className="text-center max-w-4xl mx-auto mb-20 lg:mb-28">
-                  <span className={`badge ${badgeClass} !px-6 !py-2 !text-sm mb-8 shadow-sm`}>
-                    {product.subtitle}
-                  </span>
-                  <h2 className="text-5xl lg:text-[4rem] font-bold text-[#1C2B3A] mb-8 leading-[1.1]" style={{ fontFamily: "var(--font-heading)" }}>
-                    {product.title}
-                  </h2>
-                  <p className="text-xl text-[#556070] leading-relaxed font-medium">
-                    {product.intro}
-                  </p>
-                </div>
-              </ScrollReveal>
-
-              {/* Grid Showcase */}
-              <div className="grid lg:grid-cols-[1fr_1fr] gap-16 lg:gap-24 items-center mb-28">
-                
-                {/* Content Side */}
-                <div className={`space-y-12 ${orderContent}`}>
-                  <div className="grid sm:grid-cols-2 gap-8">
-                    <ScrollReveal delay={0.2} direction="up">
-                      <div className={`p-10 rounded-[2rem] ${bgCard} border border-[#E0D9CF] shadow-sm hover:shadow-card-lg transition-all duration-300 group`}>
-                        <div className="w-14 h-14 rounded-xl bg-white flex items-center justify-center shadow-sm mb-6 group-hover:-translate-y-1 transition-transform">
-                          <Lightbulb size={28} className={accentColor} />
-                        </div>
-                        <h4 className="font-bold text-[#1C2B3A] mb-3 text-2xl">Ý tưởng</h4>
-                        <p className="text-lg text-[#556070] leading-relaxed">{product.idea}</p>
-                      </div>
-                    </ScrollReveal>
-                    
-                    <ScrollReveal delay={0.3} direction="up">
-                      <div className={`p-10 rounded-[2rem] ${bgCard} border border-[#E0D9CF] shadow-sm hover:shadow-card-lg transition-all duration-300 group`}>
-                        <div className="w-14 h-14 rounded-xl bg-white flex items-center justify-center shadow-sm mb-6 group-hover:-translate-y-1 transition-transform">
-                          <Target size={28} className={accentColor} />
-                        </div>
-                        <h4 className="font-bold text-[#1C2B3A] mb-3 text-2xl">Mục tiêu</h4>
-                        <p className="text-lg text-[#556070] leading-relaxed">{product.target}</p>
-                      </div>
-                    </ScrollReveal>
-                  </div>
-
-                  <ScrollReveal delay={0.4} direction="left">
-                    <div>
-                      <h3 className="flex items-center gap-4 text-3xl font-bold text-[#1C2B3A] mb-6 pb-4 border-b border-[#E0D9CF]" style={{ fontFamily: "var(--font-heading)" }}>
-                        <GraduationCap size={32} className={accentColor} /> Giá trị giáo dục
-                      </h3>
-                      <p className="text-[#556070] leading-relaxed text-lg font-medium">{product.eduValue}</p>
-                    </div>
-                  </ScrollReveal>
-
-                  <ScrollReveal delay={0.5} direction="left">
-                    <div>
-                      <h3 className="flex items-center gap-4 text-3xl font-bold text-[#1C2B3A] mb-6 pb-4 border-b border-[#E0D9CF]" style={{ fontFamily: "var(--font-heading)" }}>
-                        <LayoutGrid size={28} className={accentColor} /> Thành phần
-                      </h3>
-                      <ul className="grid grid-cols-2 gap-y-5 gap-x-8">
-                        {product.components.map((c, i) => (
-                          <li key={i} className="text-lg text-[#556070] flex items-start gap-3 font-medium">
-                            <span className={`w-2.5 h-2.5 rounded-full bg-current ${accentColor} mt-2 flex-shrink-0 shadow-sm`} /> 
-                            <span className="leading-snug">{c}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </ScrollReveal>
-                </div>
-
-                {/* Video / Visual Side */}
-                <div className={`space-y-10 ${orderImg}`}>
-                  {/* Massive Video Placeholder */}
-                  <ScrollReveal delay={0.3} direction={isMocBan ? "left" : "right"}>
-                    <div className={`aspect-[4/3] ${patternCls} rounded-[3rem] flex items-center justify-center relative overflow-hidden group shadow-[0_32px_80px_rgba(28,43,58,0.15)] border border-[#E0D9CF]`}>
-                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-700 z-10" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 z-10" />
-                      
-                      {/* Pulse rings */}
-                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-white/20 rounded-full animate-ping z-10" style={{ animationDuration: '3s' }} />
-                      
-                      <div className="relative z-20 flex flex-col items-center gap-6 transform group-hover:scale-110 transition-transform duration-700">
-                        <div className="w-28 h-28 rounded-full bg-white/30 backdrop-blur-xl flex items-center justify-center border border-white/50 shadow-[0_0_40px_rgba(255,255,255,0.2)] cursor-pointer hover:bg-white/40 transition-colors">
-                          <PlayCircle size={56} className="text-white" fill="rgba(255,255,255,0.4)" />
-                        </div>
-                        <div className="text-white text-xl font-bold tracking-wider drop-shadow-md uppercase">
-                          Video Hướng dẫn
-                        </div>
-                      </div>
-                    </div>
-                  </ScrollReveal>
-
-                  {/* Gameplay details */}
-                  <ScrollReveal delay={0.4} direction="up">
-                    <div className={`p-10 md:p-12 rounded-[2.5rem] ${bgCard} border border-[#E0D9CF] shadow-card hover:shadow-card-lg transition-shadow`}>
-                      <h4 className="font-bold text-[#1C2B3A] mb-5 text-2xl" style={{ fontFamily: "var(--font-heading)" }}>Quy trình & Luật chơi</h4>
-                      <p className="text-lg text-[#556070] leading-relaxed font-medium">{product.gameplay}</p>
-                    </div>
-                  </ScrollReveal>
-                </div>
-
+          {/* Core Info: Editorial 3-Column Flow (No Boxed Cards) */}
+          <div className="grid md:grid-cols-3 gap-8 lg:gap-10 mb-16 pb-12 border-b border-[#E0D9CF]/50">
+            <ScrollReveal delay={0.12} direction="up">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#7C5C2E] mb-2 block">
+                  01 • Ý tưởng sáng tạo
+                </span>
+                <h3
+                  className="text-lg sm:text-xl font-bold text-[#1C2B3A] mb-2.5"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  Mô phỏng Khoa cử & Di sản
+                </h3>
+                <p className="text-sm md:text-[0.9375rem] text-[#556070] leading-relaxed font-normal">
+                  {mbks.idea}
+                </p>
               </div>
+            </ScrollReveal>
 
-              {/* Extras (Gallery / Knowledge) */}
-              <div className="pt-24 border-t border-[#E0D9CF]">
-                <ScrollReveal delay={0.1}>
-                  <SectionTitle
-                    eyebrow="Thư viện"
-                    title="Không gian trực quan"
-                    align="center"
-                    className="mx-auto mb-16 max-w-3xl"
-                  />
-                </ScrollReveal>
-                
-                {/* Gallery */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 mb-20">
-                  {product.gallery.map((img, i) => (
-                    <ScrollReveal key={i} delay={0.1 * i} direction="up">
-                      <div className={`aspect-[4/3] ${patternCls} rounded-3xl border border-[#E0D9CF] overflow-hidden relative group hover:shadow-card-lg transition-shadow cursor-pointer`}>
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#1C2B3A]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
-                        <div className="absolute inset-0 flex items-center justify-center z-0 transform group-hover:scale-105 transition-transform duration-700">
-                          <span className="text-sm font-bold text-[#7B8A95] px-6 text-center tracking-widest uppercase bg-white/80 py-2 rounded-xl backdrop-blur-md">
-                            [Ảnh: {img.alt}]
-                          </span>
-                        </div>
-                        <div className="absolute bottom-6 w-full text-center text-white font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20 translate-y-4 group-hover:translate-y-0">
-                          Xem hình ảnh lớn
-                        </div>
+            <ScrollReveal delay={0.16} direction="up">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#7C5C2E] mb-2 block">
+                  02 • Mục tiêu giáo dục
+                </span>
+                <h3
+                  className="text-lg sm:text-xl font-bold text-[#1C2B3A] mb-2.5"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  Học lịch sử chủ động
+                </h3>
+                <p className="text-sm md:text-[0.9375rem] text-[#556070] leading-relaxed font-normal">
+                  {mbks.target}
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.2} direction="up">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#7C5C2E] mb-2 block">
+                  03 • Năng lực & Phẩm chất
+                </span>
+                <h3
+                  className="text-lg sm:text-xl font-bold text-[#1C2B3A] mb-2.5"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  Chiến thuật & Tinh thần dân tộc
+                </h3>
+                <p className="text-sm md:text-[0.9375rem] text-[#556070] leading-relaxed font-normal">
+                  {mbks.eduValue}
+                </p>
+              </div>
+            </ScrollReveal>
+          </div>
+
+          {/* Gameplay & Components Detail */}
+          <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-start mb-16">
+            {/* Left: Components list & Xu Phi Long (Clean structured list, no nested cards) */}
+            <ScrollReveal delay={0.2} direction="right">
+              <div>
+                <div className="flex items-center gap-2.5 mb-6 pb-3 border-b border-[#E0D9CF]/50">
+                  <LayoutGrid size={20} className="text-[#7C5C2E]" />
+                  <h3
+                    className="text-xl sm:text-2xl font-bold text-[#1C2B3A]"
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
+                    Thành phần bộ Boardgame
+                  </h3>
+                </div>
+
+                <div className="space-y-4 mb-8">
+                  {mbks.components.map((comp, idx) => (
+                    <div key={idx} className="flex items-start gap-3.5 pb-3.5 border-b border-[#E0D9CF]/40 last:border-b-0">
+                      <span className="text-xs font-bold text-[#7C5C2E] font-heading mt-0.5">
+                        0{idx + 1}.
+                      </span>
+                      <div>
+                        <h4 className="text-sm font-bold text-[#1C2B3A]">{comp.name}</h4>
+                        <p className="text-xs sm:text-sm text-[#556070] leading-relaxed font-normal">{comp.desc}</p>
                       </div>
-                    </ScrollReveal>
+                    </div>
                   ))}
                 </div>
 
-                {isMocBan && product.knowledge && (
-                  <ScrollReveal delay={0.2} direction="up">
-                    <div className="bg-gradient-to-br from-[#1E4976] to-[#163558] text-white rounded-[3rem] p-12 md:p-16 shadow-academic relative overflow-hidden group">
-                      <div className="absolute inset-0 pattern-heritage opacity-30 group-hover:scale-105 transition-transform duration-1000" />
-                      <div className="relative z-10">
-                        <h4 className="flex items-center gap-4 text-3xl md:text-4xl font-bold mb-10 text-white drop-shadow-md" style={{ fontFamily: "var(--font-heading)" }}>
-                          <ScrollText size={40} className="text-[#C8860A]" /> Kho tri thức khoa cử
-                        </h4>
-                        <ul className="grid md:grid-cols-2 gap-8 lg:gap-12">
-                          {product.knowledge.map((k, i) => (
-                            <li key={i} className="flex items-start gap-5 text-xl text-white/90 leading-relaxed font-medium">
-                              <span className="text-[#C8860A] mt-1 text-2xl drop-shadow-sm">•</span>
-                              {k}
-                            </li>
-                          ))}
-                        </ul>
+                {/* Xu Phi Long highlight */}
+                <div className="p-5 rounded-xl bg-[#FAFAF7] border border-[#C8860A]/30 flex items-start gap-4">
+                  <Coins size={24} className="text-[#C8860A] flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h4 className="text-sm font-bold text-[#1C2B3A] mb-1">Cơ chế tài nguyên Xu Phi Long</h4>
+                    <p className="text-xs text-[#556070] leading-relaxed font-normal">
+                      Lấy cảm hứng từ tiền thưởng và đồng tiền thời Nguyễn, Xu Phi Long đóng vai trò tài nguyên chiến lược để học sinh rèn luyện tư duy quản trị tài chính, ra quyết định đầu tư tri thức và lộ phí khoa cử.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </ScrollReveal>
+
+            {/* Right: Video & Rules */}
+            <ScrollReveal delay={0.25} direction="left">
+              <div className="space-y-6">
+                <MediaPlaceholder
+                  aspectRatio="16/9"
+                  type="video"
+                  assetKey="video-moc-ban-ky-su"
+                  label={mbks.videoPlaceholder}
+                  className="rounded-2xl shadow-card"
+                />
+
+                <div className="p-6 sm:p-7 rounded-xl bg-[#FAF7F2] border border-[#E0D9CF]/60">
+                  <h3
+                    className="text-lg font-bold text-[#1C2B3A] mb-2"
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
+                    Luật chơi & Hành trình sĩ tử
+                  </h3>
+                  <p className="text-xs sm:text-sm text-[#556070] leading-relaxed font-normal">
+                    {mbks.gameplay}
+                  </p>
+                </div>
+              </div>
+            </ScrollReveal>
+          </div>
+
+          {/* Visual Assets Row */}
+          <div className="grid sm:grid-cols-3 gap-5">
+            {mbks.assetKeys.map((asset, idx) => (
+              <ScrollReveal key={asset.key} delay={0.08 * (idx + 1)} direction="up">
+                <MediaPlaceholder
+                  aspectRatio="4/3"
+                  assetKey={asset.key}
+                  label={asset.label}
+                  className="rounded-xl shadow-xs"
+                />
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── SẢN PHẨM 2: BẬT MÃ CỔ THƯ (Bộ kit 5 bước) ─────── */}
+      <section id="bat-ma-co-thu" className="section-padding bg-[#FAFAF7] relative border-b border-[#E0D9CF]/50">
+        <div className="container-main">
+          {/* Header */}
+          <ScrollReveal delay={0.1}>
+            <div className="text-center max-w-3xl mx-auto mb-14">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#1E4976] bg-[#1E4976]/[0.07] px-3 py-1 rounded-md mb-3 inline-block">
+                {bmct.subtitle}
+              </span>
+              <h2
+                className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1C2B3A] mb-4 leading-tight"
+                style={{ fontFamily: "var(--font-heading)" }}
+              >
+                {bmct.title}
+              </h2>
+              <p className="text-base md:text-lg text-[#556070] leading-relaxed font-normal">
+                {bmct.intro}
+              </p>
+            </div>
+          </ScrollReveal>
+
+          {/* Core Info: Editorial 3-Column Flow */}
+          <div className="grid md:grid-cols-3 gap-8 lg:gap-10 mb-16 pb-12 border-b border-[#E0D9CF]/50">
+            <ScrollReveal delay={0.12} direction="up">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#1E4976] mb-2 block">
+                  01 • Ý tưởng sáng tạo
+                </span>
+                <h3
+                  className="text-lg sm:text-xl font-bold text-[#1C2B3A] mb-2.5"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  Giải mã hoa văn Mộc bản
+                </h3>
+                <p className="text-sm md:text-[0.9375rem] text-[#556070] leading-relaxed font-normal">
+                  {bmct.idea}
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.16} direction="up">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#1E4976] mb-2 block">
+                  02 • Mục tiêu giáo dục
+                </span>
+                <h3
+                  className="text-lg sm:text-xl font-bold text-[#1C2B3A] mb-2.5"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  Rèn luyện tư duy STEAM
+                </h3>
+                <p className="text-sm md:text-[0.9375rem] text-[#556070] leading-relaxed font-normal">
+                  {bmct.target}
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.2} direction="up">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#1E4976] mb-2 block">
+                  03 • Chuỗi học tập khép kín
+                </span>
+                <h3
+                  className="text-lg sm:text-xl font-bold text-[#1C2B3A] mb-2.5"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  Từ số hóa đến thủ công
+                </h3>
+                <p className="text-sm md:text-[0.9375rem] text-[#556070] leading-relaxed font-normal">
+                  {bmct.eduValue}
+                </p>
+              </div>
+            </ScrollReveal>
+          </div>
+
+          {/* 5-STEP INTERACTIVE WORKFLOW SHOWCASE */}
+          <div className="mb-20">
+            <ScrollReveal delay={0.1}>
+              <div className="text-center max-w-2xl mx-auto mb-10">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1E4976]/[0.08] text-[#1E4976] text-xs font-bold uppercase tracking-wider mb-2.5">
+                  Quy trình tương tác chuẩn hóa
+                </div>
+                <h3
+                  className="text-2xl sm:text-3xl font-bold text-[#1C2B3A]"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  5 Bước Trải nghiệm Bật Mã Cổ Thư
+                </h3>
+                <p className="text-sm text-[#556070] mt-2 font-normal">
+                  Trực quan hóa chuỗi thao tác thực hành từ tiếp cận mã số hóa đến in ấn sản phẩm thủ công.
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.15} direction="up">
+              <BatMaInteractiveEngine />
+            </ScrollReveal>
+          </div>
+
+          {/* Kit Components & Media Placeholders */}
+          <div className="grid lg:grid-cols-[1fr_1fr] gap-12 items-start mb-16">
+            <ScrollReveal delay={0.2} direction="right">
+              <div>
+                <h3
+                  className="text-xl sm:text-2xl font-bold text-[#1C2B3A] mb-6 pb-3 border-b border-[#E0D9CF]/50"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  Thành phần Bộ kit Bật Mã Cổ Thư
+                </h3>
+                <div className="space-y-4">
+                  {bmct.components.map((c, i) => (
+                    <div key={i} className="flex items-start gap-3 pb-3 border-b border-[#E0D9CF]/35 last:border-b-0">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#1E4976] mt-2 flex-shrink-0" />
+                      <div>
+                        <h4 className="text-sm font-bold text-[#1C2B3A]">{c.name}</h4>
+                        <p className="text-xs text-[#556070] leading-relaxed font-normal">{c.desc}</p>
                       </div>
                     </div>
-                  </ScrollReveal>
-                )}
-
-                {!isMocBan && product.merchandise && (
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
-                    {product.merchandise.map((m, i) => (
-                      <ScrollReveal key={i} delay={0.1 * i} direction="up">
-                        <div className="group cursor-pointer">
-                          <div className={`aspect-square ${patternCls} rounded-[2.5rem] mb-6 flex items-center justify-center border border-[#E0D9CF] group-hover:shadow-[0_20px_40px_rgba(28,43,58,0.1)] group-hover:-translate-y-3 transition-all duration-500`}>
-                            <span className="text-sm font-bold text-[#7B8A95] px-4 text-center tracking-widest uppercase">[Ảnh: {m.title}]</span>
-                          </div>
-                          <h5 className="font-bold text-[#1C2B3A] text-xl text-center group-hover:text-[#1E4976] transition-colors">{m.title}</h5>
-                        </div>
-                      </ScrollReveal>
-                    ))}
-                  </div>
-                )}
+                  ))}
+                </div>
               </div>
+            </ScrollReveal>
 
-            </div>
-          </section>
-        );
-      })}
-      
-      {/* Global CTA */}
-      <section className="py-32 text-center relative overflow-hidden" style={{ background: "linear-gradient(135deg, #163558 0%, #1E4976 100%)" }}>
-        <div className="absolute inset-0 pattern-heritage opacity-[0.15]" />
-        <ScrollReveal delay={0.2} direction="up">
-          <div className="container-main relative z-10">
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 drop-shadow-sm" style={{ fontFamily: "var(--font-heading)" }}>
-              Sẵn sàng triển khai thực tế?
+            <ScrollReveal delay={0.25} direction="left">
+              <div className="space-y-5">
+                <MediaPlaceholder
+                  aspectRatio="16/9"
+                  assetKey="bat-ma-co-thu-kit"
+                  label="Trọn bộ dụng cụ kit trải nghiệm Bật Mã Cổ Thư"
+                  className="rounded-xl shadow-xs"
+                />
+                <MediaPlaceholder
+                  aspectRatio="16/9"
+                  assetKey="bat-ma-co-thu-practice"
+                  label="Sản phẩm in ấn thủ công trên túi vải canvas & giấy dó"
+                  className="rounded-xl shadow-xs"
+                />
+              </div>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Global Call to Action ─────────────────────────── */}
+      <section className="py-20 md:py-24 text-center relative overflow-hidden" style={{ background: "linear-gradient(145deg, #0D1B2A 0%, #163558 50%, #1E4976 100%)" }}>
+        <div className="absolute inset-0 pattern-heritage opacity-10 pointer-events-none" />
+        <ScrollReveal delay={0.15} direction="up">
+          <div className="container-main relative z-10 max-w-3xl">
+            <h2
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.65rem] font-bold text-white mb-5 leading-[1.2]"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              Đưa trải nghiệm Di sản vào trường học
             </h2>
-            <p className="text-white/80 text-xl md:text-2xl mb-14 max-w-3xl mx-auto leading-relaxed font-medium">
-              Liên hệ với nhóm nghiên cứu để nhận hướng dẫn chi tiết và bộ học cụ dùng thử tại trường của bạn. Chúng tôi luôn chào đón các đơn vị giáo dục hợp tác.
+            <p className="text-white/80 text-base md:text-lg mb-8 leading-relaxed font-normal">
+              Quý thầy cô và nhà trường có nhu cầu ứng dụng thử nghiệm Boardgame Mộc Bản Ký Sự hoặc Bộ kit Bật Mã Cổ Thư trong các tiết dạy Lịch sử và Hoạt động trải nghiệm, vui lòng liên hệ nhóm nghiên cứu.
             </p>
-            <CTAButton href="/lien-he" variant="wood" className="!px-12 !py-5 text-xl shadow-[0_12px_40px_rgba(200,134,10,0.35)] hover:-translate-y-1 transition-transform">
-              Liên hệ hợp tác trải nghiệm
+            <CTAButton href="/lien-he" variant="wood" className="!px-8 !py-3.5 text-base shadow-sm">
+              Đăng ký kết nối & Hợp tác ứng dụng
             </CTAButton>
           </div>
         </ScrollReveal>

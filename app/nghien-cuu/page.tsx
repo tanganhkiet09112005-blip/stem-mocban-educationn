@@ -1,125 +1,212 @@
-"use client";
-
+import type { Metadata } from "next";
 import SectionTitle from "@/components/ui/SectionTitle";
-import ContentCard from "@/components/ui/ContentCard";
 import CTAButton from "@/components/ui/CTAButton";
-import { researchProject, publications, surveyData, researchResults } from "@/data/research";
-import { Users, Target, HelpCircle, CheckCircle2, TrendingUp, BookText, GraduationCap, ArrowUpRight, BarChart3, FileCheck2 } from "lucide-react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { researchProject, publications, experimentStatus } from "@/data/research";
+import {
+  Users,
+  Target,
+  HelpCircle,
+  Clock,
+  School,
+  FileText,
+  Award,
+  BookOpen,
+} from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
 
-// CountUp Component for Dashboard metrics
-function CountUp({ end, suffix = "" }: { end: number, suffix?: string }) {
-  const [count, setCount] = useState(0);
-  
-  useEffect(() => {
-    let start = 0;
-    const duration = 2000;
-    const increment = end / (duration / 16);
-    
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= end) {
-        setCount(end);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(start));
-      }
-    }, 16);
-    return () => clearInterval(timer);
-  }, [end]);
-
-  return <span>{count}{suffix}</span>;
-}
+export const metadata: Metadata = {
+  title: "Nghiên cứu khoa học — STEAM MOCBAN EDUCATION",
+  description:
+    "Đề tài nghiên cứu khoa học: Tích hợp giáo dục giá trị di sản Mộc bản triều Nguyễn trong dạy học và hoạt động giáo dục tại các trường THPT trên địa bàn TP. Huế (Mã số: T.26.XH.503.15).",
+};
 
 export default function NghienCuuPage() {
   return (
     <>
-      <div className="page-header pt-24 md:pt-32">
+      {/* ── Page Header ─────────────────────────────────── */}
+      <div className="page-header pt-28 md:pt-36 pb-16 md:pb-20">
         <div className="container-main">
           <ScrollReveal delay={0}>
-            <p className="text-[0.8125rem] font-bold uppercase tracking-[0.25em] text-[#A37840] mb-4">
-              Đề tài khoa học
-            </p>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-[#C8860A] text-xs font-bold uppercase tracking-wider mb-4">
+              Nhiệm vụ NCKH cấp Trường • Mã số: {researchProject.taskCode}
+            </div>
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
             <h1
-              className="text-5xl md:text-6xl lg:text-[4.5rem] font-bold text-white mb-8 max-w-6xl leading-[1.1]"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-white mb-4 max-w-5xl leading-[1.16] text-balance"
               style={{ fontFamily: "var(--font-heading)" }}
             >
-              {researchProject.title}
+              {researchProject.titleMain}
             </h1>
+            <p className="text-white/80 text-base md:text-lg font-bold uppercase tracking-wider mb-6 text-[#E8A820]">
+              {researchProject.titleSub}
+            </p>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
-            <p className="text-white/80 text-xl md:text-2xl max-w-4xl leading-relaxed font-medium">
-              Nghiên cứu ứng dụng thực tiễn nhằm mang di sản tư liệu thế giới đến gần hơn với học sinh trung học phổ thông thông qua các giải pháp đổi mới phương pháp giảng dạy.
+            <p className="text-white/80 text-base md:text-lg max-w-4xl leading-relaxed font-normal">
+              {researchProject.summary}
             </p>
           </ScrollReveal>
         </div>
       </div>
 
-      {/* Thông tin đề tài */}
+      {/* ── Thông tin đề tài: Academic Editorial Layout ─── */}
       <section className="section-padding bg-[#FAFAF7]" id="gioi-thieu">
         <div className="container-main">
-          <div className="grid lg:grid-cols-[2fr_1fr] xl:grid-cols-[2.5fr_1fr] gap-16 lg:gap-24">
+          <div className="grid lg:grid-cols-[1.55fr_1fr] gap-12 lg:gap-16 items-start">
             
-            {/* Nội dung chính */}
-            <div className="space-y-20">
+            {/* Cột trái: Mục tiêu, Câu hỏi & Địa bàn — Academic Editorial Flow */}
+            <div className="space-y-14">
+              {/* Mục tiêu nghiên cứu */}
               <ScrollReveal delay={0.1}>
-                <div>
-                  <h3 className="flex items-center gap-4 text-3xl font-bold text-[#1C2B3A] mb-8 pb-4 border-b border-[#E0D9CF]" style={{ fontFamily: "var(--font-heading)" }}>
-                    <Target size={32} className="text-[#C8860A]" /> Mục tiêu nghiên cứu
-                  </h3>
-                  <ul className="space-y-8">
+                <div className="pb-10 border-b border-[#E0D9CF]/50">
+                  <div className="flex items-center gap-2.5 mb-5 pb-2.5 border-b border-[#E0D9CF]/40">
+                    <Target size={22} className="text-[#C8860A]" />
+                    <h2
+                      className="text-2xl sm:text-3xl font-bold text-[#1C2B3A]"
+                      style={{ fontFamily: "var(--font-heading)" }}
+                    >
+                      Mục tiêu nghiên cứu
+                    </h2>
+                  </div>
+                  <ul className="space-y-4">
                     {researchProject.objectives.map((obj, i) => (
-                      <li key={i} className="flex items-start gap-5 text-[#556070] text-[1.125rem] leading-relaxed font-medium">
-                        <span className="w-2.5 h-2.5 rounded-full bg-[#C8860A] mt-2.5 flex-shrink-0 shadow-[0_0_12px_rgba(200,134,10,0.6)]" />
-                        {obj}
+                      <li key={i} className="flex items-start gap-3.5 text-[#556070] text-base leading-relaxed font-normal">
+                        <span className="w-2 h-2 rounded-full bg-[#C8860A] mt-2 flex-shrink-0" />
+                        <span>{obj}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
               </ScrollReveal>
-              
+
+              {/* Câu hỏi nghiên cứu */}
+              <ScrollReveal delay={0.15}>
+                <div className="pb-10 border-b border-[#E0D9CF]/50">
+                  <div className="flex items-center gap-2.5 mb-5 pb-2.5 border-b border-[#E0D9CF]/40">
+                    <HelpCircle size={22} className="text-[#1E4976]" />
+                    <h2
+                      className="text-2xl sm:text-3xl font-bold text-[#1C2B3A]"
+                      style={{ fontFamily: "var(--font-heading)" }}
+                    >
+                      Câu hỏi nghiên cứu
+                    </h2>
+                  </div>
+                  <div className="space-y-4">
+                    {researchProject.questions.map((q, i) => (
+                      <div key={i} className="flex items-start gap-3.5 pb-3.5 border-b border-[#E0D9CF]/35 last:border-b-0">
+                        <span
+                          className="text-[#1E4976] font-bold text-lg flex-shrink-0 leading-tight"
+                          style={{ fontFamily: "var(--font-heading)" }}
+                        >
+                          Q{i + 1}.
+                        </span>
+                        <p className="text-[#1C2B3A] font-medium text-base leading-relaxed">
+                          {q}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </ScrollReveal>
+
+              {/* Địa bàn thực nghiệm sư phạm */}
               <ScrollReveal delay={0.2}>
                 <div>
-                  <h3 className="flex items-center gap-4 text-3xl font-bold text-[#1C2B3A] mb-8 pb-4 border-b border-[#E0D9CF]" style={{ fontFamily: "var(--font-heading)" }}>
-                    <HelpCircle size={32} className="text-[#1E4976]" /> Câu hỏi nghiên cứu
-                  </h3>
-                  <ul className="space-y-6">
-                    {researchProject.questions.map((q, i) => (
-                      <li key={i} className="flex items-start gap-5 text-[#1C2B3A] font-medium text-[1.125rem] leading-relaxed p-8 rounded-[1.5rem] bg-white border border-[#E0D9CF] shadow-sm hover:shadow-card transition-shadow">
-                        <span className="text-[#1E4976] font-black text-2xl mt-0.5" style={{ fontFamily: "var(--font-heading)" }}>Q{i+1}.</span>
-                        {q}
-                      </li>
+                  <div className="flex items-center gap-2.5 mb-5 pb-2.5 border-b border-[#E0D9CF]/40">
+                    <School size={22} className="text-[#7C5C2E]" />
+                    <h2
+                      className="text-2xl sm:text-3xl font-bold text-[#1C2B3A]"
+                      style={{ fontFamily: "var(--font-heading)" }}
+                    >
+                      Địa bàn thực nghiệm sư phạm
+                    </h2>
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-5">
+                    {researchProject.experimentSchools.map((school, i) => (
+                      <div key={i} className="p-5 rounded-xl bg-white border border-[#E0D9CF]/60 shadow-[0_2px_8px_rgba(28,43,58,0.02)]">
+                        <span className="text-xs font-bold uppercase tracking-wider text-[#1E4976] mb-1.5 block">
+                          Trường thực nghiệm #{i + 1}
+                        </span>
+                        <h3
+                          className="text-lg font-bold text-[#1C2B3A] mb-1"
+                          style={{ fontFamily: "var(--font-heading)" }}
+                        >
+                          {school.name}
+                        </h3>
+                        <p className="text-xs text-[#7B8A95] mb-3">
+                          {school.address}
+                        </p>
+                        <span className="inline-block text-[0.6875rem] font-semibold text-[#1E4976] bg-[#1E4976]/[0.07] px-2.5 py-1 rounded">
+                          {school.status}
+                        </span>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
               </ScrollReveal>
             </div>
 
-            {/* Members sidebar */}
-            <ScrollReveal delay={0.3} direction="left">
-              <div className="bg-white p-10 md:p-12 rounded-[2.5rem] border border-[#E0D9CF] shadow-card-lg h-fit sticky top-28">
-                <h3 className="flex items-center gap-4 text-2xl font-bold text-[#1C2B3A] mb-10 pb-5 border-b border-[#E0D9CF]" style={{ fontFamily: "var(--font-heading)" }}>
-                  <Users size={28} className="text-[#7C5C2E]" /> Nhóm thực hiện
-                </h3>
-                <ul className="space-y-10">
-                  {researchProject.members.map((mem, i) => (
-                    <li key={i} className="flex items-start gap-5 group">
-                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#F5F0E8] to-[#E0D9CF] border border-[#E0D9CF] flex items-center justify-center flex-shrink-0 font-bold text-[#1C2B3A] text-xl shadow-sm group-hover:-translate-y-1 transition-transform">
-                        {mem.name.charAt(0)}
-                      </div>
-                      <div>
-                        <div className="font-bold text-[#1C2B3A] text-lg mb-1 group-hover:text-[#1E4976] transition-colors">{mem.name}</div>
-                        <div className="text-xs font-bold uppercase tracking-widest text-[#1E4976] mb-1.5">{mem.role}</div>
-                        <div className="text-sm text-[#7B8A95] leading-snug font-medium">{mem.org}</div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+            {/* Cột phải: Cố vấn & Nhóm thực hiện — Clean Faculty Column */}
+            <ScrollReveal delay={0.2} direction="left">
+              <div className="space-y-8 lg:sticky lg:top-28">
+                {/* Cố vấn khoa học */}
+                <div className="bg-white p-7 rounded-2xl border border-[#E0D9CF]/60 shadow-[0_2px_10px_rgba(28,43,58,0.03)]">
+                  <div className="flex items-center gap-2 mb-4 pb-2.5 border-b border-[#E0D9CF]/40">
+                    <Award size={18} className="text-[#C8860A]" />
+                    <h3 className="text-base font-bold text-[#1C2B3A] uppercase tracking-wider">
+                      Cố vấn khoa học
+                    </h3>
+                  </div>
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-10 h-10 rounded-xl bg-[#C8860A]/10 text-[#C8860A] flex items-center justify-center font-bold text-sm flex-shrink-0">
+                      TS
+                    </div>
+                    <div>
+                      <h4
+                        className="text-base font-bold text-[#1C2B3A]"
+                        style={{ fontFamily: "var(--font-heading)" }}
+                      >
+                        {researchProject.advisor.name}
+                      </h4>
+                      <p className="text-xs font-bold uppercase tracking-wider text-[#7C5C2E] mb-1">
+                        {researchProject.advisor.title}
+                      </p>
+                      <p className="text-xs text-[#556070] leading-relaxed">
+                        {researchProject.advisor.role}
+                      </p>
+                      <p className="text-xs text-[#7B8A95] mt-1">
+                        {researchProject.advisor.org}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Nhóm sinh viên thực hiện */}
+                <div className="bg-white p-7 rounded-2xl border border-[#E0D9CF]/60 shadow-[0_2px_10px_rgba(28,43,58,0.03)]">
+                  <div className="flex items-center gap-2 mb-4 pb-2.5 border-b border-[#E0D9CF]/40">
+                    <Users size={18} className="text-[#1E4976]" />
+                    <h3 className="text-base font-bold text-[#1C2B3A] uppercase tracking-wider">
+                      Nhóm sinh viên thực hiện
+                    </h3>
+                  </div>
+                  <ul className="space-y-4">
+                    {researchProject.members.map((mem, i) => (
+                      <li key={i} className="flex items-start gap-3 pb-3 border-b border-[#E0D9CF]/30 last:border-b-0">
+                        <span className="text-xs font-bold text-[#7B8A95] mt-0.5 w-4">
+                          0{i + 1}.
+                        </span>
+                        <div>
+                          <h4 className="text-sm font-bold text-[#1C2B3A]">{mem.name}</h4>
+                          <span className="text-[0.6875rem] font-semibold text-[#7C5C2E]">
+                            {mem.role}
+                          </span>
+                          <p className="text-xs text-[#7B8A95]">{mem.org}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </ScrollReveal>
 
@@ -127,94 +214,63 @@ export default function NghienCuuPage() {
         </div>
       </section>
 
-      {/* Thực nghiệm & Kết quả - Dashboard Style */}
+      {/* ── Trạng thái Thực nghiệm Sư phạm ── */}
       <section className="section-padding bg-[#163558] text-white relative overflow-hidden" id="khao-sat">
-        <div className="absolute inset-0 pattern-heritage opacity-15" />
+        <div className="absolute inset-0 pattern-heritage opacity-10 pointer-events-none" />
         <div className="container-main relative z-10">
-          
           <ScrollReveal delay={0.1}>
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-20">
-              <SectionTitle
-                eyebrow="Khảo sát"
-                title="Kết quả thực nghiệm"
-                description="Dữ liệu phân tích hiệu quả của dự án sau khi triển khai tại các trường THPT trên địa bàn tỉnh Thừa Thiên Huế."
-                className="mb-0 text-white [&_h2]:text-white [&_p]:text-white/70 max-w-3xl"
-              />
+            <div className="max-w-3xl mb-10">
+              <span className="inline-block text-xs font-bold uppercase tracking-[0.22em] text-[#C8860A] mb-2.5">
+                Thực nghiệm sư phạm
+              </span>
+              <h2
+                className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3"
+                style={{ fontFamily: "var(--font-heading)" }}
+              >
+                Tiến độ Khảo sát & Thực nghiệm
+              </h2>
+              <p className="text-white/80 text-sm sm:text-base leading-relaxed font-normal">
+                Đề tài được tiến hành thực nghiệm nghiêm túc trên nhóm học sinh thực nghiệm và đối chứng tại 2 trường THPT trên địa bàn TP. Huế.
+              </p>
             </div>
           </ScrollReveal>
 
-          {/* Dashboard Summary Metrics */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            {[
-              { icon: Users, label: "Học sinh tham gia", num: 500, suffix: "+", color: "text-[#C8860A]" },
-              { icon: GraduationCap, label: "Mức độ hiểu biết", num: 45, suffix: "%", color: "text-[#2D6A8E]" },
-              { icon: TrendingUp, label: "Hứng thú học tập", num: 92, suffix: "%", color: "text-[#E8A820]" },
-              { icon: FileCheck2, label: "Đánh giá tích cực", num: 4.8, suffix: "/5", color: "text-white" },
-            ].map((metric, idx) => (
-              <ScrollReveal key={idx} delay={0.1 * idx} direction="up">
-                <div className="bg-white/10 border border-white/20 backdrop-blur-xl rounded-[2rem] p-8 flex flex-col justify-center group hover:bg-white/15 transition-colors duration-300">
-                  <metric.icon size={28} className={`${metric.color} mb-4`} />
-                  <div className="text-4xl lg:text-5xl font-bold text-white mb-2" style={{ fontFamily: "var(--font-heading)" }}>
-                     <CountUp end={metric.num} suffix={metric.suffix} />
-                  </div>
-                  <div className="text-base font-bold text-white/70 uppercase tracking-wider">{metric.label}</div>
+          {/* Pending Experiment Status Box — Clean Single Surface */}
+          <ScrollReveal delay={0.15} direction="up">
+            <div className="p-7 sm:p-10 rounded-2xl bg-white/[0.07] border border-white/15 max-w-4xl">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-[#C8860A]/20 border border-[#C8860A]/35 flex items-center justify-center text-[#E8A820] flex-shrink-0">
+                  <Clock size={24} />
                 </div>
-              </ScrollReveal>
-            ))}
-          </div>
-
-          {/* Chart & Results Grid */}
-          <ScrollReveal delay={0.3} direction="up">
-            <div className="grid xl:grid-cols-[1.5fr_1fr] gap-12 xl:gap-16 items-start bg-white/5 border border-white/10 rounded-[3rem] p-10 md:p-14 backdrop-blur-sm shadow-2xl">
-              
-              {/* Chart Wrapper */}
-              <div className="bg-white rounded-[2rem] p-8 sm:p-10 shadow-lg w-full">
-                <div className="flex items-center gap-4 mb-10">
-                  <div className="w-12 h-12 rounded-xl bg-[#1E4976]/10 flex items-center justify-center">
-                    <BarChart3 size={24} className="text-[#1E4976]" />
+                <div>
+                  <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#C8860A]/20 text-[#E8A820] text-xs font-bold uppercase tracking-wider mb-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#E8A820] animate-pulse" />
+                    Đang tiến hành
                   </div>
-                  <h4 className="text-[#1C2B3A] font-bold text-2xl" style={{ fontFamily: "var(--font-heading)" }}>
-                    Mức độ hứng thú và hiểu biết của học sinh
-                  </h4>
-                </div>
-                <div className="h-[450px] w-full">
-                  <ResponsiveContainer width="100%" height="100%" minHeight={300}>
-                    <BarChart data={surveyData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E0D9CF" />
-                      <XAxis dataKey="category" axisLine={false} tickLine={false} tick={{fill: '#7B8A95', fontSize: 14, fontWeight: 600}} dy={20} />
-                      <YAxis axisLine={false} tickLine={false} tick={{fill: '#7B8A95', fontSize: 14, fontWeight: 600}} />
-                      <Tooltip 
-                        cursor={{fill: '#F5F0E8'}}
-                        contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 12px 40px rgba(28,43,58,0.15)', padding: '20px' }}
-                      />
-                      <Legend iconType="circle" wrapperStyle={{ paddingTop: '40px', fontSize: '15px', fontWeight: 600, color: '#1C2B3A' }} />
-                      <Bar dataKey="Trước trải nghiệm" fill="#9BA8B5" radius={[8, 8, 0, 0]} maxBarSize={56} />
-                      <Bar dataKey="Sau trải nghiệm" fill="#1E4976" radius={[8, 8, 0, 0]} maxBarSize={56} />
-                    </BarChart>
-                  </ResponsiveContainer>
+                  <h3
+                    className="text-xl sm:text-2xl font-bold text-white mb-2"
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
+                    {experimentStatus.noticeTitle}
+                  </h3>
+                  <p className="text-white/80 text-sm leading-relaxed font-normal">
+                    {experimentStatus.noticeContent}
+                  </p>
                 </div>
               </div>
 
-              {/* Results text */}
-              <div className="space-y-10">
-                <div className="inline-flex items-center gap-3 text-sm text-[#C8860A] font-bold uppercase tracking-[0.2em] bg-[#C8860A]/10 px-5 py-2.5 rounded-full border border-[#C8860A]/30">
-                  <TrendingUp size={18} /> Nhận xét chung
+              <div className="pt-5 border-t border-white/10 grid sm:grid-cols-2 gap-5 text-sm">
+                <div className="p-3.5 rounded-lg bg-white/[0.04]">
+                  <div className="font-bold text-white text-xs mb-1">Phương pháp đo lường:</div>
+                  <div className="text-white/70 text-xs leading-relaxed font-normal">
+                    Khảo sát trước – sau trải nghiệm (Pre-test & Post-test), quan sát thái độ và đánh giá hồ sơ học tập/sản phẩm sáng tạo.
+                  </div>
                 </div>
-                <p className="text-white leading-relaxed text-xl font-medium">
-                  {researchResults.summary}
-                </p>
-                
-                <ul className="space-y-6">
-                  {researchResults.highlights.map((h, i) => (
-                    <li key={i} className="flex items-start gap-5 text-white/90 text-lg leading-relaxed p-6 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md">
-                      <CheckCircle2 size={28} className="text-[#C8860A] flex-shrink-0" />
-                      {h}
-                    </li>
-                  ))}
-                </ul>
-                
-                <div className="pt-8">
-                  <CTAButton href="#form" variant="wood" className="!px-10 !py-4 shadow-[0_12px_40px_rgba(200,134,10,0.4)] hover:-translate-y-1">Tham gia khảo sát ngay</CTAButton>
+                <div className="p-3.5 rounded-lg bg-white/[0.04]">
+                  <div className="font-bold text-white text-xs mb-1">Báo cáo nghiệm thu:</div>
+                  <div className="text-white/70 text-xs leading-relaxed font-normal">
+                    Số liệu định lượng chính thức kèm biểu đồ phân tích thống kê SPSS/Excel sẽ được xuất bản công khai sau nghiệm thu đề tài.
+                  </div>
                 </div>
               </div>
             </div>
@@ -222,57 +278,84 @@ export default function NghienCuuPage() {
         </div>
       </section>
 
-      {/* Công bố khoa học */}
+      {/* ── Công bố khoa học (2 ấn phẩm) ─────── */}
       <section className="section-padding bg-white" id="cong-bo">
         <div className="container-main">
           <ScrollReveal delay={0.1}>
             <SectionTitle
-              eyebrow="Ấn phẩm"
-              title="Công bố khoa học"
-              description="Các bài báo khoa học, báo cáo tại hội thảo và chuyên đề liên quan đến kết quả của dự án, minh chứng cho độ tin cậy học thuật."
-              className="max-w-3xl mb-20"
+              eyebrow="Minh chứng học thuật"
+              title="Công bố Khoa học & Báo cáo"
+              description="Các ấn phẩm khoa học đã và đang công bố khẳng định nền tảng lý luận vững chắc của mô hình STEAM Mộc bản."
+              className="max-w-3xl mb-14"
             />
           </ScrollReveal>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
             {publications.map((pub, i) => (
-              <ScrollReveal key={i} delay={0.1 * (i % 3)} direction="up">
-                <ContentCard 
-                  id={`pub-${i}`}
-                  category={pub.type}
-                  title={pub.title}
-                  excerpt={pub.journal}
-                  date={pub.year}
-                  readTime="Xem tài liệu"
-                  href={pub.link}
-                  className="shadow-sm border border-[#E0D9CF]"
-                />
+              <ScrollReveal key={i} delay={0.08 * (i + 1)} direction="up">
+                <div className="p-7 sm:p-8 rounded-2xl bg-[#FAFAF7] border border-[#E0D9CF]/60 shadow-[0_2px_8px_rgba(28,43,58,0.02)] flex flex-col h-full">
+                  <div className="flex items-center justify-between gap-3 mb-4">
+                    <span className="px-2.5 py-1 rounded text-xs font-bold uppercase tracking-wider text-[#1E4976] bg-[#1E4976]/[0.07]">
+                      {pub.type}
+                    </span>
+                    <span className="text-xs font-bold text-[#A37840]">
+                      Năm {pub.year}
+                    </span>
+                  </div>
+
+                  <h3
+                    className="text-lg sm:text-xl font-bold text-[#1C2B3A] mb-3 leading-snug"
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
+                    {pub.title}
+                  </h3>
+                  <p className="text-sm text-[#556070] leading-relaxed mb-6 flex-1 font-normal">
+                    <span className="font-semibold text-[#1C2B3A]">Xuất bản tại: </span>
+                    {pub.journal}
+                  </p>
+
+                  <div className="pt-4 border-t border-[#E0D9CF]/40 flex items-center justify-between text-xs font-bold text-[#1E4976]">
+                    <span>Tài liệu lưu hành học thuật</span>
+                    <FileText size={16} />
+                  </div>
+                </div>
               </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Demo Form */}
-      <section id="form" className="py-40 bg-[#F5F0E8] text-center border-t border-[#E0D9CF] relative overflow-hidden">
-        <div className="absolute inset-0 texture-paper opacity-50 pointer-events-none" />
-        <div className="container-main relative z-10">
+      {/* ── Phiếu khảo sát trực tuyến ─────────────────────── */}
+      <section id="form" className="py-20 bg-[#F5F0E8] text-center border-t border-[#E0D9CF]/50 relative overflow-hidden">
+        <div className="container-main relative z-10 max-w-2xl">
           <ScrollReveal delay={0.1} direction="up">
-            <div className="w-24 h-24 bg-white rounded-[2.5rem] border border-[#E0D9CF] shadow-card flex items-center justify-center mx-auto mb-10 transform -rotate-6">
-              <BookText size={44} className="text-[#1E4976]" />
-            </div>
-            <h2 className="text-5xl lg:text-6xl font-bold text-[#1C2B3A] mb-8" style={{ fontFamily: "var(--font-heading)" }}>
-              Phiếu khảo sát trực tuyến
+            <h2
+              className="text-2xl sm:text-3xl font-bold text-[#1C2B3A] mb-3 leading-tight"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              Khảo sát & Đóng góp ý kiến
             </h2>
-            <p className="text-[#556070] text-xl mb-16 max-w-3xl mx-auto leading-relaxed font-medium">
-              Mời quý thầy cô và các em học sinh điền vào phiếu khảo sát để đóng góp dữ liệu cho nhóm nghiên cứu tiếp tục cải thiện sản phẩm.
+            <p className="text-[#556070] text-sm sm:text-base mb-8 leading-relaxed font-normal">
+              Quý thầy cô và các bạn học sinh đã trải nghiệm các sản phẩm STEAM Mộc bản có thể điền vào phiếu khảo sát trực tuyến để đóng góp dữ liệu cho đề tài nghiên cứu.
             </p>
-            <div className="max-w-5xl mx-auto bg-white border border-[#E0D9CF] rounded-[3rem] h-[600px] flex items-center justify-center text-[#9BA8B5] shadow-card-lg relative overflow-hidden group">
-               <div className="absolute inset-0 pattern-dots opacity-[0.05]" />
-               <div className="relative border-2 border-dashed border-[#9BA8B5]/50 px-10 py-8 rounded-[2rem] bg-[#FAFAF7] flex flex-col items-center gap-4 group-hover:scale-105 transition-transform duration-500">
-                 <ArrowUpRight size={32} className="text-[#1E4976]" />
-                 <span className="font-bold text-[#1C2B3A] text-lg">Khu vực nhúng iframe khảo sát (Google Forms/Typeform)</span>
-               </div>
+            <div className="bg-white border border-[#E0D9CF]/60 rounded-2xl p-8 shadow-xs flex flex-col items-center justify-center gap-3">
+              <div className="w-12 h-12 rounded-xl bg-[#1E4976]/[0.08] text-[#1E4976] flex items-center justify-center mb-1">
+                <BookOpen size={24} />
+              </div>
+              <h3
+                className="text-lg font-bold text-[#1C2B3A]"
+                style={{ fontFamily: "var(--font-heading)" }}
+              >
+                Biểu mẫu khảo sát sư phạm trực tuyến
+              </h3>
+              <p className="text-xs text-[#7B8A95] max-w-md">
+                Khu vực tích hợp biểu mẫu điện tử dành cho giáo viên và học sinh tham gia tiết dạy thực nghiệm.
+              </p>
+              <div className="mt-3">
+                <CTAButton href="/lien-he" variant="primary" className="!px-7 !py-3 text-sm">
+                  Liên hệ nhóm để nhận link khảo sát
+                </CTAButton>
+              </div>
             </div>
           </ScrollReveal>
         </div>

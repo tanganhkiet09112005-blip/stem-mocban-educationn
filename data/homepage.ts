@@ -1,24 +1,76 @@
-// ─── Homepage Content Data ─────────────────────────────────────
-import type { LucideIcon } from "lucide-react";
+// ─── Homepage Content Data (STEAM MOCBAN EDUCATION) ───────────────
 
 export const heroContent = {
-  eyebrow: "Khám phá di sản – Học tập sáng tạo – Kết nối quá khứ với hiện tại",
-  title: "Giáo dục Di sản",
-  titleHighlight: "Mộc bản triều Nguyễn",
-  subtitle: "TÍCH HỢP GIÁO DỤC GIÁ TRỊ DI SẢN MỘC BẢN TRIỀU NGUYỄN TRONG DẠY HỌC VÀ HOẠT ĐỘNG GIÁO DỤC Ở TRƯỜNG TRUNG HỌC PHỔ THÔNG THÀNH PHỐ HUẾ",
-  cta1: { label: "Tìm hiểu Mộc bản", href: "/mocban" },
-  cta2: { label: "Trải nghiệm ngay", href: "/trai-nghiem" },
+  brand: "STEAM MOCBAN EDUCATION",
+  tagline: "Di sản • Giáo dục • Công nghệ • Trải nghiệm • Sáng tạo",
+  headline: "Khám phá Mộc bản triều Nguyễn bằng một cách mới.",
+  fundingNotice: "Sản phẩm nghiên cứu này được tài trợ bởi Trường Đại học Sư phạm, Đại học Huế trong nhiệm vụ mã số T.26.XH.503.15",
+  cta1: { label: "Khám phá Mộc bản", href: "/mocban" },
+  cta2: { label: "Bắt đầu học tập", href: "/hoc-tap" },
+  rightCard: {
+    badge: "Trải nghiệm tương tác",
+    title: "Không gian trải nghiệm",
+    description: "Khám phá giá trị Mộc bản qua trò chơi, hoạt động tương tác và trải nghiệm sáng tạo.",
+  },
 };
 
+// 3 thống kê trang chủ — cập nhật theo yêu cầu khách hàng
 export const statsData = [
-  { value: "34.619", label: "Tấm mộc bản", sub: "được bảo tồn" },
-  { value: "152",    label: "Đầu sách",    sub: "tư liệu quý" },
-  { value: "2009",   label: "UNESCO",      sub: "Di sản thế giới" },
-  { value: "Huế",    label: "Triển khai",  sub: "Các trường THPT" },
+  { value: "34.619", label: "Tấm mộc bản",  sub: "Được bảo tồn" },
+  { value: "2009",   label: "UNESCO",        sub: "Di sản thế giới" },
+  { value: "Huế",    label: "Triển khai",    sub: "Các trường THPT" },
+];
+
+// Khối 5 thành tố STEAM tích hợp Di sản
+export interface SteamElement {
+  letter: string;
+  name: string;
+  action: string;
+  description: string;
+  color: string;
+}
+
+export const steamFramework: SteamElement[] = [
+  {
+    letter: "S",
+    name: "Science",
+    action: "Khám phá",
+    description: "Lịch sử, chất liệu gỗ thị, kỹ thuật chế tác và giá trị học thuật của Mộc bản.",
+    color: "#1E4976",
+  },
+  {
+    letter: "T",
+    name: "Technology",
+    action: "Số hóa",
+    description: "Website di sản, mã QR tương tác, học liệu số và giải mã trên nền tảng web.",
+    color: "#0284C7",
+  },
+  {
+    letter: "E",
+    name: "Engineering",
+    action: "Thiết kế",
+    description: "Cơ chế trò chơi cờ bàn, cấu trúc bộ kit và quy trình khắc in thủ công.",
+    color: "#7C5C2E",
+  },
+  {
+    letter: "A",
+    name: "Arts",
+    action: "Sáng tạo",
+    description: "Thư pháp chữ Hán - Nôm, mỹ thuật dân gian, phác họa hoa văn và ấn phẩm thủ công.",
+    color: "#C8860A",
+  },
+  {
+    letter: "M",
+    name: "Mathematics",
+    action: "Phân tích",
+    description: "Tư duy logic chiến thuật, quản lý tài nguyên Xu Phi Long, khảo sát và đánh giá số liệu.",
+    color: "#0D9488",
+  },
 ];
 
 export interface FeatureItem {
   id: string;
+  step: string;
   icon: string;
   title: string;
   description: string;
@@ -26,53 +78,60 @@ export interface FeatureItem {
   color: "academic" | "wood" | "gold";
 }
 
+// 6 Bước Hành trình học tập (Learning Journey)
 export const features: FeatureItem[] = [
   {
-    id: "mocban",
+    id: "kham-pha",
+    step: "01",
     icon: "BookOpen",
     title: "Tìm hiểu Mộc bản",
-    description: "Khám phá lịch sử, giá trị văn hóa và ý nghĩa của Di sản Mộc bản.",
+    description: "Khám phá lịch sử, giá trị văn hóa và các bộ sử lớn qua từng bản khắc.",
     href: "/mocban",
     color: "academic",
   },
   {
     id: "hoc-tap",
+    step: "02",
     icon: "GraduationCap",
-    title: "Học tập cùng Mộc bản",
-    description: "Học liệu số, bài giảng, trò chơi và tài liệu giáo án điện tử.",
+    title: "Khám phá tư liệu",
+    description: "Học liệu số, bài đọc, chuyên đề và giáo án minh họa chuẩn GDPT 2018.",
     href: "/hoc-tap",
     color: "wood",
   },
   {
-    id: "moc-ban-ky-su",
+    id: "choi",
+    step: "03",
     icon: "Landmark",
     title: "Mộc Bản Ký Sự",
-    description: "Trải nghiệm Boardgame tái hiện hành trình khoa cử triều Nguyễn.",
+    description: "Boardgame chiến thuật tái hiện hành trình học tập và khoa cử của sĩ tử triều Nguyễn.",
     href: "/trai-nghiem#moc-ban-ky-su",
     color: "gold",
   },
   {
-    id: "bat-ma-co-thu",
+    id: "trai-nghiem",
+    step: "04",
     icon: "Lightbulb",
     title: "Bật Mã Cổ Thư",
-    description: "Bộ kit giải mã di sản với mật thư và thử thách tương tác.",
+    description: "Bộ kit giải mã QR, phác họa hoa văn và trải nghiệm tự khắc, in mộc bản.",
     href: "/trai-nghiem#bat-ma-co-thu",
     color: "academic",
   },
   {
-    id: "khao-sat",
-    icon: "FlaskConical",
-    title: "Khảo sát trải nghiệm",
-    description: "Đánh giá hứng thú và hiệu quả học tập trước và sau trải nghiệm.",
-    href: "/nghien-cuu#khao-sat",
+    id: "sang-tao",
+    step: "05",
+    icon: "Palette",
+    title: "Tạo sản phẩm",
+    description: "Không gian trưng bày các tác phẩm sáng tạo và tiếng nói cảm nhận của học sinh.",
+    href: "/sang-tao",
     color: "wood",
   },
   {
-    id: "nghien-cuu",
-    icon: "Library",
-    title: "Nghiên cứu khoa học",
-    description: "Công trình nghiên cứu, bài báo và kết quả triển khai thực nghiệm.",
-    href: "/nghien-cuu",
+    id: "khao-sat",
+    step: "06",
+    icon: "FlaskConical",
+    title: "Chia sẻ trải nghiệm",
+    description: "Khảo sát, đánh giá hiệu quả học tập và đóng góp ý kiến nâng cao đề tài.",
+    href: "/nghien-cuu#khao-sat",
     color: "gold",
   },
 ];
@@ -81,35 +140,36 @@ export const aboutContent = {
   eyebrow: "Về dự án",
   title: "Giáo dục Di sản qua Lăng kính Sáng tạo",
   paragraphs: [
-    "Mộc bản triều Nguyễn là di sản tư liệu thế giới đầu tiên của Việt Nam được UNESCO công nhận. Đây là những tấm gỗ quý được khắc ngược chữ Hán, Nôm dùng để in sách lưu hành nội bộ và phục vụ giáo dục, khoa cử thời Nguyễn.",
-    "Giáo dục di sản đóng vai trò quan trọng trong việc khơi dậy lòng tự hào dân tộc, giúp học sinh trân trọng giá trị lịch sử và kết nối quá khứ với hiện tại. Thông qua các phương pháp học tập sáng tạo, di sản không còn khô khan mà trở nên gần gũi, sinh động.",
-    "Mục tiêu của website là tạo ra một không gian số tích hợp các học liệu, sản phẩm giáo dục như Boardgame và Bộ kit giải mã, giúp giáo viên và học sinh tại TP. Huế dễ dàng tiếp cận và ứng dụng di sản Mộc bản vào giảng dạy và học tập.",
+    "Mộc bản triều Nguyễn là Di sản tư liệu thế giới được UNESCO ghi danh năm 2009, lưu giữ những giá trị phong phú về lịch sử, văn hóa và giáo dục. Từ nguồn tư liệu quý giá ấy, đề tài hướng đến việc đưa giá trị Mộc bản vào dạy học và hoạt động giáo dục ở trường THPT tại thành phố Huế.",
+    "Thông qua các phương pháp và sản phẩm giáo dục phù hợp, Mộc bản được chuyển hóa thành những trải nghiệm học tập gần gũi, trực quan và sáng tạo, góp phần phát triển phẩm chất, năng lực và ý thức gìn giữ di sản cho học sinh.",
+  ],
+  focusList: [
+    "Khai thác giá trị lịch sử, văn hóa và giáo dục của Mộc bản",
+    "Tích hợp Mộc bản vào dạy học Lịch sử, Giáo dục địa phương và hoạt động giáo dục",
+    "Phát triển học liệu và sản phẩm giáo dục theo định hướng phát triển phẩm chất, năng lực",
+    "Tổ chức trải nghiệm và thực nghiệm sư phạm để đánh giá tính khả thi, hiệu quả",
   ],
   cta: { label: "Tìm hiểu thêm về Mộc bản", href: "/mocban" },
-  images: [
-    { src: "/images/mocban-1.jpg", alt: "Mộc bản triều Nguyễn" },
-    { src: "/images/mocban-2.jpg", alt: "Hoạt động trải nghiệm di sản" },
-  ],
-};
-
-export const ctaBannerContent = {
-  title: "Lan tỏa Giá trị Di sản",
-  subtitle: "Sử dụng các tài nguyên học tập và sản phẩm giáo dục sáng tạo để đưa Mộc bản triều Nguyễn đến gần hơn với thế hệ trẻ.",
-  cta1: { label: "Xem sản phẩm trải nghiệm", href: "/trai-nghiem" },
-  cta2: { label: "Đóng góp ý kiến", href: "/lien-he" },
 };
 
 export const highlightedProducts = [
   {
     id: "moc-ban-ky-su",
-    subtitle: "Boardgame",
+    subtitle: "Boardgame giáo dục",
     title: "Mộc Bản Ký Sự",
-    intro: "Trải nghiệm hành trình khoa cử triều Nguyễn từ kỳ thi Hương đến thi Đình thông qua trò chơi cờ bàn chiến thuật.",
+    intro: "Tái hiện hành trình học tập, khoa cử và lập thân của sĩ tử thời Nguyễn thông qua cơ chế cờ bàn chiến thuật và tài nguyên Xu Phi Long.",
   },
   {
     id: "bat-ma-co-thu",
-    subtitle: "Bộ kit giải mã",
+    subtitle: "Bộ kit trải nghiệm",
     title: "Bật Mã Cổ Thư",
-    intro: "Hành trình giải mã các bí ẩn lịch sử thông qua hệ thống mật thư, thẻ bài và các thử thách tương tác tư duy.",
+    intro: "Trải nghiệm chuỗi 5 bước: Quét mã QR ➔ Giải đố trên web ➔ Phác họa họa tiết ➔ Khắc ván gỗ ➔ In ấn sản phẩm cá nhân.",
   },
 ];
+
+export const ctaBannerContent = {
+  title: "Kết nối Di sản thông qua STEAM",
+  subtitle: "Phương thức mới cho giáo dục di sản hiện đại — Chuyển hóa Mộc bản triều Nguyễn thành những trải nghiệm học tập sinh động cho thế hệ trẻ.",
+  cta1: { label: "Khám phá trải nghiệm", href: "/trai-nghiem" },
+  cta2: { label: "Đăng ký kết nối", href: "/lien-he" },
+};

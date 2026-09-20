@@ -1,92 +1,138 @@
-// ─── Mộc bản page data ────────────────────────────────────────
+// ─── Mộc bản Page Data (STEAM MOCBAN EDUCATION) ─────────────────
 
-// A. Mộc bản triều Nguyễn là gì?
 export const mocbanIntro = {
-  eyebrow: "Khái niệm và Lịch sử",
+  eyebrow: "Khái niệm & Giá trị di sản",
   title: "Mộc bản triều Nguyễn là gì?",
-  description: "Mộc bản là những tấm gỗ quý được khắc ngược chữ Hán, Nôm dùng để in thành sách, phổ biến trong xã hội phong kiến. Mộc bản triều Nguyễn là di sản tư liệu thế giới quý giá, ghi chép lại mọi mặt của đời sống xã hội dưới triều Nguyễn.",
+  description:
+    "Mộc bản triều Nguyễn là những bản khắc chữ Hán – Nôm trên gỗ được sử dụng để in sách dưới triều Nguyễn. Đây là nguồn tư liệu quý, lưu giữ những tri thức phong phú về lịch sử, văn hóa, giáo dục, pháp luật và đời sống xã hội.",
   sections: [
     {
-      title: "Lịch sử hình thành & Quá trình khắc in",
-      content: "Ra đời từ nhu cầu in ấn và lưu trữ các bộ sách lớn của triều đình, quá trình khắc in mộc bản đòi hỏi sự tỉ mỉ, công phu từ khâu chọn gỗ (thường là gỗ thị, gỗ nha đồng), xử lý mộc, đến người thợ khắc tài hoa."
+      code: "A",
+      title: "Một kho tư liệu về quá khứ",
+      content:
+        "Mộc bản ghi chép nhiều nội dung về lịch sử, khoa cử và giáo dục, luật pháp, văn học – tư tưởng, địa lý và hành chính. Qua đó, di sản giúp người học tiếp cận những dấu tích của xã hội Việt Nam dưới triều Nguyễn.",
     },
     {
-      title: "Vai trò của Quốc Sử Quán",
-      content: "Quốc Sử Quán không chỉ là cơ quan biên soạn lịch sử mà còn đóng vai trò quan trọng trong việc tổ chức khắc in, bảo quản các mộc bản, đảm bảo tính toàn vẹn và độ chính xác của các tư liệu quốc gia."
+      code: "B",
+      title: "Những giá trị được lưu giữ",
+      content:
+        "Mộc bản mang nhiều giá trị, nổi bật là giá trị lịch sử, văn hóa – tư tưởng, giáo dục và tư liệu. Đây vừa là nguồn chứng cứ để tìm hiểu quá khứ, vừa chứa đựng những giá trị văn hóa và giáo dục có thể khai thác trong nhà trường.",
     },
     {
-      title: "Giá trị của Di sản",
-      content: "Mộc bản không chỉ mang giá trị Lịch sử (nguồn sử liệu gốc) mà còn có giá trị Văn hóa (thể hiện nghệ thuật điêu khắc, chế tác) và giá trị Giáo dục (bài học về sự hiếu học, tinh thần bảo vệ chủ quyền)."
+      code: "C",
+      title: "Từ di sản đến học liệu",
+      content:
+        "Giá trị của Mộc bản có thể được chuyển hóa thành các hình thức học liệu phù hợp với mục tiêu của Chương trình Giáo dục phổ thông 2018: phân tích tư liệu, chuyên đề, hoạt động trải nghiệm, trò chơi học tập và dự án học tập.",
     },
     {
-      title: "Hành trình UNESCO",
-      content: "Với những giá trị to lớn, năm 2009, Mộc bản triều Nguyễn tự hào được UNESCO ghi danh là Di sản Tư liệu Thế giới, trở thành di sản tư liệu đầu tiên của Việt Nam nhận được vinh dự này."
-    }
-  ]
+      code: "D",
+      title: "Di sản tư liệu thế giới",
+      content:
+        "Năm 2009, Mộc bản triều Nguyễn được UNESCO ghi danh vào Chương trình Ký ức Thế giới (Memory of the World), khẳng định giá trị đặc biệt của khối tư liệu đối với lịch sử và văn hóa Việt Nam.",
+    },
+    {
+      code: "E",
+      title: "Từ di sản đến lớp học",
+      content:
+        "Mộc bản không chỉ để nghiên cứu và bảo tồn. Những giá trị được lưu giữ trong di sản có thể trở thành nguồn học liệu, hoạt động trải nghiệm và sản phẩm giáo dục, giúp học sinh tiếp cận lịch sử bằng những cách trực quan, chủ động và sáng tạo.",
+    },
+  ],
 };
 
-// B. Câu chuyện về Mộc bản (Chuyên đề)
-export const mocbanStories = [
+export const timelineMilestones = [
   {
-    id: "khoa-cu",
-    title: "Hành trình khoa cử triều Nguyễn",
-    excerpt: "Quy trình tổ chức các kỳ thi: Thi Hương (tại các địa phương), Thi Hội (tại kinh đô), và Thi Đình (do đích thân nhà vua ra đề).",
-    icon: "Scroll",
-    color: "academic",
+    year: "Đầu thế kỷ XIX",
+    title: "Hình thành và phát triển",
+    desc: "Mộc bản được chế tác để phục vụ việc biên soạn, khắc in và lưu giữ các bộ sách của triều Nguyễn, trở thành phương tiện quan trọng trong việc lưu truyền tri thức.",
+    badgeColor: "#1E4976",
   },
   {
-    id: "hieu-hoc",
-    title: "Hiếu học và trọng dụng nhân tài",
-    excerpt: "Các chính sách khuyến học, biểu dương người tài như khắc tên lên bia tiến sĩ, ban yến tiệc, vinh quy bái tổ.",
-    icon: "GraduationCap",
-    color: "wood",
+    year: "Năm 1858",
+    title: "Bước vào thời kỳ biến động",
+    desc: "Từ khi thực dân Pháp bắt đầu xâm lược Việt Nam, xã hội và hoạt động của triều Nguyễn có nhiều biến chuyển. Mộc bản cũng bước vào một giai đoạn tồn tại trong bối cảnh lịch sử nhiều biến động.",
+    badgeColor: "#C8860A",
   },
   {
-    id: "ton-su",
-    title: "Tôn sư trọng đạo",
-    excerpt: "Những mộc bản ghi chép về đạo làm thầy, sự tôn kính của vua quan và nhân dân đối với người thầy.",
-    icon: "BookOpen",
-    color: "gold",
+    year: "Năm 1885",
+    title: "Qua biến động của Kinh đô Huế",
+    desc: "Biến cố năm 1885 tác động sâu sắc đến triều Nguyễn và kinh đô Huế. Trong những biến chuyển ấy, hệ thống tư liệu của triều đình, trong đó có Mộc bản, bước sang một giai đoạn mới về quản lý và lưu giữ.",
+    badgeColor: "#7C5C2E",
   },
   {
-    id: "chu-quyen",
-    title: "Chủ quyền lãnh thổ",
-    excerpt: "Các tư liệu quý giá về việc xác lập, quản lý và bảo vệ chủ quyền biển đảo, đặc biệt là Hoàng Sa và Trường Sa.",
-    icon: "Map",
-    color: "academic",
+    year: "Năm 1945",
+    title: "Chuyển sang một hành trình mới",
+    desc: "Sự chấm dứt của triều Nguyễn đánh dấu bước chuyển quan trọng trong lịch sử Mộc bản. Từ những tư liệu phục vụ hoạt động của triều đình, Mộc bản dần trở thành nguồn tư liệu cần được gìn giữ và bảo tồn.",
+    badgeColor: "#1E4976",
+  },
+  {
+    year: "Năm 1960",
+    title: "Từ Huế đến Đà Lạt",
+    desc: "Khối Mộc bản triều Nguyễn được chuyển từ Huế vào Đà Lạt, mở ra một chặng đường mới trong quá trình lưu giữ và bảo quản di sản.",
+    badgeColor: "#7C5C2E",
+  },
+  {
+    year: "Năm 2009",
+    title: "Được ghi danh vào Ký ức Thế giới",
+    desc: "Mộc bản triều Nguyễn được UNESCO ghi danh vào Chương trình Ký ức Thế giới (Memory of the World), ghi nhận giá trị đặc biệt của khối tư liệu đối với lịch sử và văn hóa Việt Nam.",
+    badgeColor: "#C8860A",
   },
 ];
 
-// C. Tư liệu học tập
-export const mocbanResources = [
+export interface MocbanTopicItem {
+  id: string;
+  order: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  href: string;
+  color: "academic" | "wood" | "gold";
+  icon: string;
+  tag: string;
+}
+
+export const mocbanTopics: MocbanTopicItem[] = [
   {
-    category: "Infographic",
-    items: [
-      { title: "Hệ thống khoa cử triều Nguyễn", type: "Image" },
-      { title: "Các đời vua Nguyễn", type: "Image" },
-      { title: "Giá trị của Mộc bản", type: "Image" },
-    ]
+    id: "lich-su",
+    order: "01",
+    title: "Dấu ấn lịch sử",
+    subtitle: "Những trang sử được lưu giữ trên Mộc bản",
+    description: "Mộc bản ghi lại nhiều sự kiện, nhân vật, thể chế, địa danh và đời sống xã hội dưới triều Nguyễn qua 3 bộ sử lớn: Đại Nam thực lục, Khâm định Việt sử Thông giám cương mục, Đại Nam nhất thống chí.",
+    href: "/mocban/lich-su",
+    color: "academic",
+    icon: "Scroll",
+    tag: "3 bộ sử lớn",
   },
   {
-    category: "Timeline",
-    items: [
-      { title: "Lịch sử hình thành Mộc bản", type: "Interactive" },
-      { title: "Hành trình UNESCO ghi danh", type: "Interactive" },
-    ]
+    id: "van-hoa",
+    order: "02",
+    title: "Mạch nguồn văn hóa",
+    subtitle: "Những giá trị văn hóa và tư tưởng qua di sản",
+    description: "Từ phong tục, tín ngưỡng, văn học đến những quan niệm về đạo đức và tư tưởng Nho giáo, Mộc bản mở ra góc nhìn sâu sắc về đời sống tinh thần và sự tiếp nối văn hóa xưa – nay.",
+    href: "/mocban/van-hoa",
+    color: "wood",
+    icon: "BookOpen",
+    tag: "Tư tưởng & Đời sống",
   },
   {
-    category: "Video",
-    items: [
-      { title: "Giới thiệu chung về Mộc bản", type: "Video" },
-      { title: "Quy trình khắc in sách", type: "Video" },
-    ]
+    id: "dao-hoc",
+    order: "03",
+    title: "Đạo học và nhân tài",
+    subtitle: "Bài học về học tập, giáo dục và nhân cách",
+    description: "Quan niệm giáo dục học để tu dưỡng, rèn luyện con người; con đường thi cử khoa cử; và chính sách trọng dụng người có đức có tài của triều Nguyễn gắn với Mộc bản minh chứng.",
+    href: "/mocban/dao-hoc",
+    color: "gold",
+    icon: "GraduationCap",
+    tag: "Khoa cử & Tu dưỡng",
   },
   {
-    category: "Tài liệu đọc",
-    items: [
-      { title: "Phiếu đọc hiểu Mộc bản", type: "PDF" },
-      { title: "Bài đọc ngắn về thi cử xưa", type: "PDF" },
-      { title: "Tư liệu tham khảo chuyên sâu", type: "PDF" },
-    ]
+    id: "su-lieu",
+    order: "04",
+    title: "Mộc bản – Nguồn sử liệu",
+    subtitle: "Khi những bản khắc trở thành chứng cứ lịch sử",
+    description: "Mộc bản là nguồn tư liệu gốc chứa đựng nhiều thông tin vô giá. Hướng dẫn học sinh phương pháp đọc bản khắc, biến thông tin thành chứng cứ và đối chiếu sử liệu khoa học.",
+    href: "/mocban/su-lieu",
+    color: "academic",
+    icon: "FileCheck",
+    tag: "Phương pháp sử liệu",
   },
 ];

@@ -1,82 +1,83 @@
-// ─── Research page data ────────────────────────────────────────
+// ─── Nghiên cứu khoa học Page Data (STEAM MOCBAN EDUCATION) ─────────
 
 export const researchProject = {
-  title: "Tích hợp giáo dục giá trị di sản Mộc bản triều Nguyễn trong dạy học và hoạt động giáo dục ở trường Trung học phổ thông Thành phố Huế",
+  titleMain: "TÍCH HỢP GIÁO DỤC GIÁ TRỊ DI SẢN MỘC BẢN TRIỀU NGUYỄN",
+  titleSub: "Trong dạy học và hoạt động giáo dục tại các trường THPT trên địa bàn thành phố Huế",
+  taskCode: "T.26.XH.503.15",
+  sponsor: "Trường Đại học Sư phạm – Đại học Huế",
+  summary: "Nghiên cứu ứng dụng nhằm đưa di sản Mộc bản đến gần hơn với học sinh THPT thông qua các giải pháp đổi mới phương pháp dạy học, hoạt động giáo dục và các sản phẩm trải nghiệm STEAM sáng tạo.",
   objectives: [
-    "Nghiên cứu cơ sở lý luận và thực tiễn về giáo dục di sản tại trường THPT.",
-    "Thiết kế các sản phẩm giáo dục (Boardgame, Bộ kit) mang tính tương tác cao, lấy chất liệu từ Mộc bản triều Nguyễn.",
-    "Đánh giá tính khả thi và hiệu quả của các sản phẩm qua thực nghiệm sư phạm tại các trường THPT ở Huế."
+    "Hệ thống hóa cơ sở lý luận và thực tiễn về giáo dục di sản Mộc bản triều Nguyễn theo định hướng tiếp cận STEAM và phát triển năng lực học sinh trong Chương trình GDPT 2018.",
+    "Thiết kế và chuyển hóa nguồn sử liệu Mộc bản thành các sản phẩm giáo dục tương tác cao (Boardgame Mộc Bản Ký Sự, Bộ kit Bật Mã Cổ Thư, học liệu số).",
+    "Tổ chức thực nghiệm sư phạm tại các trường THPT trên địa bàn Thành phố Huế để đánh giá tính khả thi và hiệu quả giáo dục của mô hình.",
   ],
   questions: [
-    "Làm thế nào để học sinh tiếp cận Di sản Mộc bản một cách chủ động và hứng thú?",
-    "Các sản phẩm trò chơi giáo dục (Gamification) có tác động như thế nào đến kết quả học tập môn Lịch sử?",
-    "Giáo viên cần những công cụ hỗ trợ nào để triển khai hiệu quả giáo dục di sản?"
+    "Làm thế nào để chuyển hóa nguồn sử liệu Mộc bản triều Nguyễn thành các sản phẩm giáo dục STEAM sinh động, hấp dẫn học sinh THPT?",
+    "Các sản phẩm trải nghiệm tương tác (Boardgame, Bộ kit giải mã) tác động như thế nào đến hứng thú, năng lực tìm hiểu lịch sử và ý thức gìn giữ di sản của người học?",
+    "Quy trình tổ chức dạy học tích hợp di sản cần được xây dựng như thế nào để giáo viên phổ thông thuận tiện áp dụng?",
   ],
   members: [
-    { name: "TS. Nguyễn Thị A", role: "Chủ nhiệm đề tài", org: "Trường Đại học Sư phạm - Đại học Huế" },
-    { name: "ThS. Trần Văn B", role: "Thành viên chính", org: "Trường Đại học Sư phạm - Đại học Huế" },
-    { name: "ThS. Lê Thị C", role: "Thành viên", org: "Giáo viên THPT chuyên Quốc Học" }
-  ]
+    {
+      name: "Sinh viên Huỳnh Giàu",
+      role: "Chủ nhiệm đề tài",
+      org: "Khoa Lịch sử, Trường Đại học Sư phạm – Đại học Huế",
+    },
+    {
+      name: "Sinh viên Trần Ngọc Thiên An",
+      role: "Thành viên nghiên cứu",
+      org: "Khoa Lịch sử, Trường Đại học Sư phạm – Đại học Huế",
+    },
+    {
+      name: "Sinh viên Hoàng Thị Hồng Nghĩa",
+      role: "Thành viên nghiên cứu",
+      org: "Khoa Lịch sử, Trường Đại học Sư phạm – Đại học Huế",
+    },
+    {
+      name: "Sinh viên Phạm Ngọc Vy",
+      role: "Thành viên nghiên cứu",
+      org: "Khoa Lịch sử, Trường Đại học Sư phạm – Đại học Huế",
+    },
+  ],
+  advisor: {
+    name: "TS. Nguyễn Đức Cương",
+    title: "Cố vấn khoa học",
+    role: "Giảng viên chính, Trưởng bộ môn Lý luận và phương pháp dạy học Lịch sử",
+    org: "Khoa Lịch sử, Trường Đại học Sư phạm – Đại học Huế",
+  },
+  experimentSchools: [
+    {
+      name: "Trường THPT Đặng Trần Côn",
+      address: "Thành phố Huế",
+      status: "Địa bàn thực nghiệm sư phạm",
+    },
+    {
+      name: "Trường THPT Thuận Hóa",
+      address: "Thành phố Huế",
+      status: "Địa bàn thực nghiệm sư phạm",
+    },
+  ],
 };
 
 export const publications = [
   {
     type: "Bài báo khoa học",
-    title: "Vận dụng trò chơi hóa (Gamification) trong dạy học Lịch sử địa phương tại Thừa Thiên Huế",
+    title: "GIÁO DỤC DI SẢN TỪ MỘC BẢN TRIỀU NGUYỄN QUA HOẠT ĐỘNG TRẢI NGHIỆM Ở TRƯỜNG TRUNG HỌC PHỔ THÔNG THÀNH PHỐ HUẾ TRONG XU THẾ CHUYỂN ĐỔI SỐ",
     journal: "Tạp chí Giáo dục",
-    year: "2023",
-    link: "#"
+    year: "2026",
+    link: "#",
   },
   {
-    type: "Báo cáo Hội thảo",
-    title: "Thiết kế bộ kit giáo dục 'Bật Mã Cổ Thư' nhằm phát triển năng lực tìm hiểu lịch sử cho học sinh THPT",
-    journal: "Hội thảo Quốc gia về Giáo dục Di sản",
-    year: "2024",
-    link: "#"
-  },
-  {
-    type: "Tạp chí",
-    title: "Bảo tồn và phát huy giá trị di sản Mộc bản triều Nguyễn qua các hoạt động trải nghiệm",
-    journal: "Tạp chí Nghiên cứu Lịch sử",
-    year: "2024",
-    link: "#"
-  }
-];
-
-// Mock data cho Recharts
-export const surveyData = [
-  {
-    category: "Mức độ hứng thú",
-    "Trước trải nghiệm": 45,
-    "Sau trải nghiệm": 85,
-  },
-  {
-    category: "Kiến thức Mộc bản",
-    "Trước trải nghiệm": 30,
-    "Sau trải nghiệm": 90,
-  },
-  {
-    category: "Kỹ năng làm việc nhóm",
-    "Trước trải nghiệm": 60,
-    "Sau trải nghiệm": 88,
-  },
-  {
-    category: "Thái độ học tập",
-    "Trước trải nghiệm": 55,
-    "Sau trải nghiệm": 92,
+    type: "Báo cáo Hội thảo khoa học",
+    title: "ĐỀ XUẤT KHUNG CHUYỂN HÓA GIÁ TRỊ MỘC BẢN TRIỀU NGUYỄN THÀNH NGUỒN HỌC LIỆU TRONG GIÁO DỤC PHỔ THÔNG",
+    journal: "Hội thảo Quốc gia các nhà Nghiên cứu Trẻ 2026, Trường Đại học Sư phạm – Đại học Huế",
+    year: "2026",
+    link: "#",
   },
 ];
 
-export const researchResults = {
-  summary: "Kết quả thực nghiệm trên 500 học sinh tại 3 trường THPT ở Huế (THPT Chuyên Quốc Học, THPT Hai Bà Trưng, THPT Nguyễn Huệ) cho thấy sự gia tăng rõ rệt về cả nhận thức và thái độ.",
-  highlights: [
-    "92% học sinh đánh giá cao hình thức học tập qua Boardgame và Bộ kit giải mã.",
-    "Điểm số bài kiểm tra kiến thức lịch sử liên quan đến triều Nguyễn tăng trung bình 3.5 điểm (thang điểm 10).",
-    "Giáo viên ghi nhận sự chủ động, tích cực tham gia phát biểu và tương tác nhóm của học sinh tăng lên đáng kể."
-  ],
-  recommendations: [
-    "Tiếp tục mở rộng mô hình đến các trường THPT khác trên địa bàn tỉnh Thừa Thiên Huế.",
-    "Số hóa các sản phẩm giáo dục để dễ dàng tiếp cận qua môi trường Internet.",
-    "Tổ chức các khóa tập huấn cho giáo viên về phương pháp sử dụng Bộ kit và Boardgame trong giảng dạy."
-  ]
+// Trạng thái chờ số liệu thực nghiệm chính thức từ 2 trường THPT
+export const experimentStatus = {
+  isDataPending: true,
+  noticeTitle: "Đang tiến hành thực nghiệm sư phạm",
+  noticeContent: "Đề tài đang trong giai đoạn triển khai thực nghiệm sư phạm tại 2 trường: Trường THPT Đặng Trần Côn và Trường THPT Thuận Hóa (TP. Huế). Dữ liệu khảo sát định lượng chi tiết (Pre-test / Post-test) sẽ được cập nhật chính thức ngay sau khi đợt thực nghiệm hoàn tất.",
 };
