@@ -36,14 +36,14 @@ export default function HocTapPage() {
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
             <h1
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-white mb-5 max-w-5xl leading-[1.16] text-balance"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-[#1C2B3A] mb-5 max-w-5xl leading-[1.16] text-balance"
               style={{ fontFamily: "var(--font-heading)" }}
             >
               Từ di sản đến học liệu
             </h1>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
-            <p className="text-white/80 text-base md:text-lg max-w-3xl leading-relaxed font-normal">
+            <p className="text-[#556070] text-base md:text-lg max-w-3xl leading-relaxed font-normal">
               Chuyển hóa giá trị Mộc bản triều Nguyễn thành các bài đọc tư liệu, chuyên đề nghiên cứu, giáo án minh họa và hoạt động giáo dục theo định hướng phát triển phẩm chất, năng lực học sinh.
             </p>
           </ScrollReveal>

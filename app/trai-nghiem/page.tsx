@@ -32,14 +32,14 @@ export default function TraiNghiemPage() {
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
             <h1
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-white mb-5 max-w-5xl leading-[1.16] text-balance"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-[#1C2B3A] mb-5 max-w-5xl leading-[1.16] text-balance"
               style={{ fontFamily: "var(--font-heading)" }}
             >
               Trải nghiệm Giáo dục Di sản
             </h1>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
-            <p className="text-white/80 text-base md:text-lg max-w-3xl leading-relaxed font-normal">
+            <p className="text-[#556070] text-base md:text-lg max-w-3xl leading-relaxed font-normal">
               Chuyển hóa tri thức Mộc bản triều Nguyễn thành những trải nghiệm tương tác trực quan qua trò chơi cờ bàn chiến thuật và bộ kit thực hành sáng tạo mộc bản.
             </p>
           </ScrollReveal>
@@ -349,7 +349,7 @@ export default function TraiNghiemPage() {
       </section>
 
       {/* ── Global Call to Action ─────────────────────────── */}
-      <section className="py-20 md:py-24 text-center relative overflow-hidden" style={{ background: "linear-gradient(145deg, #0D1B2A 0%, #163558 50%, #1E4976 100%)" }}>
+      <section className="py-20 md:py-24 text-center relative overflow-hidden" style={{ background: "linear-gradient(145deg, #163558 0%, #1E4976 50%, #2A659E 100%)" }}>
         <div className="absolute inset-0 pattern-heritage opacity-10 pointer-events-none" />
         <ScrollReveal delay={0.15} direction="up">
           <div className="container-main relative z-10 max-w-3xl">

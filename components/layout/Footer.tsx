@@ -7,9 +7,9 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gradient-to-b from-[#1C2B3A] to-[#121E2A] text-white">
+    <footer className="bg-gradient-to-b from-[#1E2D3D] to-[#141F2B] text-white">
       {/* Heritage Pattern Top Border */}
-      <div className="h-1 w-full bg-gradient-to-r from-transparent via-[#C8860A]/50 to-transparent opacity-60" />
+      <div className="h-1 w-full bg-gradient-to-r from-transparent via-[#C8860A] to-transparent opacity-80" />
 
       <div className="container-main py-16 md:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1.5fr] gap-10 lg:gap-12">
@@ -33,7 +33,7 @@ export default function Footer() {
                 </div>
               </div>
             </Link>
-            <p className="text-[0.9375rem] text-[#9BA8B5] leading-relaxed mb-6 max-w-sm">
+            <p className="text-[0.9375rem] text-[#A8B6C4] leading-relaxed mb-6 max-w-sm">
               Kết nối di sản thông qua STEAM – phương thức mới cho giáo dục di sản hiện đại. Đưa Mộc bản triều Nguyễn đến gần hơn với thế hệ trẻ Việt Nam.
             </p>
             <div className="flex items-center gap-3">
@@ -57,7 +57,7 @@ export default function Footer() {
             <ul className="space-y-3.5">
               {footerLinks.journey.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-[0.9375rem] text-[#9BA8B5] hover:text-white flex items-center gap-2 group transition-colors">
+                  <Link href={link.href} className="text-[0.9375rem] text-[#A8B6C4] hover:text-white flex items-center gap-2 group transition-colors">
                     <ArrowRight size={13} className="opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 text-[#C8860A] transition-all duration-300" />
                     {link.label}
                   </Link>
@@ -74,7 +74,7 @@ export default function Footer() {
             <ul className="space-y-3.5">
               {footerLinks.collaboration.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-[0.9375rem] text-[#9BA8B5] hover:text-white flex items-center gap-2 group transition-colors">
+                  <Link href={link.href} className="text-[0.9375rem] text-[#A8B6C4] hover:text-white flex items-center gap-2 group transition-colors">
                     <ArrowRight size={13} className="opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 text-[#C8860A] transition-all duration-300" />
                     {link.label}
                   </Link>
@@ -89,21 +89,21 @@ export default function Footer() {
               Nhóm nghiên cứu
             </h4>
             <ul className="space-y-4">
-              <li className="flex items-start gap-3 text-[0.9375rem] text-[#9BA8B5]">
+              <li className="flex items-start gap-3 text-[0.9375rem] text-[#A8B6C4]">
                 <MapPin size={16} className="text-[#C8860A] mt-1 flex-shrink-0" />
                 <span className="leading-relaxed">{contactInfo.address}</span>
               </li>
               <li className="flex items-center gap-3 text-[0.9375rem]">
                 <Phone size={16} className="text-[#C8860A] flex-shrink-0" />
-                <a href={`tel:${contactInfo.phone.replace(/\s+/g, '')}`} className="text-[#9BA8B5] hover:text-white transition-colors">{contactInfo.phone}</a>
+                <a href={`tel:${contactInfo.phone.replace(/\s+/g, '')}`} className="text-[#A8B6C4] hover:text-white transition-colors">{contactInfo.phone}</a>
               </li>
               <li className="flex items-center gap-3 text-[0.9375rem]">
                 <Mail size={16} className="text-[#C8860A] flex-shrink-0" />
-                <a href={`mailto:${contactInfo.email}`} className="text-[#9BA8B5] hover:text-white transition-colors break-all">{contactInfo.email}</a>
+                <a href={`mailto:${contactInfo.email}`} className="text-[#A8B6C4] hover:text-white transition-colors break-all">{contactInfo.email}</a>
               </li>
             </ul>
             <div className="mt-6 pt-6 border-t border-white/10">
-              <p className="text-xs text-[#7B8A95]">{contactInfo.hours}</p>
+              <p className="text-xs text-[#8E9CA9]">{contactInfo.hours}</p>
             </div>
           </div>
 
@@ -111,14 +111,14 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-white/5 bg-black/20">
+      <div className="border-t border-white/10 bg-black/15">
         <div className="container-main py-5 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
-          <p className="text-xs text-[#7B8A95]">
+          <p className="text-xs text-[#8E9CA9]">
             © {currentYear} <span className="font-semibold text-white">STEAM MOCBAN EDUCATION</span>. Nhiệm vụ mã số {contactInfo.taskCode} ({contactInfo.unit}).
           </p>
           <div className="flex flex-wrap justify-center gap-4 md:gap-6">
-            <Link href="/mocban" className="text-xs text-[#7B8A95] hover:text-white transition-colors">Khám phá di sản</Link>
-            <Link href="/lien-he" className="text-xs text-[#7B8A95] hover:text-white transition-colors">Kết nối & Ứng dụng</Link>
+            <Link href="/mocban" className="text-xs text-[#8E9CA9] hover:text-white transition-colors">Khám phá di sản</Link>
+            <Link href="/lien-he" className="text-xs text-[#8E9CA9] hover:text-white transition-colors">Kết nối & Ứng dụng</Link>
           </div>
         </div>
       </div>

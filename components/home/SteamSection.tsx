@@ -1,6 +1,64 @@
+import Image from "next/image";
 import SectionTitle from "@/components/ui/SectionTitle";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { steamFramework } from "@/data/homepage";
+import { Sparkles, Cpu, Compass, Palette, Shapes } from "lucide-react";
+
+const STEAM_THEMES: Record<string, {
+  bg: string;
+  border: string;
+  badgeBg: string;
+  badgeText: string;
+  textColor: string;
+  iconBg: string;
+  icon: any;
+}> = {
+  S: {
+    bg: "bg-[#F0F6FA]",
+    border: "border-[#D0E2EE]",
+    badgeBg: "bg-white/85",
+    badgeText: "text-[#1E4976]",
+    textColor: "#1E4976",
+    iconBg: "bg-[#1E4976]/10 text-[#1E4976]",
+    icon: Sparkles,
+  },
+  T: {
+    bg: "bg-[#EFF8F7]",
+    border: "border-[#CFECE8]",
+    badgeBg: "bg-white/85",
+    badgeText: "text-[#0D9488]",
+    textColor: "#0D9488",
+    iconBg: "bg-[#0D9488]/10 text-[#0D9488]",
+    icon: Cpu,
+  },
+  E: {
+    bg: "bg-[#FDF8EE]",
+    border: "border-[#F6E6C7]",
+    badgeBg: "bg-white/85",
+    badgeText: "text-[#A06E1A]",
+    textColor: "#C8860A",
+    iconBg: "bg-[#C8860A]/10 text-[#C8860A]",
+    icon: Compass,
+  },
+  A: {
+    bg: "bg-[#FDF4F0]",
+    border: "border-[#F6DBD0]",
+    badgeBg: "bg-white/85",
+    badgeText: "text-[#B96F4A]",
+    textColor: "#B96F4A",
+    iconBg: "bg-[#B96F4A]/10 text-[#B96F4A]",
+    icon: Palette,
+  },
+  M: {
+    bg: "bg-[#F2F7F2]",
+    border: "border-[#D3E7D4]",
+    badgeBg: "bg-white/85",
+    badgeText: "text-[#486B4D]",
+    textColor: "#66856A",
+    iconBg: "bg-[#66856A]/10 text-[#66856A]",
+    icon: Shapes,
+  },
+};
 
 export default function SteamSection() {
   return (
@@ -18,7 +76,17 @@ export default function SteamSection() {
 
         {/* ── Central Heritage Hub: Mộc bản là hạt nhân trung tâm ── */}
         <ScrollReveal delay={0.15} direction="up">
-          <div className="max-w-4xl mx-auto mb-8 rounded-2xl border border-white/10 bg-gradient-to-br from-[#1E4976] via-[#163558] to-[#0D1B2A] text-white p-7 sm:p-9 relative overflow-hidden shadow-card">
+          <div className="max-w-4xl mx-auto mb-8 rounded-2xl border border-white/20 bg-gradient-to-br from-[#1E4976] via-[#245788] to-[#2D6A8E] text-white p-7 sm:p-9 relative overflow-hidden shadow-academic">
+            {/* Background Hue Imperial Architecture Artwork */}
+            <div className="absolute inset-0 opacity-20 pointer-events-none select-none overflow-hidden" aria-hidden="true">
+              <Image
+                src="/assets/homepage/steam-hub-hue-citadel.webp"
+                alt=""
+                fill
+                className="object-cover object-bottom"
+              />
+            </div>
+
             {/* Background texture & pattern */}
             <div className="absolute inset-0 pattern-heritage opacity-10 pointer-events-none" aria-hidden="true" />
 
@@ -52,50 +120,60 @@ export default function SteamSection() {
           </div>
         </ScrollReveal>
 
-        {/* ── The 5 STEAM Spoke Lenses: Refined Editorial Cards ── */}
+        {/* ── The 5 STEAM Spoke Lenses: Soft Tint Wash Editorial Cards ── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-5">
-          {steamFramework.map((item, index) => (
-            <ScrollReveal key={item.letter} delay={0.06 * (index + 1)} direction="up">
-              <div className="h-full rounded-xl bg-white border border-[#E0D9CF]/70 p-5 sm:p-6 shadow-[0_2px_8px_rgba(28,43,58,0.03)] hover:shadow-card hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between relative overflow-hidden group">
-                {/* Thin colored top indicator (2px) */}
-                <div 
-                  className="absolute top-0 inset-x-0 h-[2px] transition-all duration-300 group-hover:h-1"
-                  style={{ backgroundColor: item.color }} 
-                  aria-hidden="true"
-                />
+          {steamFramework.map((item, index) => {
+            const theme = STEAM_THEMES[item.letter] || STEAM_THEMES.S;
+            const IconComp = theme.icon;
 
-                <div>
-                  <div className="flex items-center justify-between mb-3.5 pt-1">
-                    <span
-                      className="text-2xl sm:text-[1.65rem] font-black leading-none"
-                      style={{ color: item.color }}
+            return (
+              <ScrollReveal key={item.letter} delay={0.06 * (index + 1)} direction="up">
+                <div className={`h-full rounded-2xl ${theme.bg} border ${theme.border} p-5 sm:p-6 shadow-[0_2px_8px_rgba(28,43,58,0.02)] hover:shadow-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between relative overflow-hidden group`}>
+                  {/* Top subtle 2px accent indicator */}
+                  <div 
+                    className="absolute top-0 inset-x-0 h-[2px] transition-all duration-300 group-hover:h-1"
+                    style={{ backgroundColor: theme.textColor }} 
+                    aria-hidden="true"
+                  />
+
+                  <div>
+                    <div className="flex items-center justify-between mb-4 pt-1">
+                      <div className="flex items-center gap-2">
+                        <span
+                          className="text-2xl sm:text-[1.65rem] font-black leading-none"
+                          style={{ color: theme.textColor }}
+                        >
+                          {item.letter}
+                        </span>
+                        <div className={`w-7 h-7 rounded-lg ${theme.iconBg} flex items-center justify-center`}>
+                          <IconComp size={15} strokeWidth={2.2} />
+                        </div>
+                      </div>
+                      <span className={`text-[0.6875rem] font-bold uppercase tracking-[0.16em] px-2.5 py-0.5 rounded-full ${theme.badgeBg} border ${theme.border} ${theme.badgeText}`}>
+                        {item.name}
+                      </span>
+                    </div>
+
+                    <h3 
+                      className="text-lg font-bold text-[#1C2B3A] mb-2 leading-snug font-heading font-serif"
+                      style={{ fontFamily: "var(--font-heading)" }}
                     >
-                      {item.letter}
-                    </span>
-                    <span className="text-[0.6875rem] font-bold uppercase tracking-[0.16em] px-2.5 py-0.5 rounded-full bg-[#FAFAF7] border border-[#E0D9CF]/80 text-[#556070]">
-                      {item.name}
-                    </span>
+                      {item.action}
+                    </h3>
+
+                    <p className="text-[0.8125rem] sm:text-[0.875rem] text-[#556070] leading-relaxed font-normal">
+                      {item.description}
+                    </p>
                   </div>
 
-                  <h3 
-                    className="text-lg font-bold text-[#1C2B3A] mb-2 leading-snug font-heading font-serif"
-                    style={{ fontFamily: "var(--font-heading)" }}
-                  >
-                    {item.action}
-                  </h3>
-
-                  <p className="text-[0.8125rem] sm:text-[0.875rem] text-[#556070] leading-relaxed">
-                    {item.description}
-                  </p>
+                  <div className={`mt-5 pt-3 border-t ${theme.border} flex items-center gap-2`}>
+                    <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: theme.textColor }} aria-hidden="true" />
+                    <span className="text-[0.6875rem] font-semibold text-[#7B8A95]">Lăng kính {item.letter}</span>
+                  </div>
                 </div>
-
-                <div className="mt-5 pt-3 border-t border-[#F5F0E8] flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: item.color }} aria-hidden="true" />
-                  <span className="text-[0.6875rem] font-semibold text-[#7B8A95]">Lăng kính {item.letter}</span>
-                </div>
-              </div>
-            </ScrollReveal>
-          ))}
+              </ScrollReveal>
+            );
+          })}
         </div>
       </div>
     </section>

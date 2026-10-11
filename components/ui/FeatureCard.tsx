@@ -3,16 +3,22 @@ import { ArrowRight } from "lucide-react";
 import * as LucideIcons from "lucide-react";
 import type { FeatureItem } from "@/data/homepage";
 
+const STEP_STYLES: Record<string, { badge: string; iconBg: string; text: string }> = {
+  "01": { badge: "bg-[#1E4976]/10 text-[#1E4976] border-[#1E4976]/20", iconBg: "bg-[#1E4976] text-white", text: "text-[#1E4976]" },
+  "02": { badge: "bg-[#0D9488]/10 text-[#0D9488] border-[#0D9488]/20", iconBg: "bg-[#0D9488] text-white", text: "text-[#0D9488]" },
+  "03": { badge: "bg-[#C8860A]/10 text-[#C8860A] border-[#C8860A]/20", iconBg: "bg-[#C8860A] text-white", text: "text-[#C8860A]" },
+  "04": { badge: "bg-[#B96F4A]/10 text-[#B96F4A] border-[#B96F4A]/20", iconBg: "bg-[#B96F4A] text-white", text: "text-[#B96F4A]" },
+  "05": { badge: "bg-[#2F628F]/10 text-[#2F628F] border-[#2F628F]/20", iconBg: "bg-[#2F628F] text-white", text: "text-[#2F628F]" },
+  "06": { badge: "bg-[#66856A]/10 text-[#66856A] border-[#66856A]/20", iconBg: "bg-[#66856A] text-white", text: "text-[#66856A]" },
+};
+
 export default function FeatureCard({ item, className = "" }: { item: FeatureItem; className?: string }) {
   const IconComponent = (LucideIcons as any)[item.icon] || LucideIcons.HelpCircle;
-
-  const bgClasses = {
-    academic: "bg-[#1E4976] text-[#FAFAF7]",
-    wood: "bg-[#7C5C2E] text-[#FAFAF7]",
-    gold: "bg-[#C8860A] text-[#FAFAF7]",
+  const style = STEP_STYLES[item.step] || {
+    badge: "bg-[#7C5C2E]/[0.06] text-[#7C5C2E] border-[#7C5C2E]/15",
+    iconBg: "bg-[#1E4976] text-white",
+    text: "text-[#1E4976]",
   };
-
-  const bgIconClass = bgClasses[item.color] || bgClasses.academic;
 
   return (
     <Link
@@ -20,11 +26,11 @@ export default function FeatureCard({ item, className = "" }: { item: FeatureIte
       className={`group block rounded-2xl border border-[#E0D9CF]/60 bg-white p-7 sm:p-8 lg:p-9 shadow-[0_2px_10px_rgba(28,43,58,0.03)] hover:shadow-card hover:border-[#C8860A]/35 hover:-translate-y-0.5 transition-all duration-300 ${className}`}
     >
       <div className="flex items-center justify-between mb-5">
-        <div className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-xs transition-transform duration-300 group-hover:scale-105 ${bgIconClass}`}>
+        <div className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-xs transition-transform duration-300 group-hover:scale-105 ${style.iconBg}`}>
           <IconComponent size={22} strokeWidth={2} />
         </div>
         {item.step && (
-          <span className="text-[0.6875rem] font-bold uppercase tracking-[0.16em] px-2.5 py-1 rounded-md bg-[#7C5C2E]/[0.06] text-[#7C5C2E] border border-[#7C5C2E]/15">
+          <span className={`text-[0.6875rem] font-bold uppercase tracking-[0.16em] px-2.5 py-1 rounded-full border ${style.badge}`}>
             Bước {item.step}
           </span>
         )}

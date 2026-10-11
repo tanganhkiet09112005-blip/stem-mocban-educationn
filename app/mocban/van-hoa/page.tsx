@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import SubpageHeader from "@/components/mocban/SubpageHeader";
 import MediaPlaceholder from "@/components/ui/MediaPlaceholder";
@@ -123,24 +124,39 @@ export default function VanHoaSubpage() {
           {/* Section 3: Từ giá trị xưa đến suy ngẫm hôm nay */}
           {data.sections[2] && (
             <ScrollReveal delay={0.1}>
-              <div className="p-7 sm:p-10 rounded-2xl bg-gradient-to-br from-[#163558] to-[#1E4976] text-white shadow-card relative overflow-hidden">
+              <div className="rounded-2xl bg-gradient-to-br from-[#163558] to-[#1E4976] text-white shadow-card overflow-hidden relative">
                 <div className="absolute inset-0 pattern-heritage opacity-15 pointer-events-none" />
-                <div className="relative z-10 max-w-3xl">
-                  <h2
-                    className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 leading-tight"
-                    style={{ fontFamily: "var(--font-heading)" }}
-                  >
-                    {data.sections[2].heading}
-                  </h2>
-                  <p className="text-base sm:text-lg text-[#E8A820] font-semibold mb-5">
-                    {data.sections[2].subheading}
-                  </p>
-                  <div className="space-y-3.5">
-                    {data.sections[2].paragraphs.map((p, idx) => (
-                      <p key={idx} className="text-base text-white/85 leading-relaxed font-normal">
-                        {p}
-                      </p>
-                    ))}
+                <div className="grid lg:grid-cols-[1.25fr_0.75fr] items-center relative z-10">
+                  <div className="p-7 sm:p-10">
+                    <h2
+                      className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 leading-tight"
+                      style={{ fontFamily: "var(--font-heading)" }}
+                    >
+                      {data.sections[2].heading}
+                    </h2>
+                    <p className="text-base sm:text-lg text-[#E8A820] font-semibold mb-5">
+                      {data.sections[2].subheading}
+                    </p>
+                    <div className="space-y-3.5">
+                      {data.sections[2].paragraphs.map((p, idx) => (
+                        <p key={idx} className="text-base text-white/85 leading-relaxed font-normal">
+                          {p}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="relative h-64 sm:h-72 lg:h-full min-h-[260px] m-4 sm:m-6 lg:m-0 lg:mr-8 lg:my-8 rounded-xl overflow-hidden border border-white/10 shadow-lg">
+                    <Image
+                      src="/assets/mocban/mocban-van-hoa-kylan.webp"
+                      alt="Bản khắc Mộc bản họa tiết Kỳ lân — Biểu trưng văn hóa & mỹ thuật cung đình"
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 35vw"
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" />
+                    <p className="absolute bottom-3 left-3 right-3 text-xs text-white/90 font-medium leading-snug">
+                      Bản khắc Mộc bản: Họa tiết Kỳ lân — Biểu trưng văn hóa & mỹ thuật cung đình
+                    </p>
                   </div>
                 </div>
               </div>

@@ -17,7 +17,7 @@ export default function StatsBar() {
       aria-label="Thống kê dự án"
       id="stats"
       style={{
-        background: "linear-gradient(180deg, #0A1726 0%, #FAFAF7 60px)",
+        background: "linear-gradient(180deg, #FAF9F5 0%, #FAFAF7 60px)",
         paddingTop: "2.5rem",
         paddingBottom: "0.5rem",
       }}

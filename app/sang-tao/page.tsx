@@ -26,14 +26,14 @@ export default function SangTaoPage() {
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
             <h1
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-white mb-5 max-w-5xl leading-[1.16] text-balance"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-[#1C2B3A] mb-5 max-w-5xl leading-[1.16] text-balance"
               style={{ fontFamily: "var(--font-heading)" }}
             >
               Góc sáng tạo
             </h1>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
-            <p className="text-white/80 text-base md:text-lg max-w-3xl leading-relaxed font-normal">
+            <p className="text-[#556070] text-base md:text-lg max-w-3xl leading-relaxed font-normal">
               Không gian trưng bày các tác phẩm, ấn phẩm thủ công và cảm nhận chân thực của học sinh sau khi tham gia trải nghiệm giáo dục di sản Mộc bản.
             </p>
           </ScrollReveal>

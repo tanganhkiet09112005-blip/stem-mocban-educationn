@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import SectionTitle from "@/components/ui/SectionTitle";
 import CTAButton from "@/components/ui/CTAButton";
@@ -32,8 +33,21 @@ export default function MocBanPage() {
   return (
     <>
       {/* ── Page Header ─────────────────────────────────── */}
-      <div className="page-header pt-28 md:pt-36 pb-16 md:pb-20">
-        <div className="container-main">
+      <div className="page-header pt-28 md:pt-36 pb-16 md:pb-20 relative overflow-hidden">
+        {/* Subtle Heritage Backdrop */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <Image
+            src="/assets/mocban/mocban-header-citadel.webp"
+            alt="Hoàng thành Huế - Cố đô di sản"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover opacity-15 mix-blend-multiply"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#F4EFE6]/70 via-transparent to-[#FAFAF7]" />
+        </div>
+
+        <div className="container-main relative z-10">
           <ScrollReveal delay={0}>
             <div className="flex items-center gap-2.5 mb-4">
               <Landmark size={18} className="text-[#C8860A]" />
@@ -44,14 +58,14 @@ export default function MocBanPage() {
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
             <h1
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-white mb-5 max-w-5xl leading-[1.16]"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-[#1C2B3A] mb-5 max-w-5xl leading-[1.16]"
               style={{ fontFamily: "var(--font-heading)" }}
             >
               Khám phá Mộc bản triều Nguyễn
             </h1>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
-            <p className="text-white/80 text-base md:text-lg max-w-3xl leading-relaxed font-normal">
+            <p className="text-[#556070] text-base md:text-lg max-w-3xl leading-relaxed font-normal">
               Tìm hiểu khối di sản tư liệu vô giá lưu giữ lịch sử, văn hóa, giáo dục và tư tưởng của dân tộc qua hệ thống bản khắc gỗ thị triều Nguyễn.
             </p>
           </ScrollReveal>
@@ -109,7 +123,17 @@ export default function MocBanPage() {
                   className="rounded-2xl p-7 sm:p-9 text-white relative overflow-hidden shadow-card"
                   style={{ background: "linear-gradient(145deg, #163558 0%, #1E4976 100%)" }}
                 >
-                  <div className="absolute inset-0 pattern-heritage opacity-15 pointer-events-none" aria-hidden="true" />
+                  <div className="absolute inset-0 pointer-events-none z-0">
+                    <Image
+                      src="/assets/mocban/mocban-unesco-hands.webp"
+                      alt="Hiện vật Mộc bản triều Nguyễn"
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 40vw"
+                      className="object-cover opacity-20 mix-blend-luminosity"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#163558] via-[#163558]/80 to-transparent" />
+                  </div>
+                  <div className="absolute inset-0 pattern-heritage opacity-15 pointer-events-none z-0" aria-hidden="true" />
                   <div className="relative z-10">
                     <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center mb-5 text-[#C8860A]">
                       <Landmark size={24} strokeWidth={1.8} />

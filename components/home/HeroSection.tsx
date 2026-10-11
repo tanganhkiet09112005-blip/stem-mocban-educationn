@@ -1,42 +1,52 @@
 import Link from "next/link";
-import { BookOpen, Layers, ChevronDown } from "lucide-react";
+import Image from "next/image";
+import { BookOpen, Layers, ChevronDown, ArrowRight } from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { heroContent } from "@/data/homepage";
 
 export default function HeroSection() {
   return (
-    <section className="hero-section bg-[#0D1B2A]" id="hero" aria-label="Hero section">
-      {/* ── Background Art Direction ─────────────────────────────────── */}
+    <section className="hero-section bg-[#FAF9F5]" id="hero" aria-label="Hero section">
+      {/* ── Background Art Direction: Luminous Digital Heritage Exhibition Hall ── */}
       <div className="absolute inset-0" aria-hidden="true">
-        {/* Calmer 4-stop academic heritage gradient */}
+        {/* Luminous warm ivory / parchment architectural gradient */}
         <div
           className="absolute inset-0"
           style={{
-            background: `linear-gradient(150deg,
-              #0A1726 0%,
-              #102235 30%,
-              #163558 65%,
-              #1E4976 100%
+            background: `radial-gradient(ellipse 90% 80% at 50% -10%,
+              #FFFDF7 0%,
+              #F8F4EC 45%,
+              #F3EDE2 75%,
+              #EDE5D5 100%
             )`,
           }}
         />
 
-        {/* Heritage grid pattern — quiet texture */}
-        <div className="absolute inset-0 pattern-heritage opacity-[0.05]" />
+        {/* Heritage grid watermark pattern — quiet architectural texture */}
+        <div className="absolute inset-0 pattern-heritage opacity-[0.04]" />
 
-        {/* Warm bronze ambient glow — top right (subtle, 6% opacity) */}
+        {/* Warm bronze ambient light — top right (subtle 8% opacity) */}
         <div
-          className="absolute top-0 right-0 w-[550px] h-[550px] rounded-full opacity-[0.06] blur-[140px] pointer-events-none"
+          className="absolute top-0 right-0 w-[550px] h-[550px] rounded-full opacity-[0.08] blur-[120px] pointer-events-none"
           style={{
             background: "radial-gradient(circle, #C8860A, transparent 70%)",
-            transform: "translate(25%, -25%)",
+            transform: "translate(20%, -20%)",
           }}
         />
 
-        {/* Gentle bottom transition to content area */}
+        {/* Academic blue soft ambient tint — bottom left (subtle 5% opacity) */}
         <div
-          className="absolute bottom-0 left-0 right-0 h-28 pointer-events-none"
-          style={{ background: "linear-gradient(to bottom, transparent, #0A1726)" }}
+          className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full opacity-[0.05] blur-[120px] pointer-events-none"
+          style={{
+            background: "radial-gradient(circle, #1E4976, transparent 70%)",
+            transform: "translate(-20%, 20%)",
+          }}
+        />
+
+        {/* Bottom seamless transition to StatsBar (#FAFAF7) */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none"
+          style={{ background: "linear-gradient(to bottom, transparent, #FAFAF7)" }}
         />
       </div>
 
@@ -67,10 +77,9 @@ export default function HeroSection() {
             {/* 2. Headline — Balanced Editorial Anchor */}
             <ScrollReveal delay={0.08}>
               <h1
-                className="hero-heading text-[2.15rem] sm:text-[2.65rem] md:text-[3.15rem] lg:text-[3.4rem] xl:text-[3.65rem] font-bold tracking-tight mb-4 leading-[1.17] text-balance"
+                className="hero-heading text-[2.15rem] sm:text-[2.65rem] md:text-[3.15rem] lg:text-[3.4rem] xl:text-[3.65rem] font-bold tracking-tight mb-4 leading-[1.17] text-balance text-[#1C2B3A]"
                 style={{
                   fontFamily: "var(--font-heading)",
-                  color: "#FAFAF7",
                 }}
               >
                 {heroContent.headline}
@@ -81,7 +90,7 @@ export default function HeroSection() {
             <ScrollReveal delay={0.14}>
               <p
                 className="text-xs sm:text-[0.8125rem] font-bold tracking-[0.2em] uppercase mb-6 leading-relaxed"
-                style={{ color: "rgba(232,168,32,0.92)" }}
+                style={{ color: "#9E6805" }}
               >
                 {heroContent.tagline}
               </p>
@@ -90,10 +99,9 @@ export default function HeroSection() {
             {/* 4. Funding Notice — Quiet Editorial Rule (No Box) */}
             <ScrollReveal delay={0.18}>
               <div className="mb-8 max-w-xl">
-                <div className="border-l-2 border-[#C8860A]/40 pl-3.5 py-0.5">
+                <div className="border-l-2 border-[#C8860A]/60 pl-3.5 py-0.5">
                   <p
-                    className="text-xs sm:text-[0.8125rem] leading-relaxed font-normal"
-                    style={{ color: "rgba(250,250,247,0.65)" }}
+                    className="text-xs sm:text-[0.8125rem] leading-relaxed font-normal text-[#556070]"
                   >
                     {heroContent.fundingNotice}
                   </p>
@@ -104,24 +112,20 @@ export default function HeroSection() {
             {/* 5. CTA Buttons */}
             <ScrollReveal delay={0.22}>
               <div className="flex flex-wrap items-center gap-4 mb-8">
-                {/* Primary CTA — Warm bronze button */}
+                {/* Primary CTA — Academic Blue Button with Arrow */}
                 <Link
                   href={heroContent.cta1.href}
-                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg text-[0.9375rem] font-bold transition-all duration-200 hover:-translate-y-0.5"
-                  style={{
-                    background: "linear-gradient(135deg, #A06E1A 0%, #C8860A 100%)",
-                    color: "#FAFAF7",
-                    boxShadow: "0 4px 18px rgba(200,134,10,0.25)",
-                  }}
+                  className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-lg text-[0.9375rem] font-bold transition-all duration-200 hover:-translate-y-0.5 bg-[#1E4976] hover:bg-[#245788] text-white shadow-[0_4px_14px_rgba(30,73,118,0.22)] border border-[#1E4976]"
                 >
                   <BookOpen size={17} strokeWidth={2.2} />
-                  {heroContent.cta1.label}
+                  <span>{heroContent.cta1.label}</span>
+                  <ArrowRight size={15} strokeWidth={2.2} />
                 </Link>
 
                 {/* Secondary CTA — Refined ghost button */}
                 <Link href={heroContent.cta2.href} className="hero-cta-ghost">
                   <Layers size={17} strokeWidth={2.2} />
-                  {heroContent.cta2.label}
+                  <span>{heroContent.cta2.label}</span>
                 </Link>
               </div>
             </ScrollReveal>
@@ -131,12 +135,11 @@ export default function HeroSection() {
               <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
                 {[
                   { dot: "#C8860A", text: "UNESCO 2009 — Di sản Tư liệu Thế giới" },
-                  { dot: "#38BDF8", text: "Tích hợp Mô hình Giáo dục STEAM" },
+                  { dot: "#0284C7", text: "Tích hợp Mô hình Giáo dục STEAM" },
                 ].map((b) => (
                   <span
                     key={b.text}
-                    className="flex items-center gap-2 text-xs font-medium"
-                    style={{ color: "rgba(250,250,247,0.55)" }}
+                    className="flex items-center gap-2 text-xs font-semibold text-[#556070]"
                   >
                     <span
                       className="w-1.5 h-1.5 rounded-full flex-shrink-0"
@@ -153,57 +156,60 @@ export default function HeroSection() {
           {/* ── Right Column: Museum Exhibition Panel ───────────── */}
           <ScrollReveal delay={0.2} direction="left" className="hidden lg:block relative">
             <div
-              className="relative rounded-2xl overflow-hidden p-8 xl:p-9 transition-transform duration-500 hover:scale-[1.005]"
-              style={{
-                background: "linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)",
-                border: "1px solid rgba(255,255,255,0.08)",
-                boxShadow: "0 20px 48px rgba(0,0,0,0.28)",
-              }}
+              className="relative rounded-2xl overflow-hidden p-8 xl:p-9 transition-transform duration-500 hover:scale-[1.005] bg-white/95 backdrop-blur-md border border-[#E0D9CF] shadow-[0_16px_40px_rgba(28,43,58,0.06)]"
             >
-              {/* Subtle inner dark gradient */}
-              <div
-                className="absolute inset-0 z-0 pointer-events-none"
-                style={{
-                  background: "linear-gradient(135deg, rgba(10,23,38,0.5) 0%, rgba(22,53,88,0.25) 100%)",
-                }}
-                aria-hidden="true"
-              />
-              <div className="absolute inset-0 pattern-heritage opacity-[0.05] z-[1] pointer-events-none" aria-hidden="true" />
+              {/* Subtle inner paper texture & heritage watermarks */}
+              <div className="absolute inset-0 texture-paper opacity-30 z-0 pointer-events-none" aria-hidden="true" />
+              <div className="absolute inset-0 pattern-heritage opacity-[0.03] z-[1] pointer-events-none" aria-hidden="true" />
+
+              {/* Authentic Royal Seal Watermark */}
+              <div className="absolute -bottom-8 -right-8 w-44 h-44 opacity-[0.06] pointer-events-none select-none z-[1]" aria-hidden="true">
+                <Image
+                  src="/assets/logo-seal.webp"
+                  alt=""
+                  width={176}
+                  height={176}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+
+              {/* Atmospheric Heritage Brush Artwork */}
+              <div className="absolute right-0 bottom-0 w-full h-[280px] opacity-[0.07] pointer-events-none select-none z-0 overflow-hidden" aria-hidden="true">
+                <Image
+                  src="/assets/homepage/hero-woodblock-brush.webp"
+                  alt=""
+                  fill
+                  className="object-cover object-bottom"
+                />
+              </div>
 
               {/* Panel Content */}
               <div className="relative z-10">
 
                 {/* Eyebrow badge */}
                 <div
-                  className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-6 text-[0.6875rem] font-bold uppercase tracking-[0.18em]"
-                  style={{
-                    color: "#E8A820",
-                    background: "rgba(200,134,10,0.12)",
-                    border: "1px solid rgba(200,134,10,0.25)",
-                  }}
+                  className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full mb-5 text-[0.6875rem] font-bold uppercase tracking-[0.18em] bg-[#C8860A]/10 border border-[#C8860A]/30 text-[#A06E1A]"
                 >
                   {heroContent.rightCard.badge}
                 </div>
 
-                {/* Exhibition Icon */}
-                <div
-                  className="w-11 h-11 rounded-xl flex items-center justify-center mb-5"
-                  style={{
-                    background: "linear-gradient(135deg, rgba(200,134,10,0.8) 0%, rgba(124,92,46,0.8) 100%)",
-                    color: "#FAFAF7",
-                    boxShadow: "0 4px 14px rgba(200,134,10,0.18)",
-                  }}
-                  aria-hidden="true"
-                >
-                  <Layers size={20} strokeWidth={2} />
+                {/* Interactive Experience Showcase Artwork */}
+                <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden mb-5 border border-[#E0D9CF]/70 shadow-xs group/art">
+                  <Image
+                    src="/assets/homepage/hero-student-interactive.webp"
+                    alt="Học sinh tương tác trực tiếp với mô hình số hóa 3D Mộc bản triều Nguyễn"
+                    fill
+                    className="object-cover object-center transition-transform duration-500 group-hover/art:scale-105"
+                    sizes="(max-width: 1024px) 100vw, 450px"
+                    priority
+                  />
                 </div>
 
                 {/* Exhibition Title */}
                 <h2
-                  className="hero-heading text-xl xl:text-[1.4rem] font-bold mb-3 leading-snug"
+                  className="text-xl xl:text-[1.35rem] font-bold mb-2 leading-snug text-[#1C2B3A]"
                   style={{
                     fontFamily: "var(--font-heading)",
-                    color: "#FAFAF7",
                   }}
                 >
                   {heroContent.rightCard.title}
@@ -211,37 +217,29 @@ export default function HeroSection() {
 
                 {/* Exhibition Description */}
                 <p
-                  className="text-[0.875rem] leading-relaxed mb-8 max-w-sm"
-                  style={{ color: "rgba(250,250,247,0.72)" }}
+                  className="text-[0.875rem] leading-relaxed mb-6 max-w-sm text-[#556070]"
                 >
                   {heroContent.rightCard.description}
                 </p>
 
                 {/* Integrated Data Strip — Seamless divider without nested card */}
                 <div
-                  className="pt-5 border-t border-white/[0.08] flex items-center justify-between"
+                  className="pt-4 border-t border-[#E0D9CF]/70 flex items-center justify-between"
                 >
                   <div>
                     <div
-                      className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] mb-0.5"
-                      style={{ color: "rgba(250,250,247,0.48)" }}
+                      className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] mb-0.5 text-[#7B8A95]"
                     >
                       Cơ sở tư liệu
                     </div>
                     <div
-                      className="text-[0.875rem] font-bold"
-                      style={{ color: "#FAFAF7" }}
+                      className="text-[0.875rem] font-bold text-[#1C2B3A]"
                     >
                       33.976 tấm Mộc bản triều Nguyễn
                     </div>
                   </div>
                   <span
-                    className="px-2.5 py-1 rounded text-[0.65rem] font-bold uppercase tracking-wider"
-                    style={{
-                      background: "rgba(200,134,10,0.2)",
-                      border: "1px solid rgba(200,134,10,0.35)",
-                      color: "#E8A820",
-                    }}
+                    className="px-2.5 py-1 rounded text-[0.65rem] font-bold uppercase tracking-wider bg-[#C8860A]/10 border border-[#C8860A]/30 text-[#A06E1A]"
                   >
                     Gốc
                   </span>
@@ -260,15 +258,13 @@ export default function HeroSection() {
         aria-hidden="true"
       >
         <span
-          className="text-[8.5px] font-bold uppercase tracking-[0.3em]"
-          style={{ color: "rgba(250,250,247,0.35)" }}
+          className="text-[8.5px] font-bold uppercase tracking-[0.3em] text-[#7B8A95]"
         >
           Cuộn xuống
         </span>
         <ChevronDown
           size={16}
-          className="animate-gentle-float"
-          style={{ color: "rgba(250,250,247,0.35)" }}
+          className="animate-gentle-float text-[#7B8A95]"
         />
       </div>
     </section>

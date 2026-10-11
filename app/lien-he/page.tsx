@@ -43,14 +43,14 @@ export default function LienHePage() {
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
             <h1 
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold text-white mb-6 max-w-5xl leading-[1.1] font-heading text-balance"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold text-[#1C2B3A] mb-6 max-w-5xl leading-[1.1] font-heading text-balance"
               style={{ fontFamily: "var(--font-heading)" }}
             >
               Kết nối & Ứng dụng
             </h1>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
-            <p className="text-white/80 text-lg md:text-xl max-w-3xl leading-relaxed font-normal">
+            <p className="text-[#556070] text-lg md:text-xl max-w-3xl leading-relaxed font-normal">
               Nhóm nghiên cứu trân trọng đón nhận sự đồng hành từ các trường THPT, quý thầy cô giáo và các đơn vị văn hóa để đưa sản phẩm STEAM Mộc bản vào thực tiễn giáo dục.
             </p>
           </ScrollReveal>
@@ -274,7 +274,7 @@ export default function LienHePage() {
                       <button
                         type="submit"
                         disabled={loading}
-                        className="w-full h-13 py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#1E4976] to-[#163558] hover:from-[#163558] hover:to-[#0D1B2A] text-white font-bold text-base shadow-academic hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E4976] focus-visible:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
+                        className="w-full h-13 py-3.5 px-6 rounded-xl bg-[#1E4976] hover:bg-[#245788] text-white font-bold text-base shadow-[0_4px_14px_rgba(30,73,118,0.22)] hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8860A] focus-visible:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none border border-[#1E4976]"
                       >
                         {loading ? (
                           <span className="inline-flex items-center gap-2">

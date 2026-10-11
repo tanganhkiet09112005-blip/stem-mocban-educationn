@@ -27,18 +27,18 @@ export default function NghienCuuPage() {
       <div className="page-header pt-28 md:pt-36 pb-16 md:pb-20">
         <div className="container-main">
           <ScrollReveal delay={0}>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-[#C8860A] text-xs font-bold uppercase tracking-wider mb-4">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#C8860A]/10 border border-[#C8860A]/30 text-[#A06E1A] text-xs font-bold uppercase tracking-wider mb-4">
               Nhiệm vụ NCKH cấp Trường • Mã số: {researchProject.taskCode}
             </div>
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
             <h1
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-white mb-4 max-w-5xl leading-[1.16] text-balance"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-[#1C2B3A] mb-4 max-w-5xl leading-[1.16] text-balance"
               style={{ fontFamily: "var(--font-heading)" }}
             >
               {researchProject.titleMain}
             </h1>
-            <p className="text-white/80 text-base md:text-lg font-bold uppercase tracking-wider mb-6 text-[#E8A820]">
+            <p className="text-[#A06E1A] text-base md:text-lg font-bold uppercase tracking-wider mb-6">
               {researchProject.titleSub}
             </p>
           </ScrollReveal>
@@ -215,8 +215,8 @@ export default function NghienCuuPage() {
       </section>
 
       {/* ── Trạng thái Thực nghiệm Sư phạm ── */}
-      <section className="section-padding bg-[#163558] text-white relative overflow-hidden" id="khao-sat">
-        <div className="absolute inset-0 pattern-heritage opacity-10 pointer-events-none" />
+      <section className="section-padding bg-[#FAFAF7] border-t border-[#E0D9CF]/60 relative overflow-hidden" id="khao-sat">
+        <div className="absolute inset-0 pattern-heritage opacity-[0.03] pointer-events-none" />
         <div className="container-main relative z-10">
           <ScrollReveal delay={0.1}>
             <div className="max-w-3xl mb-10">
@@ -224,51 +224,51 @@ export default function NghienCuuPage() {
                 Thực nghiệm sư phạm
               </span>
               <h2
-                className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3"
+                className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1C2B3A] mb-3 leading-tight"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
                 Tiến độ Khảo sát & Thực nghiệm
               </h2>
-              <p className="text-white/80 text-sm sm:text-base leading-relaxed font-normal">
+              <p className="text-[#556070] text-sm sm:text-base leading-relaxed font-normal">
                 Đề tài được tiến hành thực nghiệm nghiêm túc trên nhóm học sinh thực nghiệm và đối chứng tại 2 trường THPT trên địa bàn TP. Huế.
               </p>
             </div>
           </ScrollReveal>
 
-          {/* Pending Experiment Status Box — Clean Single Surface */}
+          {/* Pending Experiment Status Box — Luminous Academic Card */}
           <ScrollReveal delay={0.15} direction="up">
-            <div className="p-7 sm:p-10 rounded-2xl bg-white/[0.07] border border-white/15 max-w-4xl">
+            <div className="p-7 sm:p-10 rounded-2xl bg-white border border-[#E0D9CF]/80 shadow-[0_2px_12px_rgba(28,43,58,0.03)] max-w-4xl">
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-[#C8860A]/20 border border-[#C8860A]/35 flex items-center justify-center text-[#E8A820] flex-shrink-0">
+                <div className="w-12 h-12 rounded-xl bg-[#C8860A]/10 border border-[#C8860A]/30 flex items-center justify-center text-[#C8860A] flex-shrink-0">
                   <Clock size={24} />
                 </div>
                 <div>
-                  <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#C8860A]/20 text-[#E8A820] text-xs font-bold uppercase tracking-wider mb-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#E8A820] animate-pulse" />
+                  <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#C8860A]/10 border border-[#C8860A]/20 text-[#C8860A] text-xs font-bold uppercase tracking-wider mb-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#C8860A] animate-pulse" />
                     Đang tiến hành
                   </div>
                   <h3
-                    className="text-xl sm:text-2xl font-bold text-white mb-2"
+                    className="text-xl sm:text-2xl font-bold text-[#1C2B3A] mb-2"
                     style={{ fontFamily: "var(--font-heading)" }}
                   >
                     {experimentStatus.noticeTitle}
                   </h3>
-                  <p className="text-white/80 text-sm leading-relaxed font-normal">
+                  <p className="text-[#556070] text-sm leading-relaxed font-normal">
                     {experimentStatus.noticeContent}
                   </p>
                 </div>
               </div>
 
-              <div className="pt-5 border-t border-white/10 grid sm:grid-cols-2 gap-5 text-sm">
-                <div className="p-3.5 rounded-lg bg-white/[0.04]">
-                  <div className="font-bold text-white text-xs mb-1">Phương pháp đo lường:</div>
-                  <div className="text-white/70 text-xs leading-relaxed font-normal">
+              <div className="pt-5 border-t border-[#E0D9CF]/60 grid sm:grid-cols-2 gap-5 text-sm">
+                <div className="p-4 rounded-xl bg-[#FAFAF7] border border-[#E0D9CF]/60">
+                  <div className="font-bold text-[#1C2B3A] text-xs mb-1">Phương pháp đo lường:</div>
+                  <div className="text-[#556070] text-xs leading-relaxed font-normal">
                     Khảo sát trước – sau trải nghiệm (Pre-test & Post-test), quan sát thái độ và đánh giá hồ sơ học tập/sản phẩm sáng tạo.
                   </div>
                 </div>
-                <div className="p-3.5 rounded-lg bg-white/[0.04]">
-                  <div className="font-bold text-white text-xs mb-1">Báo cáo nghiệm thu:</div>
-                  <div className="text-white/70 text-xs leading-relaxed font-normal">
+                <div className="p-4 rounded-xl bg-[#FAFAF7] border border-[#E0D9CF]/60">
+                  <div className="font-bold text-[#1C2B3A] text-xs mb-1">Báo cáo nghiệm thu:</div>
+                  <div className="text-[#556070] text-xs leading-relaxed font-normal">
                     Số liệu định lượng chính thức kèm biểu đồ phân tích thống kê SPSS/Excel sẽ được xuất bản công khai sau nghiệm thu đề tài.
                   </div>
                 </div>

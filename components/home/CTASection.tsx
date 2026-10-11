@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import CTAButton from "@/components/ui/CTAButton";
 import { ctaBannerContent } from "@/data/homepage";
 import ScrollReveal from "@/components/ui/ScrollReveal";
@@ -10,9 +11,19 @@ export default function CTASection() {
       <div className="container-main">
         <ScrollReveal delay={0.1} direction="up">
           <div
-            className="relative overflow-hidden rounded-2xl sm:rounded-[1.75rem] px-6 sm:px-10 py-16 sm:py-20 md:py-24 text-center text-white shadow-card border border-white/10 group"
-            style={{ background: "linear-gradient(145deg, #0D1B2A 0%, #163558 50%, #1E4976 100%)" }}
+            className="relative overflow-hidden rounded-2xl sm:rounded-[1.75rem] px-6 sm:px-10 py-16 sm:py-20 md:py-24 text-center text-white shadow-[0_16px_48px_rgba(30,73,118,0.20)] border border-white/20 group"
+            style={{ background: "linear-gradient(145deg, #163558 0%, #1E4976 50%, #2A659E 100%)" }}
           >
+            {/* Background Archival Mộc Bản Photograph */}
+            <div className="absolute inset-0 opacity-15 pointer-events-none select-none overflow-hidden" aria-hidden="true">
+              <Image
+                src="/assets/homepage/cta-mocban-archive.webp"
+                alt=""
+                fill
+                className="object-cover object-center"
+              />
+            </div>
+
             {/* Decorative background */}
             <div className="absolute inset-0 pattern-heritage opacity-10 pointer-events-none" aria-hidden="true" />
             

@@ -40,4 +40,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-.vercel
+# scratch and raw client folders
+scratch/
+HÌNH ẢNH WEB/
+*.docx
+*_extracted.txt
+tailieu-chen-anh-khach-hang/
+read_docs.py
