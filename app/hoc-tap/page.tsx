@@ -59,20 +59,32 @@ export default function HocTapPage() {
           <ScrollReveal delay={0.1} direction="up">
             <div className="pb-8 mb-12 border-b border-[#E0D9CF]/60 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
               {/* Category Tabs */}
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 {hoctapCategories.map((cat) => {
                   const isActive = activeTab === cat;
                   return (
                     <button
                       key={cat}
+                      type="button"
                       onClick={() => setActiveTab(cat)}
-                      className={`px-4 py-2 rounded-lg text-sm font-bold transition-all duration-200 relative ${
+                      className={`relative px-4 py-2 rounded-lg text-sm font-bold select-none outline-none focus-visible:ring-2 focus-visible:ring-[#1E4976]/40 transition-colors duration-200 ${
                         isActive
-                          ? "bg-[#1E4976] text-white shadow-xs"
-                          : "bg-white/80 text-[#556070] hover:bg-white hover:text-[#1C2B3A] border border-[#E0D9CF]/60"
+                          ? "text-white"
+                          : "bg-white/80 text-[#556070] hover:bg-white hover:text-[#1C2B3A] border border-[#E0D9CF]/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)]"
                       }`}
                     >
-                      {cat}
+                      {isActive && (
+                        <motion.span
+                          layoutId="activeHocTapCategoryPill"
+                          className="absolute inset-0 bg-[#1E4976] rounded-lg shadow-sm -z-0"
+                          transition={{
+                            type: "spring",
+                            stiffness: 450,
+                            damping: 35,
+                          }}
+                        />
+                      )}
+                      <span className="relative z-10">{cat}</span>
                     </button>
                   );
                 })}
@@ -96,17 +108,32 @@ export default function HocTapPage() {
 
           {/* Grid of Resource Cards */}
           {filteredResources.length > 0 ? (
-            <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7">
-              <AnimatePresence>
+            <motion.div
+              layout
+              className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7"
+              transition={{
+                layout: { type: "spring", stiffness: 320, damping: 30 },
+              }}
+            >
+              <AnimatePresence mode="popLayout">
                 {filteredResources.map((res) => (
                   <motion.div
                     layout
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.25 }}
-                    key={res.id} 
-                    className="p-7 sm:p-8 rounded-2xl bg-white border border-[#E0D9CF]/70 shadow-[0_2px_10px_rgba(28,43,58,0.03)] hover:shadow-card hover:border-[#C8860A]/35 hover:-translate-y-0.5 transition-all duration-300 flex flex-col h-full group"
+                    key={res.id}
+                    initial={{ opacity: 0, scale: 0.94, y: 14 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.94, y: -14 }}
+                    transition={{
+                      layout: { type: "spring", stiffness: 350, damping: 32 },
+                      opacity: { duration: 0.22, ease: "easeOut" },
+                      scale: { duration: 0.22, ease: "easeOut" },
+                      y: { duration: 0.22, ease: "easeOut" },
+                    }}
+                    whileHover={{
+                      y: -4,
+                      transition: { duration: 0.2, ease: "easeOut" },
+                    }}
+                    className="p-7 sm:p-8 rounded-2xl bg-white border border-[#E0D9CF]/70 shadow-[0_2px_10px_rgba(28,43,58,0.03)] hover:shadow-card hover:border-[#C8860A]/35 transition-[border-color,box-shadow] duration-200 flex flex-col h-full group will-change-[transform,opacity]"
                   >
                     {/* Header Badges — Quiet & Clean */}
                     <div className="flex items-center justify-between gap-3 mb-4">
