@@ -61,8 +61,8 @@ export default function CTASection() {
                 </CTAButton>
                 <CTAButton
                   href={ctaBannerContent.cta2.href}
-                  variant="secondary"
-                  className="!px-8 !py-3.5 text-base !text-white !border-white/30 hover:!bg-white/10 hover:!border-white/50"
+                  variant="ghost"
+                  className="!px-8 !py-3.5 text-base !text-white !bg-white/15 hover:!bg-white/25 !border !border-white/40 shadow-sm transition-all duration-200"
                   id="cta-banner-secondary"
                 >
                   {ctaBannerContent.cta2.label}
