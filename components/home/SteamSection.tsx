@@ -78,7 +78,7 @@ export default function SteamSection() {
         <ScrollReveal delay={0.15} direction="up">
           <div className="max-w-4xl mx-auto mb-8 rounded-2xl border border-white/20 bg-gradient-to-br from-[#1E4976] via-[#245788] to-[#2D6A8E] text-white p-7 sm:p-9 relative overflow-hidden shadow-academic">
             {/* Background Hue Imperial Architecture Artwork */}
-            <div className="absolute inset-0 opacity-20 pointer-events-none select-none overflow-hidden" aria-hidden="true">
+            <div className="absolute inset-0 opacity-35 pointer-events-none select-none overflow-hidden" aria-hidden="true">
               <Image
                 src="/assets/homepage/steam-hub-hue-citadel.webp"
                 alt=""

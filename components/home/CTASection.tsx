@@ -15,7 +15,7 @@ export default function CTASection() {
             style={{ background: "linear-gradient(145deg, #163558 0%, #1E4976 50%, #2A659E 100%)" }}
           >
             {/* Background Archival Mộc Bản Photograph */}
-            <div className="absolute inset-0 opacity-15 pointer-events-none select-none overflow-hidden" aria-hidden="true">
+            <div className="absolute inset-0 opacity-35 pointer-events-none select-none overflow-hidden" aria-hidden="true">
               <Image
                 src="/assets/homepage/cta-mocban-archive.webp"
                 alt=""

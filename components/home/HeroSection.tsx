@@ -48,6 +48,18 @@ export default function HeroSection() {
           className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none"
           style={{ background: "linear-gradient(to bottom, transparent, #FAFAF7)" }}
         />
+
+        {/* Client Hero Artwork: Woodblock & Brush Atmosphere */}
+        <div className="absolute right-0 top-0 w-full lg:w-1/2 h-full opacity-25 pointer-events-none select-none overflow-hidden mix-blend-multiply">
+          <Image
+            src="/assets/homepage/hero-woodblock-brush.webp"
+            alt=""
+            fill
+            priority
+            className="object-cover object-right"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#FFFDF7] via-[#FFFDF7]/60 to-transparent" />
+        </div>
       </div>
 
       {/* ── Content ──────────────────────────────────────────── */}
@@ -154,7 +166,7 @@ export default function HeroSection() {
           </div>
 
           {/* ── Right Column: Museum Exhibition Panel ───────────── */}
-          <ScrollReveal delay={0.2} direction="left" className="hidden lg:block relative">
+          <ScrollReveal delay={0.2} direction="left" className="block relative mt-8 lg:mt-0">
             <div
               className="relative rounded-2xl overflow-hidden p-8 xl:p-9 transition-transform duration-500 hover:scale-[1.005] bg-white/95 backdrop-blur-md border border-[#E0D9CF] shadow-[0_16px_40px_rgba(28,43,58,0.06)]"
             >

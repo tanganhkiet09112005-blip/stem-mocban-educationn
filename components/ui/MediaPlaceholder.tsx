@@ -1,12 +1,13 @@
 import Image from "next/image";
 import { getMediaAsset } from "@/data/media";
+import { Volume2 } from "lucide-react";
 
 interface MediaPlaceholderProps {
   aspectRatio?: "16/9" | "4/3" | "1/1" | "21/9";
   assetKey: string;
   label?: string;
   className?: string;
-  type?: "image" | "video";
+  type?: "image" | "video" | "audio";
   showCaption?: boolean;
 }
 
@@ -20,6 +21,52 @@ export default function MediaPlaceholder({
 }: MediaPlaceholderProps) {
   // Lấy siêu dữ liệu từ central registry nếu có
   const assetDef = getMediaAsset(assetKey);
+
+  // Xử lý tư liệu âm thanh thuyết minh di sản (Audio Asset)
+  if (assetDef?.audioSrc || assetDef?.mediaType === "audio") {
+    return (
+      <div
+        className={`relative w-full rounded-2xl border border-[#E0D9CF] bg-gradient-to-br from-[#FAFAF7] via-[#FAF6EE] to-[#F3EDE2] p-6 sm:p-8 shadow-card flex flex-col justify-between overflow-hidden group ${className}`}
+        data-asset-key={assetKey}
+        role="region"
+        aria-label={`Tư liệu âm thanh: ${assetDef.title}`}
+      >
+        <div className="absolute top-0 right-0 w-36 h-36 bg-[#C8860A]/5 rounded-bl-full pointer-events-none" />
+        <div className="relative z-10">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#1E4976]/10 text-[#1E4976] border border-[#1E4976]/20">
+              <Volume2 size={14} className="text-[#1E4976]" />
+              <span>Tư liệu Thuyết minh Audio</span>
+            </span>
+            <span className="text-xs font-semibold text-[#A06E1A] bg-[#C8860A]/10 px-2.5 py-1 rounded-full border border-[#C8860A]/20">
+              Di sản Mộc bản
+            </span>
+          </div>
+          <h4
+            className="text-lg sm:text-xl font-bold text-[#1C2B3A] mb-2 leading-snug"
+            style={{ fontFamily: "var(--font-heading)" }}
+          >
+            {assetDef.title}
+          </h4>
+          <p className="text-sm text-[#556070] mb-5 leading-relaxed font-normal">
+            {assetDef.captionText || assetDef.intendedPurpose}
+          </p>
+        </div>
+
+        <div className="relative z-10 pt-4 border-t border-[#E0D9CF]/60">
+          <audio controls className="w-full accent-[#1E4976] rounded-lg">
+            <source src={assetDef.audioSrc || undefined} type="audio/mpeg" />
+            Trình duyệt của bạn không hỗ trợ phát âm thanh trực tiếp.
+          </audio>
+          {assetDef.creditText && (
+            <p className="text-xs text-[#7B8A95] mt-2.5 font-medium italic">
+              {assetDef.creditText}
+            </p>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   const effectiveRatio = aspectRatio ?? assetDef?.aspectRatio ?? "16/9";
   const effectiveType = type ?? assetDef?.mediaType ?? "image";
