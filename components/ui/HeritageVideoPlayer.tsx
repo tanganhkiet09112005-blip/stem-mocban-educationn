@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect, useCallback } from "react";
+import React, { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import Image from "next/image";
 import {
   Play,
@@ -15,20 +15,25 @@ import {
   Sparkles,
   Subtitles,
   Layers,
-  Activity,
+  CheckCircle2,
 } from "lucide-react";
 
-export interface SlideItem {
-  src: string;
-  caption: string;
-  badge?: string;
-}
+export type MotionType =
+  | "pan-right-to-left"
+  | "zoom-in"
+  | "macro-focus"
+  | "pan-down"
+  | "pan-left-to-right";
 
-export interface ChapterItem {
+export interface StoryScene {
   start: number;
   end: number;
   tag: string;
   title: string;
+  caption: string;
+  src: string;
+  badge?: string;
+  motionType: MotionType;
 }
 
 interface HeritageVideoPlayerProps {
@@ -40,135 +45,148 @@ interface HeritageVideoPlayerProps {
   creditText?: string;
   aspectRatio?: "16/9" | "4/3" | "21/9";
   className?: string;
-  slides?: SlideItem[];
-  chapters?: ChapterItem[];
+  scenes?: StoryScene[];
 }
 
-// ── Kho tư liệu ẢNH ĐỘNG (Cinemagraph Animated WebP) & Phân đoạn chương học thuật ──
-const HERITAGE_VIDEO_PRESETS: Record<
-  string,
-  { slides: SlideItem[]; chapters: ChapterItem[] }
-> = {
-  "mocban-van-hoa-1": {
-    slides: [
-      {
-        src: "/assets/motion/motion-citadel.webp",
-        caption: "Điện Thái Hòa & Hoàng Thành Huế — Cảnh quay lia máy nghi thức đại triều nghi",
-        badge: "ẢNH ĐỘNG DI SẢN",
-      },
-      {
-        src: "/assets/motion/motion-book.webp",
-        caption: "Mộc bản Đại Nam Thực Lục — Luồng sáng quét bề mặt chữ Hán ghi chép điển chế",
-        badge: "ẢNH ĐỘNG DI SẢN",
-      },
-      {
-        src: "/assets/motion/motion-kylan.webp",
-        caption: "Họa tiết Kỳ Lân & Điển lễ cung đình — Nghệ thuật chạm trổ hoàng gia triều Nguyễn",
-        badge: "ẢNH ĐỘNG DI SẢN",
-      },
-      {
-        src: "/assets/motion/motion-archive.webp",
-        caption: "Kho lưu trữ Mộc bản Quốc Sử Quán — Không gian bảo tồn di sản tư liệu thế giới",
-        badge: "ẢNH ĐỘNG DI SẢN",
-      },
-      {
-        src: "/assets/mocban/mocban-header-citadel.webp",
-        caption: "Toàn cảnh Cố đô Huế — Không gian văn hóa và thiết chế triều nghi",
-        badge: "TƯ LIỆU GỐC",
-      },
-      {
-        src: "/assets/mocban/mocban-book-2.webp",
-        caption: "Khâm Định Việt Sử Thông Giám Cương Mục — Điển chế chính sử triều Nguyễn",
-        badge: "TƯ LIỆU GỐC",
-      },
-    ],
-    chapters: [
-      {
-        start: 0,
-        end: 85,
-        tag: "Chương I",
-        title: "Thiết chế cung đình và quy định triều nghi triều Nguyễn",
-      },
-      {
-        start: 85,
-        end: 170,
-        tag: "Chương II",
-        title: "Quy định phẩm phục, thứ bậc và vị trí đứng của bá quan",
-      },
-      {
-        start: 170,
-        end: 255,
-        tag: "Chương III",
-        title: "Trình tự đại triều tại Điện Thái Hòa qua ghi chép Mộc bản",
-      },
-      {
-        start: 255,
-        end: 351,
-        tag: "Chương IV",
-        title: "Giá trị điển chế lịch sử lưu truyền trên Mộc bản Quốc Sử Quán",
-      },
-    ],
-  },
-  "mocban-su-lieu-1": {
-    slides: [
-      {
-        src: "/assets/motion/motion-hands.webp",
-        caption: "Bàn tay nghệ nhân san khắc — Nét đục di chuyển điêu luyện trên thớ gỗ thị",
-        badge: "ẢNH ĐỘNG DI SẢN",
-      },
-      {
-        src: "/assets/motion/motion-brush.webp",
-        caption: "Bút lông quét mực nho — Thao tác quét mực thảo tự Hán Nôm cổ truyền",
-        badge: "ẢNH ĐỘNG DI SẢN",
-      },
-      {
-        src: "/assets/motion/motion-practice.webp",
-        caption: "Bộ dao trổ chuyên dụng — Từng nhát khắc tạo độ nổi khối sắc nét",
-        badge: "ẢNH ĐỘNG DI SẢN",
-      },
-      {
-        src: "/assets/motion/motion-daohoc.webp",
-        caption: "Bản khắc Mộc bản Đạo học — Kỹ nghệ khắc ngược chữ Hán truyền đời",
-        badge: "ẢNH ĐỘNG DI SẢN",
-      },
-      {
-        src: "/assets/motion/motion-kit.webp",
-        caption: "Quy trình in dập thủ công — Thao tác con lăn mực và bóc tách giấy dó",
-        badge: "ẢNH ĐỘNG DI SẢN",
-      },
-      {
-        src: "/assets/mocban/mocban-unesco-hands.webp",
-        caption: "Nghệ nhân Mộc bản Thanh Liễu — Di sản sống giữa lòng cố đô",
-        badge: "TƯ LIỆU GỐC",
-      },
-    ],
-    chapters: [
-      {
-        start: 0,
-        end: 225,
-        tag: "Chương I",
-        title: "Làng nghề san khắc Mộc bản Thanh Liễu cổ truyền",
-      },
-      {
-        start: 225,
-        end: 510,
-        tag: "Chương II",
-        title: "Kỹ thuật chọn gỗ thị, xử lý ván chống mối mọt qua trăm năm",
-      },
-      {
-        start: 510,
-        end: 825,
-        tag: "Chương III",
-        title: "Nghệ thuật viết chữ Hán Nôm ngược và kỹ pháp trổ nét đục",
-      },
-      {
-        start: 825,
-        end: 1133,
-        tag: "Chương IV",
-        title: "Bảo tồn giá trị văn hiến và di sản san khắc thủ công",
-      },
-    ],
-  },
+// ── Kho cốt truyện phân cảnh & đồng bộ hóa theo lời thuyết minh di sản ────────
+const HERITAGE_STORY_PRESETS: Record<string, StoryScene[]> = {
+  // ── 1. Video Văn hóa: "Thiết đại triều nghi dưới triều Nguyễn" (351 giây = 5:51)
+  "mocban-van-hoa-1": [
+    {
+      start: 0,
+      end: 50,
+      tag: "Cảnh 1",
+      title: "Không gian Hoàng thành Huế & Cung điện Thái Hòa",
+      caption: "Kinh thành Huế và Điện Thái Hòa — Nơi cử hành nghi lễ thiết đại triều trang nghiêm bậc nhất vương triều",
+      src: "/assets/motion/motion-citadel.webp",
+      badge: "MỞ ĐẦU HOÀNG TRIỀU",
+      motionType: "zoom-in",
+    },
+    {
+      start: 50,
+      end: 110,
+      tag: "Cảnh 2",
+      title: "Thiết chế cung đình & Điển lệ ghi trên Mộc bản",
+      caption: "Mộc bản Đại Nam Thực Lục ghi chép điển chế, phẩm trật và lễ nghi cung đình thời Nguyễn",
+      src: "/assets/motion/motion-book.webp",
+      badge: "ĐIỂN CHẾ MỘC BẢN",
+      motionType: "pan-right-to-left",
+    },
+    {
+      start: 110,
+      end: 170,
+      tag: "Cảnh 3",
+      title: "Phẩm phục, thứ bậc & Họa tiết Kỳ Lân hoàng gia",
+      caption: "Họa tiết Kỳ Lân và hoa văn hoàng gia — Biểu trưng quyền uy và tôn ti trật tự thời Nguyễn",
+      src: "/assets/motion/motion-kylan.webp",
+      badge: "HOA VĂN VƯƠNG TRIỀU",
+      motionType: "macro-focus",
+    },
+    {
+      start: 170,
+      end: 240,
+      tag: "Cảnh 4",
+      title: "Nghi thức Đại triều tại Sân Điện Thái Hòa",
+      caption: "Hàng bia đá Phẩm trật và vị trí đứng của văn võ bá quan trên sân Đại triều",
+      src: "/assets/mocban/mocban-header-citadel.webp",
+      badge: "NGHI THỨC ĐẠI TRIỀU",
+      motionType: "pan-left-to-right",
+    },
+    {
+      start: 240,
+      end: 300,
+      tag: "Cảnh 5",
+      title: "Kho tàng lưu trữ Mộc bản Quốc Sử Quán",
+      caption: "Tấm Mộc bản triều Nguyễn ghi chép chuẩn mực lễ nghi, lưu trữ qua hàng trăm năm",
+      src: "/assets/motion/motion-archive.webp",
+      badge: "KHO LƯU TRỮ QUỐC SỬ",
+      motionType: "pan-down",
+    },
+    {
+      start: 300,
+      end: 351,
+      tag: "Cảnh 6",
+      title: "Giá trị trường tồn của Di sản Thế giới",
+      caption: "Bảo tồn giá trị điển chế cung đình và văn hiến Mộc bản trong dòng chảy lịch sử",
+      src: "/assets/homepage/cta-mocban-archive.webp",
+      badge: "DI SẢN TRƯỜNG TỒN",
+      motionType: "zoom-in",
+    },
+  ],
+
+  // ── 2. Video Sử liệu: "Nghệ thuật San khắc Mộc bản Thanh Liễu" (1133 giây = 18:53)
+  "mocban-su-lieu-1": [
+    {
+      start: 0,
+      end: 180,
+      tag: "Cảnh 1",
+      title: "Hồn làng nghề San khắc Thanh Liễu cổ truyền",
+      caption: "Làng nghề Thanh Liễu cổ truyền bên dòng sông Hương — Cái nôi của nghệ thuật san khắc Mộc bản",
+      src: "/assets/mocban/mocban-unesco-hands.webp",
+      badge: "LÀNG NGHỀ CỔ TRUYỀN",
+      motionType: "zoom-in",
+    },
+    {
+      start: 180,
+      end: 345,
+      tag: "Cảnh 2",
+      title: "Bí quyết chọn gỗ thị dẻo dai & Xử lý ván",
+      caption: "Gỗ thị thớ mịn không nứt vỡ, được cưa xẻ, mài phẳng và ngâm nước vôi chống mối mọt",
+      src: "/assets/motion/motion-practice.webp",
+      badge: "CHỌN GỖ & XỬ LÝ VÁN",
+      motionType: "macro-focus",
+    },
+    {
+      start: 345,
+      end: 510,
+      tag: "Cảnh 3",
+      title: "Kỹ thuật viết chữ Hán Nôm ngược (Thảo tự)",
+      caption: "Bút lông chấm mực nho viết chữ Hán Nôm ngược tinh xảo trên giấy bản mỏng dán úp lên mặt ván",
+      src: "/assets/motion/motion-brush.webp",
+      badge: "THẢO TỰ CHỮ NGƯỢC",
+      motionType: "pan-right-to-left",
+    },
+    {
+      start: 510,
+      end: 720,
+      tag: "Cảnh 4",
+      title: "Kỹ pháp dao trổ điêu luyện của nghệ nhân",
+      caption: "Bàn tay nghệ nhân điêu luyện dùng dao phạt, dao tỉa tách thớ gỗ quanh từng nét chữ",
+      src: "/assets/motion/motion-hands.webp",
+      badge: "KỸ PHÁP DAO TRỔ",
+      motionType: "macro-focus",
+    },
+    {
+      start: 720,
+      end: 920,
+      tag: "Cảnh 5",
+      title: "Mộc bản hoàn thiện với nét chữ khắc nổi ngược",
+      caption: "Tấm ván in hoàn thiện với từng đường khắc chữ Hán Nôm nổi khối sắc nét tuyệt đối",
+      src: "/assets/motion/motion-daohoc.webp",
+      badge: "VÁN KHẮC HOÀN THIỆN",
+      motionType: "pan-right-to-left",
+    },
+    {
+      start: 920,
+      end: 1030,
+      tag: "Cảnh 6",
+      title: "Kỹ thuật quét mực nho & In dập giấy dó",
+      caption: "Lăn đều mực nho, áp giấy dó truyền thống và dùng xơ dừa vuốt nhẹ để thu thành phẩm",
+      src: "/assets/motion/motion-kit.webp",
+      badge: "IN DẬP GIẤY DÓ",
+      motionType: "pan-left-to-right",
+    },
+    {
+      start: 1030,
+      end: 1133,
+      tag: "Cảnh 7",
+      title: "Bảo tồn di sản & Trao truyền cho thế hệ trẻ",
+      caption: "Tiếp nối tinh hoa di sản san khắc Mộc bản trong giáo dục STEAM và đời sống hiện đại",
+      src: "/assets/kit/bat-ma-co-thu-practice.webp",
+      badge: "TRAO TRUYỀN DI SẢN",
+      motionType: "zoom-in",
+    },
+  ],
 };
 
 const SPEED_OPTIONS = [1, 1.25, 1.5];
@@ -182,14 +200,13 @@ export default function HeritageVideoPlayer({
   creditText,
   aspectRatio = "16/9",
   className = "",
-  slides: customSlides,
-  chapters: customChapters,
+  scenes: customScenes,
 }: HeritageVideoPlayerProps) {
   const mediaRef = useRef<HTMLAudioElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const hideControlsTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Nhận diện dữ liệu slides & chapters từ presets nếu không truyền custom
+  // Nhận diện danh sách phân cảnh theo cốt truyện
   const detectedKey =
     assetKey ||
     (mediaSrc.includes("trieu-nghi")
@@ -198,21 +215,24 @@ export default function HeritageVideoPlayer({
       ? "mocban-su-lieu-1"
       : "");
 
-  const preset = detectedKey ? HERITAGE_VIDEO_PRESETS[detectedKey] : undefined;
-
-  const slides: SlideItem[] =
-    customSlides ||
-    preset?.slides || [
-      { src: posterSrc, caption: title, badge: "ẢNH ĐỘNG DI SẢN" },
-      { src: "/assets/motion/motion-citadel.webp", caption: "Di sản tư liệu Mộc bản triều Nguyễn", badge: "ẢNH ĐỘNG DI SẢN" },
-      { src: "/assets/motion/motion-hands.webp", caption: "Kỹ nghệ san khắc Mộc bản truyền thống", badge: "ẢNH ĐỘNG DI SẢN" },
+  const scenes: StoryScene[] = useMemo(() => {
+    if (customScenes && customScenes.length > 0) return customScenes;
+    if (detectedKey && HERITAGE_STORY_PRESETS[detectedKey]) {
+      return HERITAGE_STORY_PRESETS[detectedKey];
+    }
+    return [
+      {
+        start: 0,
+        end: 99999,
+        tag: "Tư liệu",
+        title: title,
+        caption: caption || title,
+        src: posterSrc,
+        badge: "TƯ LIỆU DI SẢN",
+        motionType: "zoom-in",
+      },
     ];
-
-  const chapters: ChapterItem[] =
-    customChapters ||
-    preset?.chapters || [
-      { start: 0, end: 99999, tag: "Tư liệu", title: title },
-    ];
+  }, [customScenes, detectedKey, title, caption, posterSrc]);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -223,7 +243,24 @@ export default function HeritageVideoPlayer({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [controlsVisible, setControlsVisible] = useState(true);
   const [showSubtitles, setShowSubtitles] = useState(true);
-  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // Xác định phân cảnh hiện tại bám sát lời thuyết minh
+  const activeSceneIndex = useMemo(() => {
+    const idx = scenes.findIndex(
+      (s) => currentTime >= s.start && currentTime < s.end
+    );
+    return idx !== -1 ? idx : 0;
+  }, [scenes, currentTime]);
+
+  const currentScene = scenes[activeSceneIndex] || scenes[0];
+
+  // Kích hoạt hiệu ứng lóe sáng vàng nhẹ khi chuyển cảnh
+  useEffect(() => {
+    setIsTransitioning(true);
+    const timer = setTimeout(() => setIsTransitioning(false), 800);
+    return () => clearTimeout(timer);
+  }, [activeSceneIndex]);
 
   // Format time (mm:ss)
   const formatTime = (seconds: number) => {
@@ -232,22 +269,6 @@ export default function HeritageVideoPlayer({
     const secs = Math.floor(seconds % 60);
     return `${mins < 10 ? "0" : ""}${mins}:${secs < 10 ? "0" : ""}${secs}`;
   };
-
-  // Xác định chương hiện tại dựa trên currentTime
-  const currentChapter =
-    chapters.find((c) => currentTime >= c.start && currentTime < c.end) ||
-    chapters[0];
-
-  // Tự động chuyển đổi slide ảnh tư liệu sau mỗi 4.5 giây (nhịp độ phim tài liệu sống động hơn)
-  useEffect(() => {
-    if (!isPlaying || slides.length <= 1) return;
-
-    const interval = setInterval(() => {
-      setCurrentSlideIndex((prev) => (prev + 1) % slides.length);
-    }, 4500);
-
-    return () => clearInterval(interval);
-  }, [isPlaying, slides.length]);
 
   // Quản lý ẩn/hiện thanh điều khiển khi đang phát
   const resetHideTimer = useCallback(() => {
@@ -291,6 +312,18 @@ export default function HeritageVideoPlayer({
       mediaRef.current.currentTime = time;
       setCurrentTime(time);
     }
+  };
+
+  // Nhảy trực tiếp đến một phân cảnh cốt truyện
+  const jumpToScene = (sceneIndex: number) => {
+    const targetScene = scenes[sceneIndex];
+    if (!targetScene || !mediaRef.current) return;
+    mediaRef.current.currentTime = targetScene.start;
+    setCurrentTime(targetScene.start);
+    if (!isPlaying) {
+      mediaRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
+    }
+    resetHideTimer();
   };
 
   // Quick jump: -10s / +10s
@@ -364,7 +397,6 @@ export default function HeritageVideoPlayer({
     const onEnded = () => {
       setIsPlaying(false);
       setControlsVisible(true);
-      setCurrentSlideIndex(0);
     };
 
     el.addEventListener("timeupdate", onTimeUpdate);
@@ -382,23 +414,74 @@ export default function HeritageVideoPlayer({
 
   return (
     <figure className={`w-full ${className}`}>
-      {/* ── CSS Animations: Continuous Camera Pan, Particles & Equalizer ── */}
+      {/* ── CSS Animations for Visual Storytelling Motion ───────────── */}
       <style jsx>{`
-        @keyframes continuous-pan-zoom-1 {
-          0% { transform: scale(1.02) translate(0px, 0px); }
-          50% { transform: scale(1.10) translate(14px, -8px); }
-          100% { transform: scale(1.02) translate(0px, 0px); }
+        /* 1. Lia theo chiều đọc chữ Hán Nôm cổ (Phải sang Trái) */
+        @keyframes motion-pan-rtl {
+          0% {
+            transform: scale(1.08) translate(3%, 0%);
+          }
+          50% {
+            transform: scale(1.12) translate(0%, -1.5%);
+          }
+          100% {
+            transform: scale(1.08) translate(-3%, 0%);
+          }
         }
-        @keyframes continuous-pan-zoom-2 {
-          0% { transform: scale(1.09) translate(0px, 0px); }
-          50% { transform: scale(1.02) translate(-14px, 10px); }
-          100% { transform: scale(1.09) translate(0px, 0px); }
+
+        /* 2. Dẫn dắt không gian hoàng cung tráng lệ (Zoom-in) */
+        @keyframes motion-zoom-in {
+          0% {
+            transform: scale(1.02) translate(0%, 0%);
+          }
+          50% {
+            transform: scale(1.10) translate(0%, -2%);
+          }
+          100% {
+            transform: scale(1.14) translate(0%, -3%);
+          }
         }
-        @keyframes continuous-pan-zoom-3 {
-          0% { transform: scale(1.03) translate(-8px, -6px); }
-          50% { transform: scale(1.12) translate(10px, 6px); }
-          100% { transform: scale(1.03) translate(-8px, -6px); }
+
+        /* 3. Cận cảnh tập trung mũi dao và ngón tay nghệ nhân (Macro Focus) */
+        @keyframes motion-macro-focus {
+          0% {
+            transform: scale(1.06) translate(-1%, -1%);
+          }
+          50% {
+            transform: scale(1.15) translate(1%, 1%);
+          }
+          100% {
+            transform: scale(1.06) translate(-1%, -1%);
+          }
         }
+
+        /* 4. Khám phá kiến trúc bề thế từ trên xuống dưới */
+        @keyframes motion-pan-down {
+          0% {
+            transform: scale(1.08) translate(0%, -2.5%);
+          }
+          50% {
+            transform: scale(1.11) translate(0%, 0%);
+          }
+          100% {
+            transform: scale(1.08) translate(0%, 2.5%);
+          }
+        }
+
+        /* 5. Chuyển dịch tiến trình câu chuyện (Trái sang Phải) */
+        @keyframes motion-pan-ltr {
+          0% {
+            transform: scale(1.08) translate(-3%, 0%);
+          }
+          50% {
+            transform: scale(1.12) translate(0%, 1.5%);
+          }
+          100% {
+            transform: scale(1.08) translate(3%, 0%);
+          }
+        }
+
+        /* 6. Bụi sáng di sản lơ lửng */
         @keyframes ember-float {
           0% {
             transform: translateY(110%) translateX(0px) scale(0.6);
@@ -415,6 +498,8 @@ export default function HeritageVideoPlayer({
             opacity: 0;
           }
         }
+
+        /* 7. Luồng sáng vàng quét qua thớ gỗ */
         @keyframes light-sweep {
           0% {
             transform: translateX(-150%) skewX(-20deg);
@@ -431,6 +516,7 @@ export default function HeritageVideoPlayer({
             opacity: 0;
           }
         }
+
         @keyframes eq-pulse-1 {
           0%, 100% { height: 16%; }
           50% { height: 92%; }
@@ -475,7 +561,7 @@ export default function HeritageVideoPlayer({
           }
         }}
         role="region"
-        aria-label={`Trình phát video di sản ảnh động: ${title}`}
+        aria-label={`Trình phát phim tư liệu di sản: ${title}`}
       >
         {/* Hidden Audio Engine providing high-fidelity streaming */}
         <audio
@@ -484,35 +570,41 @@ export default function HeritageVideoPlayer({
           src={mediaSrc}
         />
 
-        {/* ── Dynamic Multi-Scene Documentary Background Slideshow ── */}
+        {/* ── Dynamic Storytelling Scene Stack ────────────────────── */}
         <div className="absolute inset-0 z-0 overflow-hidden bg-black">
-          {slides.map((slide, idx) => {
-            const isActive = idx === currentSlideIndex;
+          {scenes.map((scene, idx) => {
+            const isActive = idx === activeSceneIndex;
+
+            // Map motionType to corresponding CSS keyframe animation
             const animName =
-              idx % 3 === 0
-                ? "continuous-pan-zoom-1"
-                : idx % 3 === 1
-                ? "continuous-pan-zoom-2"
-                : "continuous-pan-zoom-3";
+              scene.motionType === "pan-right-to-left"
+                ? "motion-pan-rtl"
+                : scene.motionType === "macro-focus"
+                ? "motion-macro-focus"
+                : scene.motionType === "pan-down"
+                ? "motion-pan-down"
+                : scene.motionType === "pan-left-to-right"
+                ? "motion-pan-ltr"
+                : "motion-zoom-in";
 
             return (
               <div
-                key={slide.src + idx}
-                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                key={scene.src + idx}
+                className={`absolute inset-0 transition-opacity duration-1200 ease-in-out ${
                   isActive ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
                 }`}
               >
                 <Image
-                  src={slide.src}
-                  alt={slide.caption || title}
+                  src={scene.src}
+                  alt={scene.caption || scene.title}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 900px"
                   priority={idx === 0}
-                  unoptimized={slide.src.endsWith(".webp") && slide.src.includes("/motion/")}
+                  unoptimized={scene.src.endsWith(".webp") && scene.src.includes("/motion/")}
                   className="object-cover will-change-transform"
                   style={{
                     animation: isPlaying
-                      ? `${animName} ${10 + (idx % 3) * 2}s infinite ease-in-out`
+                      ? `${animName} ${12 + (idx % 3) * 2}s infinite ease-in-out`
                       : "none",
                   }}
                 />
@@ -520,28 +612,33 @@ export default function HeritageVideoPlayer({
             );
           })}
 
+          {/* ── Soft Golden Dissolve Flash on Scene Change ─────────── */}
+          <div
+            className={`absolute inset-0 z-11 pointer-events-none bg-gradient-to-tr from-[#C8860A]/20 via-[#E8A820]/15 to-transparent transition-opacity duration-700 ${
+              isTransitioning ? "opacity-100" : "opacity-0"
+            }`}
+          />
+
           {/* ── Dynamic Light Sweep Beam across Woodblock Surface ── */}
           {isPlaying && (
             <div
-              className="absolute inset-y-0 w-48 bg-gradient-to-r from-transparent via-[#FFD77A]/25 to-transparent pointer-events-none z-12"
+              className="absolute inset-y-0 w-48 bg-gradient-to-r from-transparent via-[#FFD77A]/20 to-transparent pointer-events-none z-12"
               style={{
                 animation: "light-sweep 6s infinite ease-in-out",
               }}
             />
           )}
 
-          {/* ── Atmospheric Floating Golden Heritage Embers / Dust Particles ── */}
+          {/* ── Atmospheric Floating Golden Heritage Embers ────────── */}
           {isPlaying && (
             <div className="absolute inset-0 z-13 pointer-events-none overflow-hidden">
               {[
-                { left: "10%", delay: "0s", dur: "7s", size: "w-1.5 h-1.5" },
-                { left: "25%", delay: "1.8s", dur: "8.5s", size: "w-2 h-2" },
-                { left: "42%", delay: "0.5s", dur: "6s", size: "w-1 h-1" },
-                { left: "60%", delay: "3.2s", dur: "9s", size: "w-2 h-2" },
-                { left: "75%", delay: "1.2s", dur: "7.5s", size: "w-1.5 h-1.5" },
-                { left: "88%", delay: "2.4s", dur: "8s", size: "w-2.5 h-2.5" },
-                { left: "18%", delay: "4s", dur: "6.8s", size: "w-1 h-1" },
-                { left: "52%", delay: "2.8s", dur: "7.2s", size: "w-1.5 h-1.5" },
+                { left: "12%", delay: "0s", dur: "7s", size: "w-1.5 h-1.5" },
+                { left: "28%", delay: "1.8s", dur: "8.5s", size: "w-2 h-2" },
+                { left: "44%", delay: "0.5s", dur: "6s", size: "w-1 h-1" },
+                { left: "62%", delay: "3.2s", dur: "9s", size: "w-2 h-2" },
+                { left: "78%", delay: "1.2s", dur: "7.5s", size: "w-1.5 h-1.5" },
+                { left: "89%", delay: "2.4s", dur: "8s", size: "w-2.5 h-2.5" },
               ].map((p, i) => (
                 <span
                   key={i}
@@ -571,16 +668,14 @@ export default function HeritageVideoPlayer({
           <div className="flex items-center gap-2">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-black/75 backdrop-blur-md text-[#E8A820] border border-white/15 shadow-sm">
               <Film size={12} className="text-[#E8A820]" />
-              <span>Phim Tư liệu Động</span>
+              <span>Phim Tư liệu Di sản</span>
             </span>
 
-            {/* Slide active badge (Ảnh động / Tư liệu gốc) */}
-            {slides[currentSlideIndex]?.badge && (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#C8860A]/40 backdrop-blur-md text-[#FDF5E4] border border-[#C8860A]/60">
-                <Sparkles size={10} className="text-[#E8A820]" />
-                <span>{slides[currentSlideIndex].badge}</span>
-              </span>
-            )}
+            {/* Phân cảnh cốt truyện hiện tại */}
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#C8860A]/40 backdrop-blur-md text-[#FDF5E4] border border-[#C8860A]/60">
+              <Sparkles size={10} className="text-[#E8A820]" />
+              <span>{currentScene.badge || currentScene.tag}</span>
+            </span>
 
             <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white/20 backdrop-blur-md text-white border border-white/20">
               1080p HD
@@ -588,21 +683,22 @@ export default function HeritageVideoPlayer({
           </div>
 
           <div className="flex items-center gap-2">
-            {/* Quick slide thumbnail preview switcher */}
-            {slides.length > 1 && (
+            {/* Quick Scene Selector Dots */}
+            {scenes.length > 1 && (
               <div className="hidden sm:flex items-center gap-1 bg-black/60 backdrop-blur-md px-2 py-1 rounded-full border border-white/15">
                 <Layers size={11} className="text-[#E8A820] mr-1" />
-                {slides.map((_, i) => (
+                {scenes.map((s, i) => (
                   <button
                     key={i}
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setCurrentSlideIndex(i);
+                      jumpToScene(i);
                     }}
-                    aria-label={`Chuyển đến cảnh tư liệu ${i + 1}`}
+                    aria-label={`Nhảy đến ${s.tag}: ${s.title}`}
+                    title={`${s.tag}: ${s.title}`}
                     className={`h-2 rounded-full transition-all duration-300 ${
-                      i === currentSlideIndex
+                      i === activeSceneIndex
                         ? "w-4 bg-[#E8A820]"
                         : "w-2 bg-white/40 hover:bg-white/80"
                     }`}
@@ -614,7 +710,7 @@ export default function HeritageVideoPlayer({
             {isPlaying ? (
               <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/65 backdrop-blur-md text-[11px] font-mono text-emerald-400 border border-emerald-500/30">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="font-semibold tracking-wide">CHUYỂN ĐỘNG</span>
+                <span className="font-semibold tracking-wide">ĐỒNG BỘ NỘI DUNG</span>
               </div>
             ) : (
               <div className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/50 backdrop-blur-md text-[10px] font-medium text-white/80 border border-white/10">
@@ -656,11 +752,11 @@ export default function HeritageVideoPlayer({
           {!isPlaying && (
             <div className="mt-4 flex flex-col items-center gap-1">
               <span className="text-xs sm:text-sm font-bold text-white bg-black/75 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/20 shadow-md">
-                Nhấn để phát phim tư liệu di sản chuyển động
+                Nhấn để phát phim tư liệu chuyển cảnh đồng bộ
               </span>
               <span className="text-[11px] text-white/75 drop-shadow flex items-center gap-1.5">
                 <Sparkles size={11} className="text-[#E8A820]" />
-                <span>Tích hợp chuỗi ảnh động di sản, lia máy điện ảnh và âm thanh gốc</span>
+                <span>Chuyển cảnh chuẩn xác theo từng mốc thuyết minh & hiệu ứng lia máy điện ảnh</span>
               </span>
             </div>
           )}
@@ -710,15 +806,15 @@ export default function HeritageVideoPlayer({
           >
             <div className="inline-flex items-center gap-2 max-w-full sm:max-w-xl px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-black/85 backdrop-blur-md text-white border border-white/20 shadow-xl">
               <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#E8A820] bg-[#C8860A]/30 px-2 py-0.5 rounded border border-[#C8860A]/40 flex-shrink-0">
-                {currentChapter.tag}
+                {currentScene.tag}
               </span>
               <span className="text-xs sm:text-sm font-medium text-white/95 truncate">
-                {currentChapter.title}
+                {currentScene.title}
               </span>
             </div>
-            {slides[currentSlideIndex]?.caption && (
+            {currentScene.caption && (
               <div className="mt-1 text-[11px] sm:text-xs text-white/85 font-normal drop-shadow-md text-center max-w-lg truncate px-2">
-                🎬 {slides[currentSlideIndex].caption}
+                🎬 {currentScene.caption}
               </div>
             )}
           </div>
@@ -740,12 +836,27 @@ export default function HeritageVideoPlayer({
               step={0.5}
               value={currentTime}
               onChange={handleSeek}
-              className="w-full h-1.5 sm:h-2 bg-white/25 rounded-full appearance-none cursor-pointer accent-[#E8A820] focus:outline-none transition-all"
+              className="w-full h-1.5 sm:h-2 bg-white/25 rounded-full appearance-none cursor-pointer accent-[#E8A820] focus:outline-none transition-all z-10"
               style={{
                 background: `linear-gradient(to right, #E8A820 ${progressPercent}%, rgba(255,255,255,0.25) ${progressPercent}%)`,
               }}
               aria-label="Thanh tiến trình phát video"
             />
+
+            {/* Visual Scene Divider Ticks on Seek Bar */}
+            {duration > 0 &&
+              scenes.map((s, idx) => {
+                if (idx === 0) return null;
+                const pos = (s.start / duration) * 100;
+                return (
+                  <span
+                    key={idx}
+                    className="absolute top-0 bottom-0 w-0.5 bg-black/60 z-15 pointer-events-none"
+                    style={{ left: `${pos}%` }}
+                    title={`${s.tag}: ${s.title}`}
+                  />
+                );
+              })}
           </div>
 
           <div className="flex items-center justify-between text-white text-xs gap-2 sm:gap-4">
@@ -850,7 +961,7 @@ export default function HeritageVideoPlayer({
         </div>
       </div>
 
-      {/* ── Captions & Academic Provenance (Below Video Frame) ─────── */}
+      {/* ── Captions & Interactive Story Arc Navigation (Below Video Frame) ── */}
       <figcaption className="mt-3.5 p-4 sm:p-5 rounded-xl bg-white border border-[#E0D9CF]/70 shadow-xs">
         <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1.5 mb-1.5">
           <h5
@@ -858,8 +969,8 @@ export default function HeritageVideoPlayer({
             style={{ fontFamily: "var(--font-heading)" }}
           >
             <span>{title}</span>
-            <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
-              HD Ảnh động
+            <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-100 text-[#7C5C2E] border border-amber-300">
+              Chuyển cảnh Đồng bộ
             </span>
           </h5>
           {creditText && (
@@ -869,44 +980,79 @@ export default function HeritageVideoPlayer({
           )}
         </div>
         {caption && (
-          <p className="text-xs sm:text-sm text-[#556070] leading-relaxed mb-3">
+          <p className="text-xs sm:text-sm text-[#556070] leading-relaxed mb-3.5">
             {caption}
           </p>
         )}
 
-        {/* Chapter Quick Jump Tags */}
-        {chapters.length > 1 && (
-          <div className="pt-3 border-t border-[#E0D9CF]/60 flex flex-wrap items-center gap-2">
-            <span className="text-[11px] font-bold text-[#163558] uppercase tracking-wider">
-              Các chương nội dung:
-            </span>
-            {chapters.map((ch, idx) => {
-              const isCurrent = currentTime >= ch.start && currentTime < ch.end;
-              return (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => {
-                    if (mediaRef.current) {
-                      mediaRef.current.currentTime = ch.start;
-                      setCurrentTime(ch.start);
-                      if (!isPlaying) {
-                        mediaRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
-                      }
-                    }
-                  }}
-                  className={`text-[11px] px-2.5 py-1 rounded-lg transition-all font-medium flex items-center gap-1 ${
-                    isCurrent
-                      ? "bg-[#163558] text-white shadow-xs"
-                      : "bg-[#FAFAF7] hover:bg-[#F3EDE2] text-[#556070] border border-[#E0D9CF]"
-                  }`}
-                  aria-label={`Nhảy đến ${ch.tag}: ${ch.title}`}
-                >
-                  <span className="font-bold text-[#E8A820]">{ch.tag}:</span>
-                  <span className="truncate max-w-[140px] sm:max-w-none">{ch.title}</span>
-                </button>
-              );
-            })}
+        {/* ── Interactive Story Chapters / Visual Scenes Bar ───────── */}
+        {scenes.length > 1 && (
+          <div className="pt-3 border-t border-[#E0D9CF]/60">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[11px] font-bold text-[#163558] uppercase tracking-wider flex items-center gap-1.5">
+                <Layers size={13} className="text-[#C8860A]" />
+                <span>Các phân cảnh kể chuyện lịch sử:</span>
+              </span>
+              <span className="text-[10px] text-[#7B8A95] font-medium">
+                (Click vào cảnh để nhảy đến đúng thời điểm)
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+              {scenes.map((s, idx) => {
+                const isCurrent = idx === activeSceneIndex;
+                return (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => jumpToScene(idx)}
+                    className={`text-left p-2.5 rounded-xl transition-all border flex items-start gap-2.5 group ${
+                      isCurrent
+                        ? "bg-[#163558] text-white border-[#163558] shadow-sm"
+                        : "bg-[#FAFAF7] hover:bg-[#F3EDE2] text-[#1C2B3A] border-[#E0D9CF]"
+                    }`}
+                  >
+                    <div className="w-10 h-10 rounded-lg overflow-hidden relative flex-shrink-0 border border-black/10">
+                      <Image
+                        src={s.src}
+                        alt={s.title}
+                        fill
+                        sizes="40px"
+                        unoptimized={s.src.endsWith(".webp") && s.src.includes("/motion/")}
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-1 mb-0.5">
+                        <span
+                          className={`text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded ${
+                            isCurrent
+                              ? "bg-[#E8A820] text-[#163558]"
+                              : "bg-[#163558]/10 text-[#163558]"
+                          }`}
+                        >
+                          {s.tag}
+                        </span>
+                        <span
+                          className={`text-[10px] font-mono ${
+                            isCurrent ? "text-white/80" : "text-[#7B8A95]"
+                          }`}
+                        >
+                          {formatTime(s.start)}
+                        </span>
+                      </div>
+                      <p
+                        className={`text-xs font-semibold truncate leading-tight ${
+                          isCurrent ? "text-white" : "text-[#1C2B3A] group-hover:text-[#163558]"
+                        }`}
+                      >
+                        {s.title}
+                      </p>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         )}
       </figcaption>
