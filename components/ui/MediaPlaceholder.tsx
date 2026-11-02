@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { getMediaAsset } from "@/data/media";
 import { Volume2 } from "lucide-react";
+import HeritageVideoPlayer from "./HeritageVideoPlayer";
 
 interface MediaPlaceholderProps {
   aspectRatio?: "16/9" | "4/3" | "1/1" | "21/9";
@@ -21,6 +22,28 @@ export default function MediaPlaceholder({
 }: MediaPlaceholderProps) {
   // Lấy siêu dữ liệu từ central registry nếu có
   const assetDef = getMediaAsset(assetKey);
+
+  // Xử lý tư liệu video di sản (Video Player Component)
+  if (
+    assetDef?.mediaType === "video" &&
+    (assetDef?.audioSrc || assetDef?.src)
+  ) {
+    return (
+      <HeritageVideoPlayer
+        mediaSrc={assetDef.audioSrc || assetDef.src || ""}
+        posterSrc={
+          assetDef.posterSrc ||
+          (assetKey === "mocban-su-lieu-1"
+            ? "/assets/mocban/mocban-unesco-hands.webp"
+            : "/assets/mocban/mocban-header-citadel.webp")
+        }
+        title={assetDef.title}
+        caption={assetDef.captionText || assetDef.intendedPurpose}
+        creditText={assetDef.creditText}
+        className={className}
+      />
+    );
+  }
 
   // Xử lý tư liệu âm thanh thuyết minh di sản (Audio Asset)
   if (assetDef?.audioSrc || assetDef?.mediaType === "audio") {
