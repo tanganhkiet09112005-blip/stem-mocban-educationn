@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useReducer, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   batMaReducer,
@@ -9,6 +10,7 @@ import {
   BAT_MA_CONTENT_STATUS,
   defaultAccessConfig,
   defaultPatterns,
+  defaultQuestionBank,
   BatMaStepInfo,
 } from "@/data/batMa";
 import {
@@ -30,15 +32,22 @@ import {
   Eye,
   Award,
   Layers,
+  Shuffle,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function BatMaInteractiveEngine() {
   const [state, dispatch] = useReducer(batMaReducer, initialBatMaState);
   const [manualCodeInput, setManualCodeInput] = useState("");
-  const activePattern = defaultPatterns.find((p) => p.id === state.selectedPatternId) || defaultPatterns[0];
+  const [showManualCode, setShowManualCode] = useState(false);
 
-  // Handler for code submission
+  // Active question and pattern
+  const currentQuestion =
+    defaultQuestionBank.find((q) => q.id === state.activeQuestionId) || defaultQuestionBank[0];
+  const activePattern =
+    defaultPatterns.find((p) => p.id === state.selectedPatternId) || defaultPatterns[0];
+
+  // Handler for optional manual code submission
   const handleCodeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch({ type: "SET_CODE", code: manualCodeInput });
@@ -49,6 +58,7 @@ export default function BatMaInteractiveEngine() {
     <div
       className="bg-white rounded-[1.75rem] border border-[#E0D9CF]/60 shadow-[0_4px_24px_rgba(28,43,58,0.04)] overflow-hidden transition-all duration-300"
       aria-label="Mô phỏng chuỗi 5 bước trải nghiệm tương tác Bật Mã Cổ Thư"
+      id="bat-ma-interactive-engine"
     >
       {/* ── ARIA Live Announcement Region (Screen Reader Accessible) ── */}
       <div className="sr-only" role="status" aria-live="polite">
@@ -93,13 +103,13 @@ export default function BatMaInteractiveEngine() {
               </button>
             )}
             <span className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1 rounded-full bg-white/[0.08] text-[#FAFAF7]/90 border border-white/20">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#E8A820]/90" aria-hidden="true" />
-              <span>Trạng thái: {BAT_MA_CONTENT_STATUS === "PENDING" ? "Chờ nạp nội dung" : "Sẵn sàng"}</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" aria-hidden="true" />
+              <span>30 Câu đố di sản • Sẵn sàng</span>
             </span>
           </div>
         </div>
 
-        {/* 5-Step Stepper Navigation (Accessible Buttons & Forward-Guard Protected) */}
+        {/* 5-Step Stepper Navigation */}
         <nav aria-label="Các bước trải nghiệm Bật Mã Cổ Thư">
           <ol className="grid grid-cols-5 gap-1.5 sm:gap-3">
             {BAT_MA_STEPS.map((stepItem: BatMaStepInfo, idx: number) => {
@@ -163,11 +173,11 @@ export default function BatMaInteractiveEngine() {
         </nav>
       </div>
 
-      {/* ── Main Workspace Body ───────────────────────────────────── */}
-      <div className="p-6 sm:p-10 bg-[#FAFAF7] min-h-[440px] flex flex-col justify-center">
+      {/* ── Main Dynamic Stage View Container ─────────────────────── */}
+      <div className="p-6 sm:p-10 bg-[#FAFAF7]">
         <AnimatePresence mode="wait">
           {/* ══════════════════════════════════════════════════════════
-              VIEW 0: IDLE (Tổng quan trước khi bắt đầu)
+              VIEW 0: IDLE (Tổng quan bắt đầu)
              ══════════════════════════════════════════════════════════ */}
           {state.uiState === "idle" && (
             <motion.div
@@ -176,38 +186,39 @@ export default function BatMaInteractiveEngine() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.25 }}
-              className="text-center max-w-2xl mx-auto py-8"
+              className="text-center max-w-2xl mx-auto py-6"
             >
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl sm:rounded-3xl bg-[#1E4976]/[0.08] text-[#1E4976] flex items-center justify-center mx-auto mb-5 sm:mb-6 shadow-xs border border-[#1E4976]/15">
-                <QrCode size={34} strokeWidth={1.8} className="sm:w-[38px] sm:h-[38px]" />
+              <div className="w-16 h-16 rounded-2xl bg-[#C8860A]/10 border border-[#C8860A]/30 flex items-center justify-center mx-auto mb-6 text-[#C8860A]">
+                <QrCode size={32} />
               </div>
-              <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#1E4976] bg-[#1E4976]/[0.07] border border-[#1E4976]/15 px-3.5 py-1 rounded-full mb-4">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#C8860A]" aria-hidden="true" />
-                Mô hình học tập tương tác STEAM
-              </span>
+
               <h4
-                className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1C2B3A] mb-4 leading-tight"
+                className="text-2xl sm:text-3xl font-bold text-[#1C2B3A] mb-3 leading-tight"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
-                Sẵn sàng Giải mã Di sản Mộc bản
+                Khám phá chuỗi trải nghiệm Bật Mã Cổ Thư
               </h4>
-              <p className="text-[#556070] text-base sm:text-lg leading-relaxed mb-8">
-                Trải nghiệm kết hợp công nghệ số hóa và thao tác thủ công truyền thống qua chuỗi 5 bước khép kín:
-                từ quét mã QR, giải đố lịch sử, định hình nét vẽ, đục khắc ván gỗ đến in thành phẩm lên túi vải canvas.
+
+              <p className="text-sm sm:text-base text-[#556070] mb-8 leading-relaxed font-normal">
+                Quét mã QR từ thẻ bài giấy trong bộ kit để mở khóa hệ thống, trả lời 1 câu đố di sản ngẫu nhiên và nhận ngay hình ảnh mẫu con dấu Mộc bản của riêng bạn.
               </p>
-              <button
-                type="button"
-                onClick={() => dispatch({ type: "START" })}
-                className="btn-wood !px-10 !py-4 text-base shadow-[0_12px_32px_rgba(200,134,10,0.35)] hover:-translate-y-0.5 transition-transform inline-flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8860A] focus-visible:ring-offset-2"
-              >
-                <span>Bắt đầu Bước 01: Khám phá</span>
-                <ArrowRight size={18} />
-              </button>
+
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => dispatch({ type: "START" })}
+                  className="btn-academic !px-8 !py-3.5 text-sm sm:text-base shadow-academic inline-flex items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E4976]"
+                >
+                  <Sparkles size={18} className="text-[#C8860A]" />
+                  <span>Quét QR / Bắt đầu giải đố ngẫu nhiên</span>
+                  <ArrowRight size={16} />
+                </button>
+              </div>
             </motion.div>
           )}
 
           {/* ══════════════════════════════════════════════════════════
-              VIEW 1: ENTRY (Bước 01 — KHÁM PHÁ)
+              VIEW 1: ENTRY (Bước 01 — KHÁM PHÁ / QUÉT MÃ QR)
              ══════════════════════════════════════════════════════════ */}
           {state.uiState === "entry" && (
             <motion.div
@@ -229,77 +240,82 @@ export default function BatMaInteractiveEngine() {
                   Quét mã QR & Khởi đầu hành trình
                 </h4>
                 <p className="text-sm text-[#556070] max-w-lg mx-auto leading-relaxed">
-                  Người học quét mã QR chung có sẵn trên thẻ bài trong bộ kit để truy cập hệ thống giải mã di sản.
+                  Người học quét mã QR có sẵn trên thẻ giấy trong bộ kit để kích hoạt hệ thống và nhận câu đố di sản ngẫu nhiên.
                 </p>
               </div>
 
-              {/* Notice về trạng thái dữ liệu (Pending Content Notification) */}
-              <div className="p-5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 mb-8 flex items-start gap-4">
-                <Info size={22} className="text-amber-700 flex-shrink-0 mt-0.5" />
-                <div className="text-xs sm:text-sm leading-relaxed">
-                  <strong className="font-bold block mb-1">
-                    Trạng thái Mã truy cập: Đang chuẩn hóa (Pending Input)
-                  </strong>
-                  Mã truy cập chính thức sẽ được in ấn đồng bộ trên bộ thẻ bài của Kit Bật Mã Cổ Thư khi bàn giao thực nghiệm (chờ nạp dữ liệu chính thức tại Phase 4B).
+              {/* QR Showcase Card */}
+              <div className="p-6 sm:p-8 rounded-3xl bg-white border border-[#E0D9CF] shadow-sm mb-6 flex flex-col md:flex-row items-center gap-8">
+                <div className="relative w-44 h-44 sm:w-48 sm:h-48 rounded-2xl p-3 bg-white border-2 border-dashed border-[#C8860A]/50 flex-shrink-0 shadow-inner flex items-center justify-center">
+                  <Image
+                    src="/assets/bat-ma/qr-bat-ma.png"
+                    alt="Mã QR bộ kit Bật Mã Cổ Thư"
+                    width={180}
+                    height={180}
+                    className="object-contain rounded-lg"
+                    priority
+                  />
                 </div>
-              </div>
 
-              {/* Form nhập mã truy cập */}
-              <div className="p-6 sm:p-8 rounded-3xl bg-white border border-[#E0D9CF] shadow-sm mb-6">
-                <form onSubmit={handleCodeSubmit} className="space-y-4">
-                  <label htmlFor="kit-access-code" className="block text-xs font-bold uppercase tracking-wider text-[#1C2B3A]">
-                    Nhập mã truy cập từ thẻ bài Kit
-                  </label>
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <div className="relative flex-1">
-                      <input
-                        id="kit-access-code"
-                        type="text"
-                        value={manualCodeInput}
-                        onChange={(e) => setManualCodeInput(e.target.value)}
-                        placeholder="Nhập mã thẻ bài (Ví dụ từ bộ kit)..."
-                        className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-[#E0D9CF]/85 text-sm text-[#1C2B3A] hover:border-[#7C5C2E]/45 focus:border-[#1E4976] focus:outline-none focus:ring-3 focus:ring-[#1E4976]/12 uppercase tracking-widest font-mono transition-all"
-                      />
-                      <Key size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#7B8A95]" />
-                    </div>
+                <div className="flex-1 text-center md:text-left space-y-3">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200">
+                    <CheckCircle2 size={14} className="text-emerald-600" />
+                    <span>Mã QR chính thức bộ Kit</span>
+                  </div>
+                  <h5
+                    className="text-lg sm:text-xl font-bold text-[#1C2B3A]"
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
+                    Mã truy cập hệ thống giải mã
+                  </h5>
+                  <p className="text-xs sm:text-sm text-[#556070] leading-relaxed">
+                    Nếu bạn đã quét mã QR từ điện thoại hoặc đang xem trực tiếp, hãy nhấn nút bên dưới để hệ thống bốc ngẫu nhiên 1 trong 30 câu đố và mở khóa con dấu Mộc bản.
+                  </p>
+
+                  <div className="pt-2">
                     <button
-                      type="submit"
-                      className="px-6 py-3.5 rounded-xl bg-[#1E4976] hover:bg-[#163558] text-white font-bold text-sm transition-colors flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E4976] focus-visible:ring-offset-2"
+                      type="button"
+                      onClick={() => dispatch({ type: "START" })}
+                      className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#1E4976] hover:bg-[#163558] text-white font-bold text-sm transition-all shadow-sm hover:shadow-md inline-flex items-center justify-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E4976]"
                     >
-                      <CheckCircle2 size={16} />
-                      <span>Xác nhận mã</span>
+                      <Sparkles size={16} className="text-[#C8860A]" />
+                      <span>Vào giải đố ngẫu nhiên ngay</span>
+                      <ArrowRight size={16} />
                     </button>
                   </div>
-                  {state.codeError && (
-                    <p className="text-xs text-rose-600 font-medium flex items-center gap-1.5 mt-2">
-                      <AlertCircle size={14} />
-                      <span>{state.codeError}</span>
-                    </p>
-                  )}
-                </form>
+                </div>
               </div>
 
-              {/* Gated Dev-Only Bypass Action: Completely eliminated in Production builds */}
-              {process.env.NODE_ENV !== "production" && (
-                <div className="text-center pt-2 p-3 rounded-2xl bg-amber-50/60 border border-dashed border-amber-300">
-                  <span className="text-[0.6875rem] text-amber-800 font-mono block mb-1">
-                    [DEV / PREVIEW ONLY — Tự động ẩn hoàn toàn trên Production]
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => dispatch({ type: "BYPASS_CODE_EXPLORE" })}
-                    className="inline-flex items-center gap-2 text-xs font-bold text-[#1E4976] hover:text-[#C8860A] transition-colors p-1.5 rounded-lg bg-white border border-amber-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E4976]"
-                  >
-                    <span>Xem trước Bước 02 (Chỉ dành cho nhà phát triển kiểm thử)</span>
-                    <ArrowRight size={14} />
-                  </button>
-                </div>
-              )}
+              {/* Optional manual code accordion toggle */}
+              <div className="text-center">
+                <button
+                  type="button"
+                  onClick={() => setShowManualCode(!showManualCode)}
+                  className="text-xs font-semibold text-[#7B8A95] hover:text-[#1E4976] transition-colors underline"
+                >
+                  {showManualCode ? "Ẩn ô nhập mã thẻ bài" : "Hoặc nhập mã thẻ bài thủ công"}
+                </button>
+
+                {showManualCode && (
+                  <form onSubmit={handleCodeSubmit} className="mt-4 p-5 rounded-2xl bg-white border border-[#E0D9CF] max-w-md mx-auto flex gap-2">
+                    <input
+                      type="text"
+                      value={manualCodeInput}
+                      onChange={(e) => setManualCodeInput(e.target.value)}
+                      placeholder="Nhập mã thẻ bài (ví dụ: MOCBAN)..."
+                      className="flex-1 px-4 py-2 text-xs border rounded-xl font-mono uppercase"
+                    />
+                    <button type="submit" className="px-4 py-2 bg-[#1E4976] text-white text-xs font-bold rounded-xl">
+                      Xác nhận
+                    </button>
+                  </form>
+                )}
+              </div>
             </motion.div>
           )}
 
           {/* ══════════════════════════════════════════════════════════
-              VIEW 2: QUESTION & HINT (Bước 02 — GIẢI MÃ)
+              VIEW 2: QUESTION & HINT (Bước 02 — GIẢI MÃ CÂU ĐỐ DI SẢN)
              ══════════════════════════════════════════════════════════ */}
           {(state.uiState === "question" ||
             state.uiState === "hint" ||
@@ -313,158 +329,222 @@ export default function BatMaInteractiveEngine() {
               transition={{ duration: 0.25 }}
               className="max-w-3xl mx-auto w-full"
             >
-              <div className="text-center mb-8">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#1E4976] bg-[#1E4976]/10 px-3.5 py-1.5 rounded-full inline-block mb-3">
+              <div className="text-center mb-6">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#1E4976] bg-[#1E4976]/10 px-3.5 py-1.5 rounded-full inline-block mb-2">
                   Bước 02 — Giải mã
                 </span>
                 <h4
-                  className="text-2xl sm:text-3xl font-bold text-[#1C2B3A] mb-2"
+                  className="text-2xl sm:text-3xl font-bold text-[#1C2B3A] mb-1.5"
                   style={{ fontFamily: "var(--font-heading)" }}
                 >
                   Trả lời câu hỏi – Mở khóa hình tượng
                 </h4>
-                <p className="text-sm text-[#556070] max-w-lg mx-auto leading-relaxed">
-                  Hệ thống đưa ra câu hỏi thử thách về tư liệu di sản Mộc bản. Trả lời đúng để mở khóa hoa văn văn hóa.
+                <p className="text-xs sm:text-sm text-[#556070] max-w-lg mx-auto leading-relaxed">
+                  Đọc kỹ câu đố dân gian dưới đây và chọn đáp án đúng để mở khóa mẫu con dấu Mộc bản tương ứng.
                 </p>
               </div>
 
-              {/* Question Bank Pending Notice */}
-              <div className="p-5 rounded-2xl bg-sky-50 border border-sky-200 text-sky-950 mb-8 flex items-start gap-4">
-                <HelpCircle size={22} className="text-sky-700 flex-shrink-0 mt-0.5" />
-                <div className="text-xs sm:text-sm leading-relaxed">
-                  <strong className="font-bold block mb-1">
-                    Trạng thái Câu hỏi: Đang chờ Hội đồng Khoa học nghiệm thu (Pending Content)
-                  </strong>
-                  Bộ câu hỏi trắc nghiệm lịch sử chính thức từ Đề tài T.26.XH.503.15 sẽ được tích hợp trực tiếp vào schema này.
-                  Tuyệt đối không sử dụng câu hỏi giả mạo ngoài luồng kiểm duyệt sư phạm.
-                </div>
-              </div>
+              {/* Heritage Riddle Card Frame */}
+              <div className="p-6 sm:p-9 rounded-3xl bg-white border border-[#E0D9CF] shadow-card relative overflow-hidden mb-6">
+                <div className="flex items-center justify-between pb-4 mb-6 border-b border-[#E0D9CF]/70 gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-extrabold uppercase tracking-widest text-[#7C5C2E] bg-[#7C5C2E]/[0.08] px-2.5 py-1 rounded-md">
+                      Câu đố #{currentQuestion.patternIndex} / 30
+                    </span>
+                    <span className="text-xs text-[#7B8A95] font-medium hidden sm:inline">
+                      • Bộ Kit Bật Mã Cổ Thư
+                    </span>
+                  </div>
 
-              {/* Question Card Frame (Schema-first UI) */}
-              <div className="p-6 sm:p-8 rounded-3xl bg-white border border-[#E0D9CF] shadow-sm mb-6">
-                <div className="flex items-center justify-between pb-4 mb-5 border-b border-[#E0D9CF]">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#7C5C2E]">
-                    Thử thách di sản #01
-                  </span>
-                  <span className="text-xs font-semibold text-[#7B8A95]">
-                    Lần thử: {state.attemptCount}
-                  </span>
+                  <button
+                    type="button"
+                    onClick={() => dispatch({ type: "PICK_RANDOM_QUESTION" })}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-[#1E4976] hover:text-[#C8860A] bg-[#1E4976]/[0.06] hover:bg-[#1E4976]/[0.12] transition-colors"
+                    title="Bốc một câu đố ngẫu nhiên khác từ ngân hàng 30 câu hỏi"
+                  >
+                    <Shuffle size={13} />
+                    <span>Đổi câu hỏi khác</span>
+                  </button>
                 </div>
 
-                {/* Schema Mock Title */}
-                <div className="mb-6">
-                  <p className="text-base sm:text-lg font-bold text-[#1C2B3A] leading-snug">
-                    [Vị trí câu hỏi thử thách chính thức: Nhận diện biểu tượng hoa văn trên Mộc bản triều Nguyễn]
+                {/* Main Riddle Title */}
+                <div className="mb-7 text-center sm:text-left bg-[#F4EFE6]/50 p-5 sm:p-6 rounded-2xl border border-[#E0D9CF]/60">
+                  <p className="text-xs font-bold uppercase tracking-wider text-[#C8860A] mb-1.5">
+                    Câu đố di sản
                   </p>
-                  <p className="text-xs text-[#7B8A95] mt-1 italic">
-                    Nguồn tư liệu trích dẫn: Đang chờ thẩm định văn bản gốc (Chính sử triều Nguyễn).
+                  <h5
+                    className="text-xl sm:text-2xl md:text-[1.65rem] font-bold text-[#1C2B3A] leading-relaxed"
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
+                    &ldquo;{currentQuestion.question}&rdquo;
+                  </h5>
+                  <p className="text-xs text-[#7B8A95] mt-2 italic">
+                    Gợi ý tư duy: Liên hệ với đời sống, vật dụng hoặc hoa văn văn hóa truyền thống.
                   </p>
                 </div>
 
-                {/* Options Mock (A, B, C, D schema placeholders) */}
+                {/* 4 Interactive Multiple-Choice Options */}
                 <div className="space-y-3 mb-6" role="radiogroup" aria-label="Lựa chọn câu trả lời">
-                  {[
-                    { id: "opt_a", text: "[Phương án A — Dữ liệu chuẩn hóa từ đề tài NCKH]" },
-                    { id: "opt_b", text: "[Phương án B — Dữ liệu chuẩn hóa từ đề tài NCKH]" },
-                    { id: "opt_c", text: "[Phương án C — Dữ liệu chuẩn hóa từ đề tài NCKH]" },
-                    { id: "opt_d", text: "[Phương án D — Dữ liệu chuẩn hóa từ đề tài NCKH]" },
-                  ].map((opt) => (
-                    <label
-                      key={opt.id}
-                      className={`flex items-center gap-3 p-4 rounded-xl border cursor-pointer transition-all focus-within:ring-2 focus-within:ring-[#1E4976] ${
-                        state.selectedOptionId === opt.id
-                          ? "bg-[#1E4976]/10 border-[#1E4976] text-[#1E4976] font-bold"
-                          : "bg-[#FAFAF7] border-[#E0D9CF] text-[#556070] hover:bg-white hover:border-[#7C5C2E]/40"
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="question_opt"
-                        value={opt.id}
-                        checked={state.selectedOptionId === opt.id}
-                        onChange={() => dispatch({ type: "SELECT_OPTION", optionId: opt.id })}
-                        className="w-4 h-4 text-[#1E4976] focus:ring-[#1E4976]"
-                      />
-                      <span className="text-sm">{opt.text}</span>
-                    </label>
-                  ))}
+                  {currentQuestion.options.map((opt, idx) => {
+                    const isSelected = state.selectedOptionId === opt.id;
+                    const letter = ["A", "B", "C", "D"][idx];
+
+                    return (
+                      <label
+                        key={opt.id}
+                        className={`flex items-center gap-3.5 p-4 rounded-xl border cursor-pointer transition-all ${
+                          isSelected
+                            ? "bg-[#1E4976]/10 border-[#1E4976] text-[#1E4976] font-bold shadow-xs ring-2 ring-[#1E4976]/20"
+                            : "bg-[#FAFAF7] border-[#E0D9CF]/70 text-[#556070] hover:bg-white hover:border-[#7C5C2E]/40"
+                        }`}
+                      >
+                        <input
+                          type="radio"
+                          name="question_opt"
+                          value={opt.id}
+                          checked={isSelected}
+                          onChange={() => dispatch({ type: "SELECT_OPTION", optionId: opt.id })}
+                          className="sr-only"
+                        />
+                        <span
+                          className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs flex-shrink-0 transition-colors ${
+                            isSelected
+                              ? "bg-[#1E4976] text-white"
+                              : "bg-white border border-[#E0D9CF] text-[#7B8A95]"
+                          }`}
+                        >
+                          {letter}
+                        </span>
+                        <span className="text-sm sm:text-base font-medium flex-1 text-[#1C2B3A]">
+                          {opt.label}
+                        </span>
+                        {isSelected && (
+                          <CheckCircle2 size={18} className="text-[#1E4976] flex-shrink-0" />
+                        )}
+                      </label>
+                    );
+                  })}
                 </div>
+
+                {/* Feedback message when answer is incorrect */}
+                {state.uiState === "retry" && (
+                  <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-900 mb-6 flex items-start gap-3">
+                    <AlertCircle size={18} className="text-rose-600 flex-shrink-0 mt-0.5" />
+                    <div className="text-xs sm:text-sm">
+                      <strong className="font-bold block mb-0.5">Chưa chính xác rồi!</strong>
+                      Hãy đọc kỹ lại câu đố và suy nghĩ thêm, hoặc nhấn &ldquo;Xem gợi ý&rdquo; để được hướng dẫn nhé.
+                    </div>
+                  </div>
+                )}
+
+                {/* Hint Expandable View */}
+                {state.uiState === "hint" && (
+                  <div className="p-5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 mb-6 animate-fadeIn">
+                    <div className="flex items-center gap-2 font-bold text-sm mb-1.5 text-amber-800">
+                      <HelpCircle size={18} />
+                      <span>Gợi ý giải mã di sản:</span>
+                    </div>
+                    <p className="text-xs sm:text-sm leading-relaxed mb-3 text-amber-950">
+                      {currentQuestion.hint}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => dispatch({ type: "RETRY_QUESTION" })}
+                      className="px-3.5 py-1.5 rounded-lg bg-amber-200 hover:bg-amber-300 text-amber-900 text-xs font-bold transition-colors"
+                    >
+                      Quay lại trả lời
+                    </button>
+                  </div>
+                )}
 
                 {/* Action Row */}
                 <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-[#E0D9CF]/60">
                   <button
                     type="button"
                     onClick={() => dispatch({ type: "REQUEST_HINT" })}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#7C5C2E] hover:text-[#C8860A] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7C5C2E] rounded-lg p-1"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#7C5C2E] hover:text-[#C8860A] transition-colors p-1"
                   >
                     <HelpCircle size={16} />
-                    <span>Xem gợi ý phương pháp</span>
+                    <span>Xem gợi ý di sản</span>
                   </button>
 
                   <div className="flex items-center gap-3">
                     <button
                       type="button"
-                      onClick={() => dispatch({ type: "SUBMIT_ANSWER" })}
+                      onClick={() =>
+                        dispatch({
+                          type: "SUBMIT_ANSWER",
+                          correctOptionId: currentQuestion.correctOptionId,
+                        })
+                      }
                       disabled={!state.selectedOptionId || state.uiState === "unlocked"}
-                      className="px-6 py-2.5 rounded-xl bg-[#1E4976] hover:bg-[#163558] disabled:bg-[#E0D9CF] text-white font-bold text-xs sm:text-sm transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E4976] focus-visible:ring-offset-2"
+                      className="px-6 py-2.5 rounded-xl bg-[#1E4976] hover:bg-[#163558] disabled:bg-[#E0D9CF] text-white font-bold text-xs sm:text-sm transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E4976]"
                     >
                       Kiểm tra đáp án
                     </button>
-                    {(state.uiState === "unlocked" || state.isCorrect || state.highestStepReached >= 2) && (
-                      <button
-                        type="button"
-                        onClick={() => dispatch({ type: "PROCEED_TO_PATTERN" })}
-                        className="px-6 py-2.5 rounded-xl bg-[#C8860A] hover:bg-[#A37840] text-white font-bold text-xs sm:text-sm transition-colors shadow-sm inline-flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8860A] focus-visible:ring-offset-2"
-                      >
-                        <span>Mở khóa hoa văn</span>
-                        <ArrowRight size={16} />
-                      </button>
-                    )}
                   </div>
                 </div>
               </div>
 
-              {/* Hint Expandable View */}
-              {state.uiState === "hint" && (
-                <div className="p-5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 mb-6 animate-fadeIn">
-                  <div className="flex items-center gap-2 font-bold text-sm mb-2 text-amber-800">
-                    <LightbulbIcon size={18} />
-                    <span>Gợi ý tư duy sư phạm:</span>
-                  </div>
-                  <p className="text-xs sm:text-sm leading-relaxed mb-4">
-                    [Khung hiển thị gợi ý: Quan sát nét chạm khắc trên bản khắc Mộc bản gốc, liên hệ ngữ cảnh thời gian và thiết chế văn hóa tương ứng.]
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => dispatch({ type: "RETRY_QUESTION" })}
-                    className="px-4 py-1.5 rounded-lg bg-amber-200 hover:bg-amber-300 text-amber-900 text-xs font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-800"
-                  >
-                    Quay lại câu hỏi
-                  </button>
-                </div>
-              )}
-
-              {/* Success Banner when Unlocked */}
+              {/* ── SUCCESS UNLOCKED BANNER & PATTERN CARD ─────────────── */}
               {state.uiState === "unlocked" && (
-                <div className="p-6 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 mb-6 flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0">
-                      <Unlock size={20} />
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#FAFAF7] to-[#F5F0E8] border-2 border-[#C8860A]/60 shadow-academic mb-8"
+                >
+                  <div className="flex items-center gap-2.5 text-emerald-700 font-bold text-sm mb-4">
+                    <CheckCircle2 size={20} className="text-emerald-600" />
+                    <span>Giải mã xuất sắc! Bạn đã mở khóa hoa văn con dấu Mộc bản:</span>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row items-center gap-6 bg-white p-6 rounded-2xl border border-[#E0D9CF]">
+                    {/* Motif Card Stamp */}
+                    <div className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-2xl bg-[#FAFAF7] border border-[#C8860A]/40 p-2 shadow-inner flex items-center justify-center flex-shrink-0">
+                      <Image
+                        src={currentQuestion.imageAssetKey}
+                        alt={currentQuestion.patternTitle}
+                        width={160}
+                        height={160}
+                        className="object-contain"
+                      />
                     </div>
-                    <div>
-                      <h5 className="text-sm font-bold">Giải mã thành công!</h5>
-                      <p className="text-xs text-emerald-700">Hình tượng hoa văn di sản đã sẵn sàng để phác họa.</p>
+
+                    <div className="flex-1 text-center sm:text-left space-y-2.5">
+                      <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#C8860A] bg-[#C8860A]/10 px-2.5 py-0.5 rounded">
+                        Mẫu con dấu #{currentQuestion.patternIndex} • 5x5 cm
+                      </span>
+                      <h4
+                        className="text-2xl font-bold text-[#1C2B3A]"
+                        style={{ fontFamily: "var(--font-heading)" }}
+                      >
+                        {currentQuestion.patternIndex}. {currentQuestion.patternTitle}
+                      </h4>
+                      <p className="text-xs sm:text-sm text-[#556070] leading-relaxed">
+                        {currentQuestion.explanation}
+                      </p>
+
+                      <div className="pt-3 flex flex-wrap items-center gap-3">
+                        <button
+                          type="button"
+                          onClick={() => dispatch({ type: "PROCEED_TO_PATTERN" })}
+                          className="btn-academic !px-6 !py-2.5 text-xs sm:text-sm inline-flex items-center gap-2 shadow-sm"
+                        >
+                          <span>Tiến hành Thiết kế con dấu này</span>
+                          <ArrowRight size={15} />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => dispatch({ type: "PICK_RANDOM_QUESTION" })}
+                          className="px-4 py-2.5 rounded-xl text-xs font-bold text-[#1E4976] hover:bg-white border border-[#E0D9CF] transition-colors inline-flex items-center gap-1.5"
+                        >
+                          <Shuffle size={14} />
+                          <span>Thử câu đố khác</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => dispatch({ type: "PROCEED_TO_PATTERN" })}
-                    className="px-4 py-2 rounded-xl bg-emerald-700 text-white text-xs font-bold hover:bg-emerald-800 transition-colors flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2"
-                  >
-                    <span>Sang Bước 3: Thiết kế</span>
-                    <ArrowRight size={14} />
-                  </button>
-                </div>
+                </motion.div>
               )}
             </motion.div>
           )}
@@ -492,22 +572,11 @@ export default function BatMaInteractiveEngine() {
                   Phác họa – Chuyển hình tượng thành nét vẽ
                 </h4>
                 <p className="text-sm text-[#556070] max-w-lg mx-auto leading-relaxed">
-                  Quan sát hoa văn di sản vừa mở khóa, phân tích cấu trúc đường nét và tự phác họa mẫu lên giấy hoặc ván gỗ.
+                  Quan sát hoa văn di sản vừa mở khóa, phân tích cấu trúc đường nét và nguyên lý khắc ngược (mirror) trước khi áp mẫu lên phôi gỗ.
                 </p>
               </div>
 
-              {/* Pattern Data Status Notification */}
-              <div className="p-5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-950 mb-8 flex items-start gap-4">
-                <Palette size={22} className="text-emerald-700 flex-shrink-0 mt-0.5" />
-                <div className="text-xs sm:text-sm leading-relaxed">
-                  <strong className="font-bold block mb-1">
-                    Danh mục Hoa văn: 30 Mẫu con dấu Mộc bản chính thức (Verified 30 Patterns)
-                  </strong>
-                  Đã tải 30 mẫu hoa văn con dấu mộc bản (5x5cm) trích xuất nguyên bản từ tệp <em>Họa tiết bộ kit.pdf</em> và <em>Mẫu tấm in.pdf</em> của bộ Kit Bật Mã Cổ Thư.
-                </div>
-              </div>
-
-              {/* Pattern Showcase Workspace Skeleton */}
+              {/* Pattern Showcase Workspace */}
               <div className="grid md:grid-cols-2 gap-6 mb-8">
                 {/* Cột trái: Khung quan sát hoa văn mở khóa */}
                 <div className="p-6 rounded-3xl bg-white border border-[#E0D9CF] shadow-sm flex flex-col justify-between">
@@ -517,18 +586,23 @@ export default function BatMaInteractiveEngine() {
                         Mẫu hoa văn con dấu
                       </span>
                       <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#C8860A]/15 text-[#7C5C2E] border border-[#C8860A]/30">
-                        {activePattern?.id || "PAT-01"} • 5x5 cm
+                        {activePattern?.id} • 5x5 cm
                       </span>
                     </div>
                     <h5 className="font-bold text-[#1C2B3A] text-lg mb-4">
-                      {activePattern?.title || "Hoa văn Mộc bản"}
+                      {activePattern?.index}. {activePattern?.title}
                     </h5>
                     <div className="aspect-square rounded-2xl bg-[#FAFAF7] border border-[#E0D9CF] flex flex-col items-center justify-center p-6 text-center text-[#7B8A95] relative overflow-hidden">
-                      <div className="w-14 h-14 rounded-2xl bg-white border border-[#E0D9CF] flex items-center justify-center text-[#7C5C2E] mb-3 shadow-sm">
-                        <Layers size={28} />
+                      <div className="relative w-40 h-40 mb-3">
+                        <Image
+                          src={activePattern?.imageAssetKey || "/assets/bat-ma/motifs/motif-01.webp"}
+                          alt={activePattern?.title || "Hoa văn Mộc bản"}
+                          fill
+                          className="object-contain"
+                        />
                       </div>
                       <span className="text-sm font-bold text-[#1C2B3A]">
-                        {activePattern?.title}
+                        {activePattern?.index}. {activePattern?.title}
                       </span>
                       <span className="text-[0.6875rem] text-[#7B8A95] mt-1 max-w-[220px]">
                         {activePattern?.description}
@@ -540,34 +614,39 @@ export default function BatMaInteractiveEngine() {
                   </p>
                 </div>
 
-                {/* Cột phải: Không gian phác họa nét vẽ (Design workspace) */}
+                {/* Cột phải: Không gian phác họa nét vẽ ngược (Mirror tracing) */}
                 <div className="p-6 rounded-3xl bg-white border border-[#E0D9CF] shadow-sm flex flex-col justify-between">
                   <div>
                     <span className="text-[0.6875rem] font-bold uppercase tracking-widest text-[#1E4976] block mb-2">
                       Khu vực phác họa thực hành
                     </span>
                     <h5 className="font-bold text-[#1C2B3A] text-lg mb-4">
-                      Tái tạo đường nét trên phôi gỗ
+                      Bản can nét ngược (Mirror Tracing)
                     </h5>
-                    <div className="aspect-square rounded-2xl bg-[#F5F0E8] border border-[#E0D9CF] flex flex-col items-center justify-center p-6 text-center text-[#7C5C2E] relative overflow-hidden pattern-heritage opacity-60">
-                      <div className="relative z-10">
-                        <Palette size={32} className="mx-auto mb-2 text-[#7C5C2E]" />
-                        <span className="text-sm font-bold block text-[#1C2B3A]">
-                          Bản can nét ngược (Tracing)
-                        </span>
-                        <span className="text-[0.6875rem] text-[#556070] block mt-1">
-                          Chuẩn bị áp giấy bản phác thảo mẫu con dấu lên phôi gỗ 5x5cm
-                        </span>
+                    <div className="aspect-square rounded-2xl bg-[#F5F0E8] border border-[#E0D9CF] flex flex-col items-center justify-center p-6 text-center text-[#7C5C2E] relative overflow-hidden">
+                      <div className="relative w-40 h-40 mb-3 filter drop-shadow-sm">
+                        <Image
+                          src={activePattern?.imageAssetKey || "/assets/bat-ma/motifs/motif-01.webp"}
+                          alt={`Khắc ngược: ${activePattern?.title}`}
+                          fill
+                          className="object-contain -scale-x-100 opacity-80"
+                        />
                       </div>
+                      <span className="text-sm font-bold block text-[#1C2B3A]">
+                        Bản can nét ngược (Mirror)
+                      </span>
+                      <span className="text-[0.6875rem] text-[#556070] block mt-1">
+                        Áp giấy phác thảo ngược lên phôi gỗ 5x5cm
+                      </span>
                     </div>
                   </div>
                   <div className="mt-4 pt-4 border-t border-[#E0D9CF]/60 text-xs text-[#556070]">
-                    Kỹ thuật: Hoa văn Mộc bản phải được phác họa <strong>ngược chiều (mirror)</strong> để khi in dập ra giấy sẽ đạt chiều xuôi chuẩn xác.
+                    Kỹ thuật: Hoa văn Mộc bản bắt buộc phải được khắc <strong>ngược chiều (mirror)</strong> để khi in dập ra giấy sẽ đạt chiều xuôi chuẩn xác.
                   </div>
                 </div>
               </div>
 
-              {/* 30 Official Patterns Grid Selector */}
+              {/* 30 Official Patterns Grid Selector with Image Previews */}
               <div className="p-6 rounded-3xl bg-white border border-[#E0D9CF] shadow-sm mb-8">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-3 border-b border-[#E0D9CF]">
                   <div>
@@ -575,29 +654,36 @@ export default function BatMaInteractiveEngine() {
                       30 Mẫu hoa văn con dấu Mộc bản (Bộ Kit chính thức)
                     </span>
                     <span className="text-[11px] text-[#7B8A95]">
-                      Nhấp để chọn mẫu hoa văn chuyển sang bước khắc gỗ và in sản phẩm
+                      Nhấp để đổi mẫu hoa văn chuyển sang bước khắc gỗ và in sản phẩm
                     </span>
                   </div>
                   <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[#1E4976]/10 text-[#1E4976]">
-                    Đang chọn: <strong>{activePattern?.title}</strong>
+                    Đang chọn: <strong>{activePattern?.index}. {activePattern?.title}</strong>
                   </span>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 max-h-56 overflow-y-auto p-1.5 bg-[#FAFAF7] rounded-2xl border border-[#E0D9CF]">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 max-h-60 overflow-y-auto p-1.5 bg-[#FAFAF7] rounded-2xl border border-[#E0D9CF]">
                   {defaultPatterns.map((pat) => {
-                    const isSelected = (state.selectedPatternId || defaultPatterns[0]?.id) === pat.id;
+                    const isSelected = activePattern.id === pat.id;
                     return (
                       <button
                         key={pat.id}
                         type="button"
                         onClick={() => dispatch({ type: "SELECT_PATTERN", patternId: pat.id })}
-                        className={`p-2.5 rounded-xl text-left transition-all text-xs border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E4976] ${
+                        className={`p-2 rounded-xl text-left transition-all text-xs border flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E4976] ${
                           isSelected
                             ? "bg-[#1E4976] text-white border-[#1E4976] shadow-sm font-bold"
                             : "bg-white text-[#1C2B3A] border-[#E0D9CF] hover:border-[#C8860A] hover:bg-amber-50/30"
                         }`}
                       >
-                        <div className="font-mono text-[10px] text-[#C8860A] font-bold">{pat.id}</div>
-                        <div className="truncate text-xs">{pat.title}</div>
+                        <div className="relative w-8 h-8 rounded-md bg-[#FAFAF7] border border-[#E0D9CF]/50 overflow-hidden flex-shrink-0">
+                          <Image src={pat.imageAssetKey} alt={pat.title} fill className="object-contain p-0.5" />
+                        </div>
+                        <div className="truncate">
+                          <div className={`font-mono text-[9px] font-bold ${isSelected ? "text-amber-200" : "text-[#C8860A]"}`}>
+                            #{pat.index}
+                          </div>
+                          <div className="truncate text-xs">{pat.title}</div>
+                        </div>
                       </button>
                     );
                   })}
@@ -652,16 +738,7 @@ export default function BatMaInteractiveEngine() {
                 </p>
               </div>
 
-              {/* Notice Quy trình sư phạm đang chờ thẩm định */}
-              <div className="p-4 rounded-2xl bg-amber-50/80 border border-amber-200 text-amber-900 mb-6 text-xs sm:text-sm flex items-start gap-3">
-                <Info size={20} className="text-amber-700 flex-shrink-0 mt-0.5" />
-                <div className="leading-relaxed">
-                  <strong className="font-bold block mb-0.5">Trạng thái Quy trình: Chờ thẩm định sư phạm (Pending Official Procedure)</strong>
-                  Các bước kỹ thuật thủ công dưới đây đóng vai trò khung mô phỏng trực quan. Quy chuẩn thao tác chi tiết sẽ được cập nhật đồng bộ theo cẩm nang thực hành chính thức của Đề tài T.26.XH.503.15.
-                </div>
-              </div>
-
-              {/* 4 Thao tác đục khắc chuẩn hóa (Neutral Pedagogical Stages) */}
+              {/* 4 Thao tác đục khắc chuẩn hóa */}
               <div className="space-y-4 mb-8">
                 {[
                   {
@@ -672,7 +749,7 @@ export default function BatMaInteractiveEngine() {
                   {
                     num: "4.2",
                     title: "Định hình đường nét hoa văn",
-                    desc: "Quan sát và phân biệt các đường nét đồ họa chính - phụ cần giữ lại trên bản khắc nổi (dương bản).",
+                    desc: `Quan sát và phân biệt các đường nét chính của hoa văn ${activePattern.title} cần giữ lại trên bản khắc nổi.`,
                   },
                   {
                     num: "4.3",
@@ -703,7 +780,7 @@ export default function BatMaInteractiveEngine() {
               {/* Simulation Progress Bar */}
               <div className="p-6 rounded-3xl bg-white border border-[#E0D9CF] shadow-sm mb-8">
                 <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider mb-2">
-                  <span className="text-[#1C2B3A]">Tiến độ mô phỏng hoàn thành bản khắc</span>
+                  <span className="text-[#1C2B3A]">Tiến độ hoàn thành bản khắc con dấu ({activePattern.title})</span>
                   <span className="text-[#C8860A]">{state.carveProgress}%</span>
                 </div>
                 <div className="w-full h-3 bg-[#E0D9CF]/60 rounded-full overflow-hidden mb-4">
@@ -769,25 +846,25 @@ export default function BatMaInteractiveEngine() {
                   In dấu họa tiết – Tạo sản phẩm riêng mình
                 </h4>
                 <p className="text-sm text-[#556070] max-w-lg mx-auto leading-relaxed">
-                  Lăn mực đều lên ván khắc gỗ vừa hoàn thành, dập in lên túi vải canvas hoặc giấy dó mỹ thuật.
+                  Lăn mực đều lên ván khắc gỗ con dấu {activePattern.title}, dập in lên túi vải canvas hoặc giấy mỹ thuật.
                 </p>
               </div>
 
-              {/* Inking & Pressing Stage Walkthrough (Neutral Pedagogical Stages) */}
+              {/* Inking & Pressing Stage Walkthrough */}
               <div className="grid sm:grid-cols-3 gap-4 mb-8">
                 <div className="p-5 rounded-2xl bg-white border border-[#E0D9CF] shadow-sm text-center">
                   <div className="w-10 h-10 rounded-xl bg-[#1E4976]/10 text-[#1E4976] flex items-center justify-center mx-auto mb-3 font-bold text-xs">
                     01
                   </div>
                   <h6 className="font-bold text-sm text-[#1C2B3A] mb-1">Dàn đều mực in</h6>
-                  <p className="text-xs text-[#556070]">Dùng con lăn chuyên dụng trong bộ kit dàn đều mực in chuyên dụng lên mặt ván nổi.</p>
+                  <p className="text-xs text-[#556070]">Dùng con lăn chuyên dụng trong bộ kit dàn đều mực in lên bề mặt ván gỗ nổi.</p>
                 </div>
                 <div className="p-5 rounded-2xl bg-white border border-[#E0D9CF] shadow-sm text-center">
                   <div className="w-10 h-10 rounded-xl bg-[#1E4976]/10 text-[#1E4976] flex items-center justify-center mx-auto mb-3 font-bold text-xs">
                     02
                   </div>
                   <h6 className="font-bold text-sm text-[#1C2B3A] mb-1">Căn chỉnh chất liệu in</h6>
-                  <p className="text-xs text-[#556070]">Đặt túi vải canvas hoặc giấy dó mỹ thuật phẳng phiu lên trên bề mặt ván khắc.</p>
+                  <p className="text-xs text-[#556070]">Đặt túi vải canvas hoặc giấy mỹ thuật phẳng phiu lên trên bề mặt ván khắc.</p>
                 </div>
                 <div className="p-5 rounded-2xl bg-white border border-[#E0D9CF] shadow-sm text-center">
                   <div className="w-10 h-10 rounded-xl bg-[#1E4976]/10 text-[#1E4976] flex items-center justify-center mx-auto mb-3 font-bold text-xs">
@@ -801,20 +878,38 @@ export default function BatMaInteractiveEngine() {
               {/* Print Output Preview Box */}
               <div className="p-8 rounded-3xl bg-white border border-[#E0D9CF] shadow-sm text-center mb-8">
                 {state.printCompleted ? (
-                  <div className="animate-fadeIn">
-                    <div className="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-4">
-                      <CheckCircle2 size={36} />
+                  <div className="animate-fadeIn space-y-4">
+                    <div className="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-2">
+                      <CheckCircle2 size={32} />
                     </div>
-                    <h5 className="text-xl font-bold text-[#1C2B3A] mb-2">
-                      In dập thành công!
+                    <h5 className="text-xl font-bold text-[#1C2B3A]">
+                      In dập thành công tác phẩm: {activePattern.title}!
                     </h5>
-                    <p className="text-sm text-[#556070] max-w-md mx-auto mb-6">
-                      Sản phẩm in ấn thủ công mang dấu ấn cá nhân và hoa văn di sản Mộc bản đã hoàn thành hoàn hảo.
+
+                    {/* Stamped Artwork Result Card */}
+                    <div className="max-w-xs mx-auto p-4 rounded-2xl bg-[#F5F0E8] border border-[#C8860A]/40 shadow-card">
+                      <div className="relative w-40 h-40 mx-auto mb-2">
+                        <Image
+                          src={activePattern.imageAssetKey}
+                          alt={activePattern.title}
+                          fill
+                          className="object-contain"
+                        />
+                      </div>
+                      <p className="text-xs font-bold text-[#1C2B3A]">
+                        {activePattern.index}. {activePattern.title}
+                      </p>
+                      <p className="text-[10px] text-[#7C5C2E] font-mono">BỘ KIT BẬT MÃ CỔ THƯ • 2026</p>
+                    </div>
+
+                    <p className="text-sm text-[#556070] max-w-md mx-auto">
+                      Tác phẩm thủ công mang dấu ấn di sản Mộc bản triều Nguyễn đã hoàn thiện xuất sắc.
                     </p>
+
                     <button
                       type="button"
                       onClick={() => dispatch({ type: "COMPLETE_EXPERIENCE" })}
-                      className="btn-academic !px-8 !py-3 text-sm inline-flex items-center gap-2 shadow-academic focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E4976] focus-visible:ring-offset-2"
+                      className="btn-academic !px-8 !py-3 text-sm inline-flex items-center gap-2 shadow-academic focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E4976]"
                     >
                       <span>Xem tổng kết hành trình 5 bước</span>
                       <ArrowRight size={16} />
@@ -826,7 +921,7 @@ export default function BatMaInteractiveEngine() {
                       <Printer size={28} />
                     </div>
                     <h5 className="text-lg font-bold text-[#1C2B3A] mb-2">
-                      Sẵn sàng in dập tác phẩm
+                      Sẵn sàng in dập tác phẩm: {activePattern.title}
                     </h5>
                     <p className="text-xs sm:text-sm text-[#556070] max-w-md mx-auto mb-6">
                       Nhấn nút bên dưới để mô phỏng thao tác dập mực và nghiệm thu sản phẩm cuối cùng.
@@ -834,7 +929,7 @@ export default function BatMaInteractiveEngine() {
                     <button
                       type="button"
                       onClick={() => dispatch({ type: "EXECUTE_PRINT" })}
-                      className="px-8 py-3 rounded-xl bg-[#7C5C2E] hover:bg-[#A37840] text-white font-bold text-sm transition-colors shadow-sm inline-flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7C5C2E] focus-visible:ring-offset-2"
+                      className="px-8 py-3 rounded-xl bg-[#7C5C2E] hover:bg-[#A37840] text-white font-bold text-sm transition-colors shadow-sm inline-flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7C5C2E]"
                     >
                       <Printer size={16} />
                       <span>Thực hiện In dập lên túi vải</span>
@@ -894,48 +989,56 @@ export default function BatMaInteractiveEngine() {
               </h4>
 
               <p className="text-sm sm:text-base text-[#556070] mb-8 leading-relaxed">
-                Bạn đã trải qua trọn vẹn chuỗi học tập từ tiếp cận tri thức di sản, giải đố suy luận,
-                định hình nét vẽ, đục khắc ván gỗ đến tự tay in sản phẩm mang đậm dấu ấn cá nhân.
+                Bạn đã trải qua trọn vẹn chuỗi học tập: quét mã QR, giải đố di sản, định hình nét vẽ, đục khắc ván gỗ và in dập thành công tác phẩm con dấu <strong>{activePattern.title}</strong>.
               </p>
 
-              {/* 5-Step Completion Summary Checklist */}
-              <div className="p-6 rounded-3xl bg-white border border-[#E0D9CF] shadow-sm mb-8 text-left space-y-3">
-                {BAT_MA_STEPS.map((step) => (
-                  <div key={step.step} className="flex items-center gap-3 text-xs sm:text-sm text-[#1C2B3A] font-medium">
+              {/* Achievement Badge Summary */}
+              <div className="p-6 rounded-3xl bg-white border border-[#E0D9CF] shadow-sm mb-8 text-left">
+                <h5 className="text-xs font-bold uppercase tracking-wider text-[#7C5C2E] mb-3">
+                  Thành tích đạt được
+                </h5>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="flex items-center gap-3 p-3 rounded-xl bg-[#FAFAF7] border border-[#E0D9CF]">
                     <CheckCircle2 size={18} className="text-emerald-600 flex-shrink-0" />
-                    <span className="font-bold text-[#1E4976] w-14">Bước {step.step}:</span>
-                    <span className="flex-1 text-[#556070]">{step.action}</span>
+                    <span className="text-xs font-bold text-[#1C2B3A]">
+                      Giải mã câu đố di sản: {activePattern.title}
+                    </span>
                   </div>
-                ))}
-              </div>
-
-              {/* Future Certificate Slot Placeholder (Gated & Neutral) */}
-              <div className="p-5 rounded-2xl bg-[#FAFAF7] border border-dashed border-[#E0D9CF] mb-8 text-xs text-[#7B8A95] leading-relaxed">
-                <div className="font-bold text-[#1C2B3A] mb-1 flex items-center justify-center gap-2">
-                  <Award size={16} className="text-[#C8860A]" />
-                  <span>Khung lưu giữ thành tích trải nghiệm (Pending Requirement)</span>
+                  <div className="flex items-center gap-3 p-3 rounded-xl bg-[#FAFAF7] border border-[#E0D9CF]">
+                    <CheckCircle2 size={18} className="text-emerald-600 flex-shrink-0" />
+                    <span className="text-xs font-bold text-[#1C2B3A]">
+                      Mở khóa con dấu #{activePattern.index} (5x5cm)
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 rounded-xl bg-[#FAFAF7] border border-[#E0D9CF]">
+                    <CheckCircle2 size={18} className="text-emerald-600 flex-shrink-0" />
+                    <span className="text-xs font-bold text-[#1C2B3A]">
+                      Hoàn thành quy trình can nét ngược
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 rounded-xl bg-[#FAFAF7] border border-[#E0D9CF]">
+                    <CheckCircle2 size={18} className="text-emerald-600 flex-shrink-0" />
+                    <span className="text-xs font-bold text-[#1C2B3A]">
+                      In dập sản phẩm vải/giấy dó mỹ thuật
+                    </span>
+                  </div>
                 </div>
-                <span>
-                  Phôi Giấy Chứng nhận / Thẻ vinh danh chính thức sẽ được cập nhật khi có quy chuẩn phê duyệt từ đơn vị chủ quản đề tài (Trường ĐH Sư phạm – ĐH Huế).
-                </span>
               </div>
 
-              {/* Action Buttons */}
               <div className="flex flex-wrap items-center justify-center gap-4">
                 <button
                   type="button"
                   onClick={() => dispatch({ type: "RESET" })}
-                  className="px-6 py-3.5 rounded-xl border-2 border-[#1E4976] text-[#1E4976] font-bold text-sm hover:bg-[#1E4976] hover:text-white transition-colors inline-flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E4976] focus-visible:ring-offset-2"
+                  className="btn-wood !px-8 !py-3.5 text-sm inline-flex items-center gap-2 shadow-academic"
                 >
                   <RotateCcw size={16} />
-                  <span>Trải nghiệm lại từ đầu</span>
+                  <span>Chơi lại với câu đố mới</span>
                 </button>
                 <Link
-                  href="/sang-tao"
-                  className="btn-wood !px-8 !py-3.5 text-sm inline-flex items-center gap-2 shadow-academic focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8860A] focus-visible:ring-offset-2"
+                  href="/hoc-tap"
+                  className="px-8 py-3.5 rounded-xl border border-[#E0D9CF] bg-white hover:bg-[#FAFAF7] text-sm font-bold text-[#1C2B3A] transition-colors"
                 >
-                  <span>Khám phá Góc Sáng tạo Học sinh</span>
-                  <ArrowRight size={16} />
+                  Xem thư viện học liệu
                 </Link>
               </div>
             </motion.div>
@@ -943,26 +1046,5 @@ export default function BatMaInteractiveEngine() {
         </AnimatePresence>
       </div>
     </div>
-  );
-}
-
-// Inline fallback lightbulb icon if needed
-function LightbulbIcon(props: { size?: number }) {
-  return (
-    <svg
-      width={props.size || 24}
-      height={props.size || 24}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
-      <path d="M9 18h6" />
-      <path d="M10 22h4" />
-    </svg>
   );
 }
