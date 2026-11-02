@@ -30,6 +30,7 @@ export default function MediaPlaceholder({
   ) {
     return (
       <HeritageVideoPlayer
+        assetKey={assetKey}
         mediaSrc={assetDef.audioSrc || assetDef.src || ""}
         posterSrc={
           assetDef.posterSrc ||
