@@ -26,11 +26,20 @@ export default function MediaPlaceholder({
   // Xử lý tư liệu video di sản (Video Player Component)
   if (
     assetDef?.mediaType === "video" &&
-    (assetDef?.audioSrc || assetDef?.src)
+    (assetDef?.youtubeId || assetDef?.audioSrc || assetDef?.src)
   ) {
     return (
       <HeritageVideoPlayer
         assetKey={assetKey}
+        youtubeId={
+          assetDef.youtubeId ||
+          (assetKey === "mocban-van-hoa-1"
+            ? "htDVbFpPAJw"
+            : assetKey === "mocban-su-lieu-1"
+            ? "wyIDxPrlsS8"
+            : undefined)
+        }
+        videoUrl={assetDef.videoUrl || undefined}
         mediaSrc={assetDef.audioSrc || assetDef.src || ""}
         posterSrc={
           assetDef.posterSrc ||

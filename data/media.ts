@@ -53,6 +53,8 @@ export interface MediaAssetDefinition {
   src?: string | null;
   audioSrc?: string | null;
   posterSrc?: string | null;
+  youtubeId?: string | null;
+  videoUrl?: string | null;
 }
 
 export const MEDIA_REGISTRY: Record<string, MediaAssetDefinition> = {
@@ -176,6 +178,8 @@ export const MEDIA_REGISTRY: Record<string, MediaAssetDefinition> = {
     src: null,
     audioSrc: "/assets/audio/trieu-nghi-trieu-nguyen.mp3",
     posterSrc: "/assets/mocban/mocban-header-citadel.webp",
+    youtubeId: "htDVbFpPAJw",
+    videoUrl: "https://www.youtube.com/watch?v=htDVbFpPAJw",
   },
   // Alias hỗ trợ tương thích ngược cho COND-02
   "mocban-chuyen-de-van-hoa": {
@@ -266,6 +270,8 @@ export const MEDIA_REGISTRY: Record<string, MediaAssetDefinition> = {
     src: null,
     audioSrc: "/assets/audio/nghe-thuat-san-khac-moc-ban.mp3",
     posterSrc: "/assets/mocban/mocban-unesco-hands.webp",
+    youtubeId: "wyIDxPrlsS8",
+    videoUrl: "https://www.youtube.com/watch?v=wyIDxPrlsS8",
   },
 
   // ─── 3. Product Evidence: Boardgame Mộc Bản Ký Sự (/trai-nghiem) ───
