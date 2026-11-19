@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import SectionTitle from "@/components/ui/SectionTitle";
 import CTAButton from "@/components/ui/CTAButton";
 import { researchProject, publications, experimentStatus } from "@/data/research";
+import ComparativeExperimentStats from "@/components/research/ComparativeExperimentStats";
 import {
   Users,
   Target,
@@ -214,66 +215,30 @@ export default function NghienCuuPage() {
         </div>
       </section>
 
-      {/* ── Trạng thái Thực nghiệm Sư phạm ── */}
+      {/* ── Báo cáo Thực nghiệm Sư phạm Đối chứng & Minh chứng Lớp học ── */}
       <section className="section-padding bg-[#FAFAF7] border-t border-[#E0D9CF]/60 relative overflow-hidden" id="khao-sat">
         <div className="absolute inset-0 pattern-heritage opacity-[0.03] pointer-events-none" />
         <div className="container-main relative z-10">
           <ScrollReveal delay={0.1}>
-            <div className="max-w-3xl mb-10">
+            <div className="max-w-3xl mb-12">
               <span className="inline-block text-xs font-bold uppercase tracking-[0.22em] text-[#C8860A] mb-2.5">
-                Thực nghiệm sư phạm
+                Thực nghiệm sư phạm • Đề tài T.26.XH.503.15
               </span>
               <h2
                 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1C2B3A] mb-3 leading-tight"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
-                Tiến độ Khảo sát & Thực nghiệm
+                Kết Quả Khảo Sát Thực Nghiệm & Minh Chứng Lớp Học
               </h2>
               <p className="text-[#556070] text-sm sm:text-base leading-relaxed font-normal">
-                Đề tài được tiến hành thực nghiệm nghiêm túc trên nhóm học sinh thực nghiệm và đối chứng tại 2 trường THPT trên địa bàn TP. Huế.
+                Dữ liệu phân tích định lượng so sánh giữa <strong>Lớp thực nghiệm (Lớp 11/1)</strong> và <strong>Lớp đối chứng</strong> tại 2 trường THPT trên địa bàn TP. Huế, cùng các hình ảnh tư liệu ghi nhận trực tiếp tiết học trải nghiệm STEAM Mộc bản.
               </p>
             </div>
           </ScrollReveal>
 
-          {/* Pending Experiment Status Box — Luminous Academic Card */}
+          {/* Interactive Comparative Statistics & Classroom Gallery */}
           <ScrollReveal delay={0.15} direction="up">
-            <div className="p-7 sm:p-10 rounded-2xl bg-white border border-[#E0D9CF]/80 shadow-[0_2px_12px_rgba(28,43,58,0.03)] max-w-4xl">
-              <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-[#C8860A]/10 border border-[#C8860A]/30 flex items-center justify-center text-[#C8860A] flex-shrink-0">
-                  <Clock size={24} />
-                </div>
-                <div>
-                  <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#C8860A]/10 border border-[#C8860A]/20 text-[#C8860A] text-xs font-bold uppercase tracking-wider mb-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#C8860A] animate-pulse" />
-                    Đang tiến hành
-                  </div>
-                  <h3
-                    className="text-xl sm:text-2xl font-bold text-[#1C2B3A] mb-2"
-                    style={{ fontFamily: "var(--font-heading)" }}
-                  >
-                    {experimentStatus.noticeTitle}
-                  </h3>
-                  <p className="text-[#556070] text-sm leading-relaxed font-normal">
-                    {experimentStatus.noticeContent}
-                  </p>
-                </div>
-              </div>
-
-              <div className="pt-5 border-t border-[#E0D9CF]/60 grid sm:grid-cols-2 gap-5 text-sm">
-                <div className="p-4 rounded-xl bg-[#FAFAF7] border border-[#E0D9CF]/60">
-                  <div className="font-bold text-[#1C2B3A] text-xs mb-1">Phương pháp đo lường:</div>
-                  <div className="text-[#556070] text-xs leading-relaxed font-normal">
-                    Khảo sát trước – sau trải nghiệm (Pre-test & Post-test), quan sát thái độ và đánh giá hồ sơ học tập/sản phẩm sáng tạo.
-                  </div>
-                </div>
-                <div className="p-4 rounded-xl bg-[#FAFAF7] border border-[#E0D9CF]/60">
-                  <div className="font-bold text-[#1C2B3A] text-xs mb-1">Báo cáo nghiệm thu:</div>
-                  <div className="text-[#556070] text-xs leading-relaxed font-normal">
-                    Số liệu định lượng chính thức kèm biểu đồ phân tích thống kê SPSS/Excel sẽ được xuất bản công khai sau nghiệm thu đề tài.
-                  </div>
-                </div>
-              </div>
-            </div>
+            <ComparativeExperimentStats />
           </ScrollReveal>
         </div>
       </section>
